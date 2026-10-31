@@ -97,6 +97,9 @@
                 <button data-tab="calendar" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
                     <span>📅</span><span>萬年曆/日程</span>
                 </button>
+                <button data-tab="attendance" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                    <span>⏰</span><span>員工打卡系統</span>
+                </button>
                 <button data-tab="admin" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
                     <span>⚙️</span><span>管理員後台</span>
                 </button>
@@ -195,7 +198,6 @@
 
     <!-- Main Workspace Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
-
         <!-- ==================== TAB 1: POS 收銀結帳 ==================== -->
         <div id="tab-pos" class="tab-panel grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- Left: Product Selection & Barcode Search -->
@@ -203,7 +205,7 @@
                 <!-- Search & Barcode Bar -->
                 <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
                     <div class="relative flex-1">
-                        <input id="pos-search-input" type="text" placeholder="掃描商品條碼 (如 471001) 或輸入商品名稱搜尋，按 Enter 直接入單..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-sm">
+                        <input id="pos-search-input" type="text" placeholder="掃描商品條碼 (如 YGO001、PKM001) 或輸入商品名稱搜尋，按 Enter 直接入單..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-sm">
                         <span class="absolute left-3.5 top-3 text-slate-400">🔍</span>
                     </div>
                     <div class="flex items-center gap-2">
@@ -408,7 +410,7 @@
                         <h3 class="font-bold text-slate-900 text-sm">📊 進貨範例 Excel 表（一次打好、一次批量上傳入庫）</h3>
                     </div>
                     <p class="text-xs text-slate-600">
-                        進貨時不用一筆一筆慢慢打！先點擊「<strong>📄 下載進貨範例 Excel 表</strong>」，在 Excel 內一次填好所有進貨商品的「<strong>品號/條碼、商品名稱、分類、進貨成本、零售單價、進貨數量</strong>」，再點擊「<strong>📤 批量上傳進貨 Excel 表</strong>」即可一鍵全部匯入或累加庫存！
+                        進貨時不用一筆一筆慢慢打！先點擊「<strong>📄 下載進貨範例 Excel 表</strong>」，在 Excel 內一次填好所有進貨商品的「<strong>品號/條碼、商品名稱、分類（遊戲王/寶可夢）、進貨成本、零售單價、進貨數量</strong>」，再點擊「<strong>📤 批量上傳進貨 Excel 表</strong>」即可一鍵全部匯入或累加庫存！
                     </p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -418,7 +420,7 @@
                 </div>
             </div>
 
-            <!-- Collapsible Sample Excel Format Preview Table -->
+            <!-- Collapsible Sample Excel Format Preview Table (Updated to Yu-Gi-Oh & Pokemon) -->
             <div id="excel-sample-preview-box" class="hidden bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-800">📋 進貨範例 Excel 表標準欄位預覽（支援 .xlsx / .xls / .csv 直接上傳）</span>
@@ -438,28 +440,28 @@
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-slate-600 font-mono">
                             <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">471001</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">手沖衣索比亞精品拿鐵</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">飲品沖泡</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">35</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">85</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">50</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">471002</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">台灣阿里山冷泡青茶</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">飲品沖泡</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">20</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">55</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">80</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">471003</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">比利時濃醇生巧克力餅</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">休閒零食</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200">YGO001</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">遊戲王 基本補充包</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">遊戲王</td>
                                 <td class="py-1.5 px-3 border-r border-slate-200 text-right">40</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">89</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">40</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">60</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">100</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1.5 px-3 border-r border-slate-200">PKM001</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢集換式卡牌 擴充包</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">35</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">50</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">100</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1.5 px-3 border-r border-slate-200">PKM002</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢 頂級收藏箱</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">800</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">1200</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">20</td>
                             </tr>
                         </tbody>
                     </table>
@@ -626,7 +628,6 @@
                 </div>
             </div>
         </div>
-
         <!-- ==================== TAB 3: 銷售明細/退貨 ==================== -->
         <div id="tab-orders" class="tab-panel hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -721,7 +722,7 @@
                 </div>
             </div>
 
-            <!-- Daily & Monthly Net Profit Breakdown Cards (5% Invoice Tax & $5500 Parking Fee) -->
+            <!-- Daily & Monthly Net Profit Breakdown Cards -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Daily Net Profit Calculator Card -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -807,7 +808,7 @@
             </div>
         </div>
 
-                <!-- ==================== TAB: 萬年曆 / 門市行事曆 ==================== -->
+        <!-- ==================== TAB: 萬年曆 / 門市行事曆 ==================== -->
         <div id="tab-calendar" class="tab-panel hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -873,7 +874,7 @@
                             </div>
                         </div>
 
-                        <!-- Add / View Daily Store Memo (e.g. 進貨提醒 / 盤點備忘) -->
+                        <!-- Add / View Daily Store Memo -->
                         <div class="space-y-2">
                             <label class="block text-xs font-bold text-slate-700">📌 當日門市備忘錄 / 進貨排程</label>
                             <div class="flex gap-2">
@@ -883,6 +884,134 @@
                             <div id="cal-memo-list" class="space-y-1.5 pt-1 max-h-56 overflow-y-auto">
                                 <!-- Populated via JS -->
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: 員工打卡系統 (Employee Time Clock & Attendance) ==================== -->
+        <div id="tab-attendance" class="tab-panel hidden space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-bold text-slate-900">⏰ 員工上下班打卡與出勤管理系統</h2>
+                        <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-2.5 py-0.5 rounded-full">即時工時統計 & 連動萬年曆</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">提供門市員工與管理員上下班打卡、午休外出紀錄、自動計算每日與當月累計工時，並支援匯出考勤 CSV 報表</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="export-attendance-csv-btn" type="button" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition">
+                        📥 匯出出勤打卡紀錄 CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Digital Clock & Quick Punch Card -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between space-y-5">
+                    <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                        <div>
+                            <span class="text-[11px] bg-blue-500/30 border border-blue-400/40 text-blue-200 px-2.5 py-0.5 rounded-full font-bold">門市雲端考勤鐘</span>
+                            <div id="att-current-user-badge" class="text-xs text-slate-300 mt-1.5">目前打卡身分：<strong class="text-amber-300 font-mono">tw202501tw@gmail.com</strong></div>
+                        </div>
+                        <div class="text-right">
+                            <div id="att-live-date" class="text-xs text-blue-200 font-mono">2026-10-31</div>
+                            <div id="att-live-time" class="text-2xl sm:text-3xl font-extrabold font-mono tracking-wider text-white mt-0.5">00:00:00</div>
+                        </div>
+                    </div>
+
+                    <!-- Staff Selection & Shift / Note Input -->
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-300 font-semibold mb-1">打卡員工帳號 (管理員可代選員工，一般員工自動鎖定本人)</label>
+                            <select id="att-staff-select" class="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-600 text-white text-xs sm:text-sm outline-none focus:border-blue-400"></select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-slate-300 font-semibold mb-1">班別選擇</label>
+                                <select id="att-shift-select" class="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-600 text-white text-xs outline-none focus:border-blue-400">
+                                    <option value="早班">☀️ 早班</option>
+                                    <option value="晚班">🌙 晚班</option>
+                                    <option value="全天班">🏢 全天班</option>
+                                    <option value="兼職支援">⚡ 兼職支援</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-slate-300 font-semibold mb-1">打卡備註 (選填)</label>
+                                <input id="att-note-input" type="text" placeholder="如：正常到班、支援盤點..." class="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-400 text-xs outline-none focus:border-blue-400">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Punch In / Out Action Buttons -->
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <button id="punch-in-btn" type="button" class="py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-sm shadow-lg transition flex flex-col items-center justify-center gap-0.5">
+                            <span class="text-lg">☀️ 上班打卡</span>
+                            <span class="text-[11px] font-normal text-emerald-100">記錄今日到班時間</span>
+                        </button>
+                        <button id="punch-out-btn" type="button" class="py-3.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 font-extrabold text-sm shadow-lg transition flex flex-col items-center justify-center gap-0.5">
+                            <span class="text-lg">🌙 下班打卡</span>
+                            <span class="text-[11px] font-normal text-slate-900">自動結算今日工作時數</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Attendance KPI Summary & Filter Table -->
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="text-xs text-slate-500">今日已上班打卡</div>
+                            <div id="att-stat-today-in" class="text-2xl font-extrabold text-emerald-600 mt-1">0 人次</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">當日出勤統計</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="text-xs text-slate-500">目前上班中 (未退勤)</div>
+                            <div id="att-stat-working" class="text-2xl font-extrabold text-blue-600 mt-1">0 人</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">即時在班狀態</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="text-xs text-slate-500">累計打卡總筆數</div>
+                            <div id="att-stat-total-logs" class="text-2xl font-extrabold text-slate-900 mt-1">0 筆</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">歷史考勤紀錄</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="text-xs text-slate-500">總累計工作時數</div>
+                            <div id="att-stat-total-hours" class="text-2xl font-extrabold text-indigo-600 mt-1">0.0 小時</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">下班自動核算工時</div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Records Table -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex-1 flex flex-col">
+                        <div class="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center">
+                            <input id="att-search-input" type="text" placeholder="搜尋員工帳號、日期 (YYYY-MM-DD) 或班別..." class="sm:w-72 px-3.5 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
+                            <div class="flex items-center gap-2 text-xs">
+                                <span class="text-slate-500">狀態篩選：</span>
+                                <select id="att-filter-status" class="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white outline-none">
+                                    <option value="all">全部打卡紀錄</option>
+                                    <option value="working">🟢 上班中 (尚未下班)</option>
+                                    <option value="completed">✅ 已完成上下班</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto flex-1 max-h-[300px]">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold sticky top-0">
+                                        <th class="py-2.5 px-3">日期 / 班別</th>
+                                        <th class="py-2.5 px-3">打卡員工</th>
+                                        <th class="py-2.5 px-3">上班時間</th>
+                                        <th class="py-2.5 px-3">下班時間</th>
+                                        <th class="py-2.5 px-3 text-right">核算工時</th>
+                                        <th class="py-2.5 px-3 text-center">狀態</th>
+                                        <th class="py-2.5 px-3 text-right">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendance-table-body" class="divide-y divide-slate-100">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -974,7 +1103,7 @@
                         </div>
                     </div>
 
-                    <!-- Add Sub Cashier (Only Super Admin can register staff; initial PIN = 0000) -->
+                    <!-- Add Sub Cashier -->
                     <div class="pt-3 border-t border-slate-100 space-y-2">
                         <div class="flex items-center justify-between">
                             <label class="block text-xs font-bold text-slate-800">➕ 總管理員專屬：註冊新員工帳號 (初始密碼自動設為 0000)</label>
@@ -994,7 +1123,7 @@
 
     </main>
 
-    <!-- ==================== MODAL: 電子明細單 / 雙聯收據 (店家聯 + 客人/同行聯) ==================== -->
+    <!-- ==================== MODAL: 電子明細單 / 雙聯收據 ==================== -->
     <div id="receipt-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 my-auto space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 no-print">
@@ -1008,7 +1137,7 @@
                 <button id="close-receipt-top-btn" type="button" class="text-slate-400 hover:text-slate-700 font-bold text-sm">✕</button>
             </div>
 
-            <!-- Dual Copies Container (Copy 1: Store Copy, Copy 2: Customer/Peer Copy) -->
+            <!-- Dual Copies Container -->
             <div id="dual-receipt-printable-area" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Copy 1: 店家聯 (Store Copy) -->
                 <div class="border-2 border-slate-300 rounded-xl p-4 bg-slate-50/40 space-y-3">
@@ -1057,7 +1186,7 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL: 新增商品品項 ==================== -->
+    <!-- ==================== MODAL: 新增商品品項 (只有遊戲王和寶可夢) ==================== -->
     <div id="product-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -1068,18 +1197,13 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
-                        <input id="new-prod-code" type="text" placeholder="如 471009" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                        <input id="new-prod-code" type="text" placeholder="如 YGO002、PKM002" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品分類 (可選或新增)</label>
+                        <label class="block font-semibold text-slate-700 mb-1">商品分類 (遊戲王 / 寶可夢)</label>
                         <select id="new-prod-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
-                            <option value="寶可夢">寶可夢 (預設免發票稅)</option>
                             <option value="遊戲王">遊戲王 (預設免發票稅)</option>
-                            <option value="飲品沖泡">飲品沖泡</option>
-                            <option value="休閒零食">休閒零食</option>
-                            <option value="日用百貨">日用百貨</option>
-                            <option value="生鮮熟食">生鮮熟食</option>
-                            <option value="3C配件">3C配件</option>
+                            <option value="寶可夢">寶可夢 (預設免發票稅)</option>
                         </select>
                     </div>
                 </div>
@@ -1163,7 +1287,7 @@
             <div class="space-y-3 text-xs sm:text-sm">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">同行店家名稱</label>
-                    <input id="new-peer-name" type="text" placeholder="如：信義宏達通訊行 / 忠孝友店" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                    <input id="new-peer-name" type="text" placeholder="如：信義宏達卡牌社 / 忠孝友店" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -1224,7 +1348,7 @@
                 <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
-                        <input id="trf-prod-code" type="text" placeholder="如 471001" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                        <input id="trf-prod-code" type="text" placeholder="如 YGO001" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                     </div>
                     <div class="col-span-2">
                         <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
@@ -1272,7 +1396,7 @@
         </div>
     </div>
 
-    <!-- ==================== FULL-SCREEN LOGIN GATE (員工專屬登錄系統 & 總管理員專屬登入) ==================== -->
+    <!-- ==================== FULL-SCREEN LOGIN GATE ==================== -->
     <div id="auth-login-gate" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="max-w-lg w-full my-auto space-y-4">
             <!-- System Title Header -->
@@ -1284,7 +1408,7 @@
                 <p class="text-xs text-slate-400">⚠️ 本網站不開放外部自行註冊，所有員工帳號均須由總管理員後台新增配發</p>
             </div>
 
-            <!-- Structured Login Table Card matching user's exact specification image -->
+            <!-- Structured Login Table Card -->
             <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-700 text-slate-100">
 
                 <!-- Section 1: 一般員工登錄處 -->
@@ -1306,7 +1430,7 @@
                     <input id="staff-login-keyword" type="text" placeholder="輸入帳號關鍵字篩選 (例如輸入名字或帳號片段)..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-400 text-xs sm:text-sm outline-none focus:border-emerald-400">
                 </div>
 
-                <!-- Row 3: 選擇帳號的下拉式選單 (選單裡只有總管理員新增過的帳號) -->
+                <!-- Row 3: 選擇帳號的下拉式選單 -->
                 <div class="p-4 sm:p-5 space-y-2 bg-slate-900/90">
                     <label for="staff-login-select" class="block text-xs sm:text-sm font-bold text-slate-200">
                         📋 選擇帳號的下拉式選單
@@ -1368,7 +1492,7 @@
         </div>
     </div>
 
-    <!-- ==================== MANDATORY PASSWORD CHANGE MODAL (首次登入強制修改密碼 / 員工修改密碼) ==================== -->
+    <!-- ==================== MANDATORY PASSWORD CHANGE MODAL ==================== -->
     <div id="force-change-pwd-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-amber-400 space-y-4">
             <div class="space-y-1 border-b border-slate-100 pb-3">
@@ -1409,10 +1533,9 @@
 
     <!-- Toast Notification -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
     <script>
-        // ==================== INITIAL STATE & DEFAULT DATA ====================
-        const STORAGE_KEY = 'PIPI_POS_ERP_STATE_EMPTY_V2';
+        // ==================== INITIAL STATE & DEFAULT DATA (只有遊戲王和寶可夢) ====================
+        const STORAGE_KEY = 'PIPI_POS_ERP_STATE_EMPTY_V3';
 
         const defaultState = {
             config: {
@@ -1423,14 +1546,15 @@
                 announcement: 'PIPI結帳系統 — 全雲端、全模組、使用人數無上限、終身 0 元免月租費！',
                 receiptFooter: '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立'
             },
-            categories: ['寶可夢', '遊戲王', '飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件'],
+            categories: ['遊戲王', '寶可夢'],
             products: [],
             members: [],
             orders: [],
             staff: [],
             memos: {},
             peers: [],
-            transfers: []
+            transfers: [],
+            attendance: []
         };
 
         let appState = loadState();
@@ -1438,7 +1562,7 @@
         let heldCarts = [];
         let selectedCategory = '全部';
         let selectedPayMethod = '現金';
-        let invoiceTaxEnabled = true; // 發票稅開關：寶可夢/遊戲王自動關閉，其他分類自動打開，亦可手動點 (打開) ↔️ (關閉)
+        let invoiceTaxEnabled = false; // 遊戲王與寶可夢預設免發票稅 (自動關閉)
         let lastReceiptPayload = null;
         let catChartInstance = null;
         let payChartInstance = null;
@@ -1450,6 +1574,15 @@
                     const parsed = JSON.parse(raw);
                     if (parsed && parsed.products && parsed.config) {
                         parsed.config.adminEmail = 'tw202501tw@gmail.com';
+                        // 自動過濾清除舊版本的預設雜項分類，只保留遊戲王與寶可夢
+                        const oldDefaultCats = ['飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件', '一般商品'];
+                        if (Array.isArray(parsed.categories)) {
+                            parsed.categories = parsed.categories.filter(c => !oldDefaultCats.includes(c));
+                            if (!parsed.categories.includes('遊戲王')) parsed.categories.unshift('遊戲王');
+                            if (!parsed.categories.includes('寶可夢')) parsed.categories.push('寶可夢');
+                        } else {
+                            parsed.categories = ['遊戲王', '寶可夢'];
+                        }
                         return parsed;
                     }
                 }
@@ -1488,21 +1621,24 @@
             document.getElementById('pos-order-badge').textContent = `#POS-${String(appState.orders.length + 1).padStart(3, '0')}`;
         }
 
-        const TAX_EXEMPT_CATEGORIES = ['寶可夢', '遊戲王'];
+        const TAX_EXEMPT_CATEGORIES = ['遊戲王', '寶可夢'];
 
         function isTaxExemptCategory(catName) {
             return TAX_EXEMPT_CATEGORIES.includes(String(catName || '').trim());
         }
 
         function ensureCategoriesList() {
+            const oldDefaultCats = ['飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件', '一般商品'];
             if (!Array.isArray(appState.categories)) {
-                appState.categories = ['寶可夢', '遊戲王', '飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件'];
+                appState.categories = ['遊戲王', '寶可夢'];
+            } else {
+                appState.categories = appState.categories.filter(c => !oldDefaultCats.includes(c));
             }
-            ['寶可夢', '遊戲王'].forEach(c => {
-                if (!appState.categories.includes(c)) appState.categories.unshift(c);
+            ['遊戲王', '寶可夢'].forEach(c => {
+                if (!appState.categories.includes(c)) appState.categories.push(c);
             });
             appState.products.forEach(p => {
-                if (p.category && !appState.categories.includes(p.category)) {
+                if (p.category && !appState.categories.includes(p.category) && !oldDefaultCats.includes(p.category)) {
                     appState.categories.push(p.category);
                 }
             });
@@ -1535,7 +1671,6 @@
                 saveState();
             }
             selectedCategory = name;
-            // 寶可夢、遊戲王自動關閉發票稅；其他分類自動打開發票稅
             invoiceTaxEnabled = !isTaxExemptCategory(name);
             renderCategories();
             syncProductCategorySelect();
@@ -1593,7 +1728,7 @@
                     <div class="col-span-full bg-white p-10 rounded-2xl border border-dashed border-slate-300 text-center space-y-2">
                         <div class="text-3xl">📦</div>
                         <div class="font-bold text-slate-700 text-sm">目前尚無任何產品資料 (產品數：0)</div>
-                        <div class="text-xs text-slate-400">請點擊右上角「＋ 臨時商品」或切換至「📦 庫存/品項管理」新增您的第一項商品。</div>
+                        <div class="text-xs text-slate-400">請點擊右上角「＋ 臨時商品」或切換至「📦 庫存/品項管理」新增遊戲王或寶可夢商品。</div>
                     </div>
                 `;
                 return;
@@ -1681,7 +1816,7 @@
             const isOriginalPriceMethod = (selectedPayMethod === '現金' || selectedPayMethod === '轉帳');
             const paymentFee = isOriginalPriceMethod ? 0 : Math.round(afterDiscount * 0.0103);
             const grandTotal = afterDiscount + paymentFee;
-            const taxIncluded = invoiceTaxEnabled ? Math.round(grandTotal * 0.05) : 0; // 發票稅打開時 5%，關閉時 0
+            const taxIncluded = invoiceTaxEnabled ? Math.round(grandTotal * 0.05) : 0;
             const grossProfit = grandTotal - totalCost;
             const profit = grossProfit - taxIncluded;
 
@@ -1783,7 +1918,6 @@
             } else {
                 currentCart.push({ id: prodId, qty: 1 });
             }
-            // 自動依商品分類切換發票稅：若加入寶可夢或遊戲王商品則自動關閉發票稅；若全為其他一般分類則自動打開
             const cartCategories = currentCart.map(ci => {
                 const p = appState.products.find(x => x.id === ci.id);
                 return p ? p.category : '';
@@ -1845,7 +1979,7 @@
             });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="py-10 text-center text-slate-400 text-xs">目前尚無任何產品品項資料 (0 項)，請點擊右上角「＋ 新增商品品項」建立產品。</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="py-10 text-center text-slate-400 text-xs">目前尚無任何產品品項資料 (0 項)，請點擊右上角「＋ 新增商品品項」建立遊戲王或寶可夢商品。</td></tr>`;
                 return;
             }
 
@@ -1898,7 +2032,6 @@
                 });
             });
         }
-
         // ==================== ORDERS RENDER ====================
         function renderOrders() {
             const tbody = document.getElementById('orders-table-body');
@@ -2021,7 +2154,7 @@
             });
         }
 
-        // ==================== REPORTS & CHARTS (5% 發票稅 & 每月 $5,500 停車場費) ====================
+        // ==================== REPORTS & CHARTS ====================
         const MONTHLY_PARKING_FEE = 5500;
 
         function getOrderFinancials(o) {
@@ -2057,7 +2190,7 @@
             document.getElementById('rep-total-orders').textContent = `${count} 筆`;
             document.getElementById('rep-avg-ticket').textContent = `平均客單價 NT$ ${avgTicket.toLocaleString()}`;
 
-            // Daily Net Profit Calculation (扣每筆單 5% 發票稅)
+            // Daily Net Profit
             const dayPicker = document.getElementById('rep-daily-date-picker');
             if (dayPicker && !dayPicker.value) {
                 dayPicker.value = selectedDateStr;
@@ -2082,7 +2215,7 @@
             dailyNetEl.textContent = `NT$ ${dNet.toLocaleString()}`;
             dailyNetEl.className = `text-xl font-extrabold font-mono ${dNet < 0 ? 'text-rose-600' : 'text-emerald-600'}`;
 
-            // Monthly Net Profit Calculation (扣每筆單 5% 發票稅 + 扣每月公司停車場費用 $5,500)
+            // Monthly Net Profit
             const monthPicker = document.getElementById('rep-monthly-month-picker');
             if (monthPicker && !monthPicker.value) {
                 monthPicker.value = selectedDateStr.slice(0, 7);
@@ -2162,7 +2295,7 @@
         }
 
         // ==================== ADMIN STAFF RENDER & AUTH SYSTEM ====================
-        let currentSessionUser = null; // { role: 'admin' | 'staff', account: string }
+        let currentSessionUser = null;
 
         function renderStaffLoginDropdown() {
             const kwInput = document.getElementById('staff-login-keyword');
@@ -2225,6 +2358,7 @@
                 if (chgPwdBtn) chgPwdBtn.classList.remove('hidden');
                 if (adminNavBtn) adminNavBtn.classList.add('hidden');
             }
+            syncAttendanceStaffSelect();
         }
 
         function openForcePasswordModal(staffObj, isMandatory = true) {
@@ -2310,8 +2444,7 @@
 
             renderStaffLoginDropdown();
         }
-
-        // ==================== DUAL RECEIPT MODAL (一般客人買賣 + 同行調貨 雙聯明細單) ====================
+        // ==================== DUAL RECEIPT MODAL ====================
         function openReceiptModal(doc) {
             lastReceiptPayload = doc;
             const isTransfer = Boolean(doc && doc.transferNo);
@@ -2384,7 +2517,7 @@
                 `;
             }
 
-            // Populate Copy 1 (店家聯) & Copy 2 (客人/同行聯)
+            // Populate Copy 1 & Copy 2
             ['', '-2'].forEach(suffix => {
                 document.getElementById(`receipt-store-title${suffix}`).textContent = storeName;
                 document.getElementById(`receipt-tax-info${suffix}`).textContent = taxInfo;
@@ -2444,15 +2577,13 @@
             URL.revokeObjectURL(url);
         }
 
-        // ==================== EXCEL BATCH IMPORT & TEMPLATE DOWNLOAD ====================
+        // ==================== EXCEL BATCH IMPORT & TEMPLATE DOWNLOAD (純遊戲王與寶可夢) ====================
         function downloadSamplePurchaseExcel() {
             const sampleRows = [
                 ['品號/條碼', '商品名稱', '分類', '進貨成本', '零售單價', '進貨數量'],
-                ['471001', '手沖衣索比亞精品拿鐵', '飲品沖泡', 35, 85, 50],
-                ['471002', '台灣阿里山冷泡青茶', '飲品沖泡', 20, 55, 80],
-                ['471003', '比利時濃醇生巧克力餅', '休閒零食', 40, 89, 40],
-                ['471004', '極柔三層抽取式衛生紙(串)', '日用百貨', 95, 159, 60],
-                ['471005', 'Type-C 65W 快充線', '3C配件', 110, 299, 30]
+                ['YGO001', '遊戲王 基本補充包', '遊戲王', 40, 60, 100],
+                ['PKM001', '寶可夢集換式卡牌 擴充包', '寶可夢', 35, 50, 100],
+                ['PKM002', '寶可夢 頂級收藏箱', '寶可夢', 800, 1200, 20]
             ];
             if (typeof XLSX !== 'undefined') {
                 const ws = XLSX.utils.aoa_to_sheet(sampleRows);
@@ -2499,11 +2630,11 @@
                         const name = String(r[1] || '').trim();
                         if (!code && !name) continue;
 
-                        const category = String(r[2] || '一般商品').trim() || '一般商品';
+                        const category = String(r[2] || '遊戲王').trim() || '遊戲王';
                         const cost = Math.max(0, parseFloat(r[3]) || 0);
                         const price = Math.max(1, parseFloat(r[4]) || Math.round(cost * 1.5) || 50);
                         const qty = Math.max(0, parseInt(r[5], 10) || 0);
-                        const finalCode = code || `4710${appState.products.length + i + 10}`;
+                        const finalCode = code || `YGO00${appState.products.length + i + 10}`;
                         const finalName = name || `未命名商品-${finalCode}`;
 
                         const existing = appState.products.find(p => p.code === finalCode || p.name === finalName);
@@ -2522,7 +2653,7 @@
                                 cost,
                                 price,
                                 stock: qty,
-                                icon: '📦'
+                                icon: category === '寶可夢' ? '⚡' : '🃏'
                             });
                             addedCount++;
                         }
@@ -2540,10 +2671,10 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // ==================== PERPETUAL CALENDAR (萬年曆 1900-2100) ====================
+        // ==================== PERPETUAL CALENDAR ====================
         const todayDate = new Date();
         let calYear = todayDate.getFullYear();
-        let calMonth = todayDate.getMonth() + 1; // 1..12
+        let calMonth = todayDate.getMonth() + 1;
         let selectedDateStr = `${calYear}-${String(calMonth).padStart(2, '0')}-${String(todayDate.getDate()).padStart(2, '0')}`;
 
         const SOLAR_FESTIVALS = {
@@ -2619,7 +2750,6 @@
             const todayStr = `${todayDate.getFullYear()}-${String(todayDate.getMonth() + 1).padStart(2, '0')}-${String(todayDate.getDate()).padStart(2, '0')}`;
             if (!appState.memos) appState.memos = {};
 
-            // Map orders by date
             const ordersByDate = {};
             appState.orders.filter(o => o.status === '已完成').forEach(o => {
                 const dKey = (o.time || '').slice(0, 10);
@@ -2628,7 +2758,6 @@
                 ordersByDate[dKey].rev += o.total;
             });
 
-            // 42 cells (6 rows x 7 cols)
             for (let i = 0; i < 42; i++) {
                 const cell = document.createElement('div');
                 let cellDay = 0;
@@ -2758,7 +2887,7 @@
             }
         }
 
-        // ==================== PEER TRANSFER SYSTEM (同行調貨系統) ====================
+        // ==================== PEER TRANSFER SYSTEM ====================
         function ensureTransferState() {
             if (!Array.isArray(appState.peers)) appState.peers = [];
             if (!Array.isArray(appState.transfers)) appState.transfers = [];
@@ -2791,12 +2920,11 @@
         function renderPeerTransfers() {
             ensureTransferState();
 
-            // 1. KPI metrics
             const peerCount = appState.peers.length;
             let inQty = 0;
             let outQty = 0;
-            let unsettledPayable = 0;    // 調入未結清 (應付同行)
-            let unsettledReceivable = 0; // 調出未結清 (應收同行)
+            let unsettledPayable = 0;
+            let unsettledReceivable = 0;
 
             appState.transfers.forEach(t => {
                 if (t.status === '已取消') return;
@@ -2816,7 +2944,6 @@
             document.getElementById('trf-stat-receivable').textContent = `NT$ ${unsettledReceivable.toLocaleString()}`;
             document.getElementById('peer-list-badge').textContent = `${peerCount} 家`;
 
-            // 2. Render Peer Stores Directory
             const peerListEl = document.getElementById('peer-stores-list');
             peerListEl.innerHTML = '';
             if (appState.peers.length === 0) {
@@ -2853,7 +2980,6 @@
                 });
             }
 
-            // 3. Render Transfer Orders Table
             const tbody = document.getElementById('transfer-table-body');
             tbody.innerHTML = '';
             const q = (document.getElementById('trf-search-input').value || '').trim().toLowerCase();
@@ -2931,7 +3057,6 @@
                         renderPeerTransfers();
                         showToast(`調貨單 ${rec.transferNo} 已更新為「${rec.settled ? '已結清' : '未結清'}」`);
                     } else if (act === 'delete') {
-                        // Reverse stock impact
                         const prod = appState.products.find(p => p.code === rec.prodCode || p.name === rec.prodName);
                         if (prod) {
                             if (rec.direction === 'in') {
@@ -2949,6 +3074,168 @@
                     }
                 });
             });
+        }
+
+        // ==================== EMPLOYEE ATTENDANCE SYSTEM ====================
+        let liveClockInterval = null;
+
+        function ensureAttendanceState() {
+            if (!Array.isArray(appState.attendance)) appState.attendance = [];
+        }
+
+        function updateLiveClockDisplay() {
+            const now = new Date();
+            const dStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+            const tStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            const dEl = document.getElementById('att-live-date');
+            const tEl = document.getElementById('att-live-time');
+            if (dEl) dEl.textContent = dStr;
+            if (tEl) tEl.textContent = tStr;
+        }
+
+        function syncAttendanceStaffSelect() {
+            ensureAttendanceState();
+            const sel = document.getElementById('att-staff-select');
+            const badge = document.getElementById('att-current-user-badge');
+            if (!sel) return;
+
+            const currentAcc = (currentSessionUser && currentSessionUser.account) ? currentSessionUser.account : 'tw202501tw@gmail.com';
+            const isAdmin = !currentSessionUser || currentSessionUser.role === 'admin';
+
+            if (badge) {
+                badge.innerHTML = `目前登入身分：<strong class="text-amber-300 font-mono">${currentAcc}</strong> (${isAdmin ? '總管理員' : '門市員工'})`;
+            }
+
+            const prevVal = sel.value;
+            sel.innerHTML = '';
+
+            if (!isAdmin) {
+                const opt = document.createElement('option');
+                opt.value = currentAcc;
+                opt.textContent = `👤 ${currentAcc} (本人打卡)`;
+                sel.appendChild(opt);
+                sel.value = currentAcc;
+            } else {
+                const adminOpt = document.createElement('option');
+                adminOpt.value = 'tw202501tw@gmail.com';
+                adminOpt.textContent = '👑 tw202501tw@gmail.com (總管理員)';
+                sel.appendChild(adminOpt);
+
+                (appState.staff || []).forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.email;
+                    opt.textContent = `👤 ${s.email} (${s.role || '門市收銀員'})`;
+                    sel.appendChild(opt);
+                });
+
+                if (prevVal && Array.from(sel.options).some(o => o.value === prevVal)) {
+                    sel.value = prevVal;
+                }
+            }
+        }
+
+        function renderAttendance() {
+            ensureAttendanceState();
+            syncAttendanceStaffSelect();
+
+            const now = new Date();
+            const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+            let todayInCount = 0;
+            let workingCount = 0;
+            let totalHours = 0;
+
+            appState.attendance.forEach(rec => {
+                if (rec.date === todayStr) todayInCount++;
+                if (!rec.clockOut) workingCount++;
+                totalHours += (Number(rec.hours) || 0);
+            });
+
+            document.getElementById('att-stat-today-in').textContent = `${todayInCount} 人次`;
+            document.getElementById('att-stat-working').textContent = `${workingCount} 人`;
+            document.getElementById('att-stat-total-logs').textContent = `${appState.attendance.length} 筆`;
+            document.getElementById('att-stat-total-hours').textContent = `${totalHours.toFixed(1)} 小時`;
+
+            const tbody = document.getElementById('attendance-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const q = (document.getElementById('att-search-input').value || '').trim().toLowerCase();
+            const statusFilter = document.getElementById('att-filter-status').value;
+
+            const filtered = appState.attendance.filter(rec => {
+                const matchQ = !q || rec.account.toLowerCase().includes(q) || rec.date.toLowerCase().includes(q) || (rec.shift || '').toLowerCase().includes(q) || (rec.note || '').toLowerCase().includes(q);
+                const matchS = statusFilter === 'all'
+                    || (statusFilter === 'working' && !rec.clockOut)
+                    || (statusFilter === 'completed' && Boolean(rec.clockOut));
+                return matchQ && matchS;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-slate-400 text-xs">目前尚無任何員工打卡紀錄 (0 筆)，請點擊左側「☀️ 上班打卡」開始記錄出勤。</td></tr>`;
+                return;
+            }
+
+            filtered.slice().reverse().forEach(rec => {
+                const isWorking = !rec.clockOut;
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3">
+                        <div class="font-mono font-bold text-slate-800 text-xs">${rec.date}</div>
+                        <div class="text-[11px] text-slate-500">${rec.shift || '早班'}${rec.note ? ` · ${rec.note}` : ''}</div>
+                    </td>
+                    <td class="py-2.5 px-3 font-bold text-slate-900">👤 ${rec.account}</td>
+                    <td class="py-2.5 px-3 font-mono text-emerald-700 font-semibold">${rec.clockIn}</td>
+                    <td class="py-2.5 px-3 font-mono ${isWorking ? 'text-slate-400 italic' : 'text-blue-700 font-semibold'}">${rec.clockOut || '上班中...'}</td>
+                    <td class="py-2.5 px-3 text-right font-mono font-bold text-slate-800">${isWorking ? '-' : `${Number(rec.hours || 0).toFixed(2)} hr`}</td>
+                    <td class="py-2.5 px-3 text-center">
+                        <span class="px-2 py-0.5 rounded-full text-[11px] font-bold ${isWorking ? 'bg-emerald-100 text-emerald-700 animate-pulse' : 'bg-slate-100 text-slate-700'}">
+                            ${isWorking ? '🟢 上班中' : '✅ 已退勤'}
+                        </span>
+                    </td>
+                    <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
+                        ${isWorking ? `<button data-att-act="out" data-id="${rec.id}" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-lg text-xs font-bold transition">下班打卡</button>` : ''}
+                        <button data-att-act="del" data-id="${rec.id}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold transition">刪除</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            tbody.querySelectorAll('button[data-att-act]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    const act = btn.getAttribute('data-att-act');
+                    const idx = appState.attendance.findIndex(x => x.id === id);
+                    if (idx === -1) return;
+
+                    if (act === 'out') {
+                        punchOutRecord(appState.attendance[idx]);
+                    } else if (act === 'del') {
+                        const isAdmin = !currentSessionUser || currentSessionUser.role === 'admin';
+                        if (!isAdmin) {
+                            showToast('僅限總管理員可刪除歷史考勤紀錄！', 'error');
+                            return;
+                        }
+                        appState.attendance.splice(idx, 1);
+                        saveState();
+                        renderAttendance();
+                        showToast('已刪除該筆打卡紀錄', 'info');
+                    }
+                });
+            });
+        }
+
+        function punchOutRecord(rec) {
+            const now = new Date();
+            const outTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            rec.clockOut = outTimeStr;
+            rec.clockOutTs = now.getTime();
+            const diffHours = rec.clockInTs ? Math.max(0.02, (now.getTime() - rec.clockInTs) / 3600000) : 8.0;
+            rec.hours = Math.round(diffHours * 100) / 100;
+            saveState();
+            renderAttendance();
+            showToast(`🌙 【${rec.account}】下班打卡成功！下班時間 ${outTimeStr}（本次工時：${rec.hours.toFixed(2)} 小時）`);
         }
 
         // ==================== EVENT LISTENERS ====================
@@ -2975,6 +3262,7 @@
             if (tabId === 'crm') renderCRM();
             if (tabId === 'reports') renderReports();
             if (tabId === 'calendar') renderPerpetualCalendar();
+            if (tabId === 'attendance') renderAttendance();
             if (tabId === 'admin') renderStaff();
         }
 
@@ -3053,7 +3341,7 @@
                 ensureTransferState();
                 const direction = document.getElementById('trf-direction-select').value;
                 const peerName = document.getElementById('trf-peer-input').value.trim();
-                const prodCode = document.getElementById('trf-prod-code').value.trim() || `4710${appState.products.length + 11}`;
+                const prodCode = document.getElementById('trf-prod-code').value.trim() || `YGO00${appState.products.length + 11}`;
                 const prodName = document.getElementById('trf-prod-name').value.trim();
                 const unitPrice = Math.max(0, parseFloat(document.getElementById('trf-unit-price').value) || 0);
                 const retailPrice = Math.max(1, parseFloat(document.getElementById('trf-retail-price').value) || Math.round(unitPrice * 1.4) || 50);
@@ -3079,7 +3367,6 @@
                     }
                     existingProd.stock -= qty;
                 } else {
-                    // 調入進庫：若商品存在則加庫存，若不存在則自動建立新品項
                     if (existingProd) {
                         existingProd.stock += qty;
                     } else {
@@ -3087,7 +3374,7 @@
                             id: `P${Date.now()}`,
                             code: prodCode,
                             name: prodName,
-                            category: '同行調入',
+                            category: '遊戲王',
                             cost: unitPrice,
                             price: retailPrice,
                             stock: qty,
@@ -3096,7 +3383,6 @@
                     }
                 }
 
-                // 若該同行店名尚未在名冊中，自動加入同行名冊
                 if (!appState.peers.some(p => p.name === peerName)) {
                     appState.peers.push({ id: `PEER_${Date.now()}`, name: peerName, contact: '同行窗口', phone: '-', note: '調貨單自動建立' });
                 }
@@ -3165,6 +3451,85 @@
             initCalendarSelectors();
             renderPerpetualCalendar();
             renderStaff();
+            renderAttendance();
+            updateLiveClockDisplay();
+            if (liveClockInterval) clearInterval(liveClockInterval);
+            liveClockInterval = setInterval(updateLiveClockDisplay, 1000);
+
+            // Attendance Listeners
+            document.getElementById('punch-in-btn').addEventListener('click', () => {
+                ensureAttendanceState();
+                const account = document.getElementById('att-staff-select').value;
+                if (!account) {
+                    showToast('請先選擇要打卡的員工帳號', 'error');
+                    return;
+                }
+                const existingActive = appState.attendance.find(r => r.account === account && !r.clockOut);
+                if (existingActive) {
+                    showToast(`【${account}】目前已有尚未退勤的上班卡 (${existingActive.clockIn})，請先點「🌙 下班打卡」！`, 'error');
+                    return;
+                }
+                const now = new Date();
+                const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+                const shift = document.getElementById('att-shift-select').value;
+                const note = document.getElementById('att-note-input').value.trim();
+
+                appState.attendance.push({
+                    id: `ATT_${Date.now()}`,
+                    date: dateStr,
+                    account,
+                    shift,
+                    note,
+                    clockIn: timeStr,
+                    clockInTs: now.getTime(),
+                    clockOut: '',
+                    clockOutTs: 0,
+                    hours: 0
+                });
+
+                if (!appState.memos) appState.memos = {};
+                if (!appState.memos[dateStr]) appState.memos[dateStr] = [];
+                appState.memos[dateStr].push(`⏰ [打卡] ${account} (${shift}) ${timeStr} 上班`);
+
+                document.getElementById('att-note-input').value = '';
+                saveState();
+                renderAttendance();
+                renderPerpetualCalendar();
+                showToast(`☀️ 【${account}】上班打卡成功！時間：${dateStr} ${timeStr}`);
+            });
+
+            document.getElementById('punch-out-btn').addEventListener('click', () => {
+                ensureAttendanceState();
+                const account = document.getElementById('att-staff-select').value;
+                const activeRec = appState.attendance.slice().reverse().find(r => r.account === account && !r.clockOut);
+                if (!activeRec) {
+                    showToast(`找不到【${account}】目前上班中的打卡紀錄，請先按「☀️ 上班打卡」！`, 'error');
+                    return;
+                }
+                punchOutRecord(activeRec);
+            });
+
+            document.getElementById('att-search-input').addEventListener('input', renderAttendance);
+            document.getElementById('att-filter-status').addEventListener('change', renderAttendance);
+            document.getElementById('export-attendance-csv-btn').addEventListener('click', () => {
+                ensureAttendanceState();
+                const rows = [['日期', '班別', '員工帳號', '上班打卡時間', '下班打卡時間', '核算工時(小時)', '狀態', '備註']];
+                appState.attendance.forEach(r => {
+                    rows.push([
+                        r.date,
+                        r.shift || '早班',
+                        r.account,
+                        r.clockIn,
+                        r.clockOut || '上班中',
+                        r.clockOut ? r.hours : 0,
+                        r.clockOut ? '已退勤' : '上班中',
+                        r.note || ''
+                    ]);
+                });
+                downloadCSV('PIPI結帳系統_員工出勤打卡紀錄.csv', rows);
+                showToast('📥 已匯出員工出勤打卡紀錄 CSV');
+            });
 
             // Excel Sample Download & Batch Upload Listeners
             document.getElementById('download-excel-template-btn').addEventListener('click', downloadSamplePurchaseExcel);
@@ -3353,13 +3718,11 @@
                     return;
                 }
 
-                // Deduct stock
                 totals.detailedItems.forEach(item => {
                     const prod = appState.products.find(p => p.id === item.id);
                     if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
                 });
 
-                // Update member points
                 const memId = document.getElementById('pos-member-select').value;
                 const mem = appState.members.find(m => m.id === memId) || { id: 'M00', name: '一般散客' };
                 if (mem && mem.id !== 'M00') {
@@ -3401,7 +3764,7 @@
                 showToast(`結帳完成！單號 ${newOrder.orderNo} 實收 NT$ ${newOrder.total}`);
             });
 
-            // Invoice Tax Toggle Button: 發票稅：（打開） ↔️ （關閉）
+            // Invoice Tax Toggle Button
             document.getElementById('toggle-invoice-tax-btn').addEventListener('click', () => {
                 invoiceTaxEnabled = !invoiceTaxEnabled;
                 renderCart();
@@ -3428,7 +3791,7 @@
                 }
             });
 
-            // Dual Receipt Modal buttons (Print 2 copies, Download .html, Close)
+            // Dual Receipt Modal buttons
             const closeReceiptModal = () => {
                 document.getElementById('receipt-modal').classList.add('hidden');
                 document.getElementById('receipt-modal').classList.remove('flex');
@@ -3460,7 +3823,7 @@
             });
 
             document.getElementById('save-new-product-btn').addEventListener('click', () => {
-                const code = document.getElementById('new-prod-code').value.trim() || `4710${appState.products.length + 11}`;
+                const code = document.getElementById('new-prod-code').value.trim() || `YGO00${appState.products.length + 11}`;
                 const cat = document.getElementById('new-prod-cat').value;
                 const name = document.getElementById('new-prod-name').value.trim();
                 const cost = parseInt(document.getElementById('new-prod-cost').value, 10) || 20;
@@ -3480,7 +3843,7 @@
                     cost,
                     price,
                     stock,
-                    icon: '🛍️'
+                    icon: cat === '寶可夢' ? '⚡' : '🃏'
                 });
                 saveState();
                 document.getElementById('new-prod-name').value = '';
@@ -3587,6 +3950,7 @@
                 renderOrders();
                 renderCRM();
                 renderStaff();
+                renderAttendance();
                 currentCart = []; heldCarts = []; showToast('已將全站產品、會員與銷售紀錄全部清空歸零！', 'info');
             });
 
@@ -3610,10 +3974,11 @@
                 document.getElementById('new-staff-email').value = '';
                 saveState();
                 renderStaff();
+                renderAttendance();
                 showToast(`已成功註冊員工帳號【${email}】！預設密碼為 0000（首次登入強制修改）`);
             });
 
-            // ==================== AUTH LOGIN GATE & FORCE PASSWORD CHANGE LISTENERS ====================
+            // Auth Login Gate & Force Password Change Listeners
             renderStaffLoginDropdown();
 
             document.getElementById('staff-login-keyword').addEventListener('input', () => {
@@ -3652,7 +4017,6 @@
                 updateSessionUI();
                 switchTab('pos');
 
-                // Check if first-time login (pin === '0000' or mustChangePwd)
                 if (staffObj.mustChangePwd !== false || expectedPin === '0000') {
                     openForcePasswordModal(staffObj, true);
                     showToast(`歡迎 ${staffObj.email}！首次登入請立即設定您的新 4 位數密碼`, 'info');
@@ -3661,7 +4025,7 @@
                 }
             });
 
-            // Super Admin Login (tw202501tw / Chu610221)
+            // Super Admin Login
             document.getElementById('admin-login-submit-btn').addEventListener('click', () => {
                 const pwd = document.getElementById('admin-login-password').value;
                 if (pwd !== 'Chu610221') {
@@ -3683,7 +4047,7 @@
                 if (e.key === 'Enter') document.getElementById('staff-login-submit-btn').click();
             });
 
-            // Mandatory / Voluntary Staff Password Change Save
+            // Password Change Save
             document.getElementById('save-force-pwd-btn').addEventListener('click', () => {
                 const acc = document.getElementById('force-pwd-account').value;
                 const p1 = document.getElementById('force-pwd-new1').value.trim();
@@ -3715,7 +4079,6 @@
                 showToast(`✅ 帳號【${acc}】的 4 位數密碼已修改完成！下次請使用新密碼登入`);
             });
 
-            // Voluntary password change button for logged-in staff
             document.getElementById('voluntary-change-pwd-btn').addEventListener('click', () => {
                 if (!currentSessionUser || currentSessionUser.role !== 'staff') return;
                 const staffObj = appState.staff.find(s => s.email === currentSessionUser.account);
@@ -3727,7 +4090,6 @@
                 document.getElementById('force-change-pwd-modal').classList.remove('flex');
             });
 
-            // Logout / Switch Account Button
             document.getElementById('logout-switch-user-btn').addEventListener('click', () => {
                 currentSessionUser = null;
                 document.getElementById('staff-login-keyword').value = '';
