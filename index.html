@@ -34,6 +34,12 @@
         .tab-active { border-bottom: 3px solid #2563eb; color: #1d4ed8; font-weight: 700; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-modal, #receipt-modal * { visibility: visible; }
+            #receipt-modal { position: absolute; inset: 0; background: white !important; padding: 0 !important; display: block !important; }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
@@ -96,13 +102,21 @@
                 </button>
             </nav>
 
-            <!-- Admin Profile Badge -->
-            <div class="hidden lg:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <div class="text-xs">
-                    <div class="font-bold text-slate-800">最高管理員已登入</div>
-                    <div class="text-slate-500 font-mono text-[11px]">tw202501tw@gmail.com</div>
+            <!-- User / Admin Profile & Logout Controls -->
+            <div class="flex items-center gap-2">
+                <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <div class="text-xs">
+                        <div id="header-user-role" class="font-bold text-slate-800">最高管理員已登入</div>
+                        <div id="header-user-account" class="text-slate-500 font-mono text-[11px]">tw202501tw@gmail.com</div>
+                    </div>
                 </div>
+                <button id="voluntary-change-pwd-btn" class="hidden text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap">
+                    🔑 修改密碼
+                </button>
+                <button id="logout-switch-user-btn" class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 py-1.5 rounded-xl transition whitespace-nowrap">
+                    🚪 登出 / 切換帳號
+                </button>
             </div>
         </div>
     </header>
@@ -202,9 +216,17 @@
                     </div>
                 </div>
 
-                <!-- Category Filter Pills -->
-                <div id="pos-category-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                    <!-- Populated via JS -->
+                <!-- Category Filter Pills & Add Category Control -->
+                <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
+                    <div id="pos-category-bar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                        <!-- Populated via JS -->
+                    </div>
+                    <div class="flex items-center gap-1.5 ml-auto">
+                        <input id="quick-new-cat-input" type="text" placeholder="自訂新分類名稱..." class="w-32 sm:w-36 px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
+                        <button id="quick-add-cat-btn" type="button" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold whitespace-nowrap transition">
+                            ＋ 新增分類
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Product Grid -->
@@ -223,7 +245,7 @@
                                 <h2 class="font-bold text-slate-900">當前結帳單</h2>
                                 <span id="pos-order-badge" class="text-xs bg-blue-100 text-blue-700 font-mono px-2 py-0.5 rounded">#POS-001</span>
                             </div>
-                            <p class="text-xs text-slate-500 mt-0.5">收銀員：tw202501tw@gmail.com (管理員)</p>
+                            <p id="pos-cashier-label" class="text-xs text-slate-500 mt-0.5">收銀員：tw202501tw@gmail.com (總管理員)</p>
                         </div>
                         <div class="flex items-center gap-1.5">
                             <button id="hold-order-btn" class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-medium transition">
@@ -275,9 +297,16 @@
                                 <span id="cart-fee-label">支付加成 (現金/轉帳原價，其他+1.03%)</span>
                                 <span id="cart-fee">+ NT$ 0</span>
                             </div>
-                            <div class="flex justify-between text-slate-500">
-                                <span>營業稅額 (<span id="cart-tax-label">內含 5%</span>)</span>
-                                <span id="cart-tax">NT$ 0</span>
+                            <div class="flex items-center justify-between text-slate-600 py-1 px-2 rounded-lg bg-white border border-slate-200">
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <span class="font-bold text-slate-700">發票稅 (<span id="cart-tax-label">5%</span>)：</span>
+                                    <button id="toggle-invoice-tax-btn" type="button" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-slate-300 bg-slate-50 hover:bg-slate-100 text-[11px] font-bold transition cursor-pointer" title="點擊切換發票稅打開或關閉">
+                                        <span id="tax-state-open" class="text-emerald-600 font-extrabold">（打開）</span>
+                                        <span>↔️</span>
+                                        <span id="tax-state-close" class="text-slate-400">（關閉）</span>
+                                    </button>
+                                </div>
+                                <span id="cart-tax" class="font-mono font-bold text-slate-800">NT$ 0</span>
                             </div>
                             <div class="flex justify-between text-base font-extrabold text-slate-900 pt-1.5 border-t border-slate-200">
                                 <span>應收總金額</span>
@@ -660,15 +689,15 @@
         <div id="tab-reports" class="tab-panel hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-900">📊 營運損益與銷售利潤報表</h2>
-                    <p class="text-xs text-slate-500">即時統計營業額、銷售毛利、收款方式佔比與熱銷商品排行</p>
+                    <h2 class="text-lg font-bold text-slate-900">📊 營運損益與每日 / 每月淨利潤報表</h2>
+                    <p class="text-xs text-slate-500">自動計算：每日淨利潤（扣除每筆單 5% 發票稅）｜每月淨利潤（扣除當月發票稅 5% 與每月公司停車場費用 NT$ 5,500）</p>
                 </div>
                 <div class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg font-semibold">
                     系統授權：PIPI結帳系統 (永久免費商業全模組)
                 </div>
             </div>
 
-            <!-- KPI Metrics -->
+            <!-- Overall KPI Metrics -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                     <div class="text-xs text-slate-500 font-medium">累計有效營業額</div>
@@ -676,9 +705,9 @@
                     <div class="text-[11px] text-emerald-600 mt-1">✓ 結帳即時入帳</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="text-xs text-slate-500 font-medium">預估銷售總毛利</div>
+                    <div class="text-xs text-slate-500 font-medium">累計扣稅後營業毛利 (已扣5%發票稅)</div>
                     <div id="rep-total-profit" class="text-2xl font-extrabold text-emerald-600 mt-1">NT$ 0</div>
-                    <div id="rep-profit-margin" class="text-[11px] text-slate-500 mt-1">平均毛利率 0%</div>
+                    <div id="rep-profit-margin" class="text-[11px] text-slate-500 mt-1">累計發票稅(5%)：NT$ 0</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                     <div class="text-xs text-slate-500 font-medium">有效成交筆數</div>
@@ -686,9 +715,78 @@
                     <div id="rep-avg-ticket" class="text-[11px] text-slate-500 mt-1">平均客單價 NT$ 0</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="text-xs text-slate-500 font-medium">系統月費與雲端授權</div>
-                    <div class="text-2xl font-extrabold text-indigo-600 mt-1">NT$ 0</div>
-                    <div class="text-[11px] text-indigo-600 font-semibold mt-1">100% 終身免費使用</div>
+                    <div class="text-xs text-slate-500 font-medium">每月固定管銷：公司停車場費用</div>
+                    <div class="text-2xl font-extrabold text-rose-600 mt-1">- NT$ 5,500 <span class="text-xs font-normal text-slate-500">/月</span></div>
+                    <div class="text-[11px] text-indigo-600 font-semibold mt-1">系統月費 NT$ 0 (永久免費)</div>
+                </div>
+            </div>
+
+            <!-- Daily & Monthly Net Profit Breakdown Cards (5% Invoice Tax & $5500 Parking Fee) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Daily Net Profit Calculator Card -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                        <div>
+                            <span class="bg-blue-50 text-blue-700 text-[11px] font-bold px-2 py-0.5 rounded">每日損益結算</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">📅 每日淨利潤明細 (每筆單扣除 5% 發票稅)</h3>
+                        </div>
+                        <input id="rep-daily-date-picker" type="date" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-mono font-bold text-slate-800 outline-none focus:border-blue-500">
+                    </div>
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                            <span class="text-slate-500">當日有效成交筆數 / 營業額</span>
+                            <span id="rep-daily-rev" class="font-mono font-bold text-slate-800">0 筆 / NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                            <span class="text-slate-500">當日商品總進貨成本</span>
+                            <span id="rep-daily-cost" class="font-mono font-semibold text-slate-600">- NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                            <span class="text-slate-500">當日原始銷售毛利 (未扣稅)</span>
+                            <span id="rep-daily-gross" class="font-mono font-semibold text-slate-700">NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100 text-rose-600 font-semibold">
+                            <span>扣除：每筆單發票稅合計 (5%)</span>
+                            <span id="rep-daily-tax" class="font-mono">- NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between items-baseline pt-2 bg-emerald-50/70 px-3 py-2.5 rounded-xl border border-emerald-200">
+                            <span class="font-extrabold text-slate-900">💰 當日最終淨利潤 (已扣5%發票稅)</span>
+                            <span id="rep-daily-net" class="text-xl font-extrabold font-mono text-emerald-600">NT$ 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Net Profit Calculator Card -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                        <div>
+                            <span class="bg-indigo-50 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded">每月損益結算</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">🗓️ 每月淨利潤明細 (扣5%發票稅 + 停車場$5,500)</h3>
+                        </div>
+                        <input id="rep-monthly-month-picker" type="month" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-mono font-bold text-slate-800 outline-none focus:border-blue-500">
+                    </div>
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                            <span class="text-slate-500">當月有效成交筆數 / 總營業額</span>
+                            <span id="rep-monthly-rev" class="font-mono font-bold text-slate-800">0 筆 / NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                            <span class="text-slate-500">當月原始銷售毛利 (營業額 - 商品成本)</span>
+                            <span id="rep-monthly-gross" class="font-mono font-semibold text-slate-700">NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100 text-rose-600 font-semibold">
+                            <span>扣除：當月每筆單發票稅合計 (5%)</span>
+                            <span id="rep-monthly-tax" class="font-mono">- NT$ 0</span>
+                        </div>
+                        <div class="flex justify-between py-1.5 border-b border-slate-100 text-rose-600 font-semibold">
+                            <span>扣除：每月公司停車場固定費用</span>
+                            <span id="rep-monthly-parking" class="font-mono">- NT$ 5,500</span>
+                        </div>
+                        <div class="flex justify-between items-baseline pt-2 bg-indigo-50/70 px-3 py-2.5 rounded-xl border border-indigo-200">
+                            <span class="font-extrabold text-slate-900">🏆 當月最終淨利潤 (已扣稅與停車場$5,500)</span>
+                            <span id="rep-monthly-net" class="text-xl font-extrabold font-mono text-indigo-600">NT$ -5,500</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -754,12 +852,24 @@
                             <p id="cal-selected-festival" class="text-xs text-amber-600 font-semibold mt-1"></p>
                         </div>
 
-                        <!-- Daily Sales Summary on Selected Date -->
-                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                            <div class="text-xs font-semibold text-slate-500">當日門市結帳統計</div>
-                            <div class="flex items-baseline justify-between">
-                                <span id="cal-day-orders" class="text-sm font-bold text-slate-800">成交 0 筆</span>
-                                <span id="cal-day-revenue" class="text-lg font-extrabold text-emerald-600">NT$ 0</span>
+                        <!-- Daily Sales & Net Profit Summary on Selected Date -->
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
+                            <div class="font-bold text-slate-700 border-b border-slate-200 pb-1">📊 當日與當月損益快覽</div>
+                            <div class="flex items-center justify-between">
+                                <span id="cal-day-orders" class="font-semibold text-slate-600">當日成交 0 筆</span>
+                                <span id="cal-day-revenue" class="font-mono font-bold text-slate-900">營業額 NT$ 0</span>
+                            </div>
+                            <div class="flex items-center justify-between text-rose-600">
+                                <span>當日每筆發票稅 (5%)</span>
+                                <span id="cal-day-tax" class="font-mono font-semibold">- NT$ 0</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-1 border-t border-slate-200">
+                                <span class="font-bold text-slate-800">當日淨利潤 (已扣5%發票稅)</span>
+                                <span id="cal-day-net-profit" class="font-mono text-sm font-extrabold text-emerald-600">NT$ 0</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-1 border-t border-slate-200">
+                                <span class="font-bold text-indigo-900">當月淨利潤 (已扣稅及停車場$5500)</span>
+                                <span id="cal-month-net-profit" class="font-mono text-sm font-extrabold text-indigo-600">NT$ -5,500</span>
                             </div>
                         </div>
 
@@ -864,11 +974,15 @@
                         </div>
                     </div>
 
-                    <!-- Add Sub Cashier (Free unlimited users like ECOUNT) -->
+                    <!-- Add Sub Cashier (Only Super Admin can register staff; initial PIN = 0000) -->
                     <div class="pt-3 border-t border-slate-100 space-y-2">
-                        <label class="block text-xs font-semibold text-slate-600">免費新增門市收銀員帳號 (不限人數 0 元)</label>
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-800">➕ 總管理員專屬：註冊新員工帳號 (初始密碼自動設為 0000)</label>
+                            <span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-semibold">員工首次登入強制改密碼</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500">本系統禁止外部自行註冊，僅能由總管理員於此處建立員工帳號。員工首次使用 <strong>0000</strong> 登入時，系統會強制要求修改個人 4 位數密碼。</p>
                         <div class="flex gap-2">
-                            <input id="new-staff-email" type="text" placeholder="輸入員工信箱或姓名..." class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
+                            <input id="new-staff-email" type="text" placeholder="自訂員工帳號或姓名 (如：staff01、王小美)..." class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
                             <button id="add-staff-btn" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl whitespace-nowrap transition">
                                 ＋ 新增收銀員
                             </button>
@@ -880,29 +994,63 @@
 
     </main>
 
-    <!-- ==================== MODAL: 電子收據 / 交易明細 ==================== -->
-    <div id="receipt-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-            <div class="text-center border-b border-dashed border-slate-300 pb-4">
-                <div class="inline-block bg-blue-600 text-white text-xs font-bold px-2.5 py-0.5 rounded mb-1">PIPI結帳系統</div>
-                <h3 id="receipt-store-title" class="text-lg font-extrabold text-slate-900">PIPI 旗艦零售門市</h3>
-                <p id="receipt-tax-info" class="text-xs text-slate-500">統編 88990011 / 02-2700-8888</p>
-                <p id="receipt-meta-info" class="text-xs text-slate-400 font-mono mt-1"></p>
+    <!-- ==================== MODAL: 電子明細單 / 雙聯收據 (店家聯 + 客人/同行聯) ==================== -->
+    <div id="receipt-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 my-auto space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 no-print">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="receipt-doc-type-badge" class="bg-blue-600 text-white text-xs font-bold px-2.5 py-0.5 rounded">一般客人買賣明細單</span>
+                        <h3 class="font-extrabold text-slate-900 text-base">🧾 交易明細單（一式兩份：店家聯 ＋ 客人/同行聯）</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">列印或下載時會自動包含「店家存根聯」與「客人/同行收執聯」共兩份</p>
+                </div>
+                <button id="close-receipt-top-btn" type="button" class="text-slate-400 hover:text-slate-700 font-bold text-sm">✕</button>
             </div>
-            <div id="receipt-items-container" class="space-y-2 text-xs max-h-60 overflow-y-auto border-b border-dashed border-slate-300 pb-3">
-                <!-- Populated via JS -->
+
+            <!-- Dual Copies Container (Copy 1: Store Copy, Copy 2: Customer/Peer Copy) -->
+            <div id="dual-receipt-printable-area" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Copy 1: 店家聯 (Store Copy) -->
+                <div class="border-2 border-slate-300 rounded-xl p-4 bg-slate-50/40 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-300 pb-2">
+                        <span class="bg-slate-800 text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded">第一聯：店家存根聯 (店家保存)</span>
+                        <span class="text-[11px] font-mono text-slate-500">PIPI結帳系統</span>
+                    </div>
+                    <div class="text-center border-b border-dashed border-slate-300 pb-3">
+                        <h4 id="receipt-store-title" class="text-base font-extrabold text-slate-900">PIPI 旗艦零售門市</h4>
+                        <p id="receipt-tax-info" class="text-[11px] text-slate-500">統編 88990011 / 02-2700-8888</p>
+                        <p id="receipt-meta-info" class="text-[11px] text-slate-500 font-mono mt-1"></p>
+                    </div>
+                    <div id="receipt-items-container" class="space-y-1.5 text-xs max-h-48 overflow-y-auto border-b border-dashed border-slate-300 pb-2.5"></div>
+                    <div id="receipt-totals-container" class="space-y-1 text-xs"></div>
+                    <div id="receipt-footer-text" class="text-center text-[10px] text-slate-400 pt-2 border-t border-slate-200"></div>
+                </div>
+
+                <!-- Copy 2: 客人聯 / 同行聯 (Customer / Peer Copy) -->
+                <div class="border-2 border-blue-300 rounded-xl p-4 bg-blue-50/20 space-y-3">
+                    <div class="flex items-center justify-between border-b border-blue-200 pb-2">
+                        <span id="receipt-copy2-badge" class="bg-blue-600 text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded">第二聯：客人收執聯 (交予客人)</span>
+                        <span class="text-[11px] font-mono text-blue-600">PIPI結帳系統</span>
+                    </div>
+                    <div class="text-center border-b border-dashed border-slate-300 pb-3">
+                        <h4 id="receipt-store-title-2" class="text-base font-extrabold text-slate-900">PIPI 旗艦零售門市</h4>
+                        <p id="receipt-tax-info-2" class="text-[11px] text-slate-500">統編 88990011 / 02-2700-8888</p>
+                        <p id="receipt-meta-info-2" class="text-[11px] text-slate-500 font-mono mt-1"></p>
+                    </div>
+                    <div id="receipt-items-container-2" class="space-y-1.5 text-xs max-h-48 overflow-y-auto border-b border-dashed border-slate-300 pb-2.5"></div>
+                    <div id="receipt-totals-container-2" class="space-y-1 text-xs"></div>
+                    <div id="receipt-footer-text-2" class="text-center text-[10px] text-slate-400 pt-2 border-t border-slate-200"></div>
+                </div>
             </div>
-            <div id="receipt-totals-container" class="space-y-1 text-xs">
-                <!-- Populated via JS -->
-            </div>
-            <div id="receipt-footer-text" class="text-center text-[11px] text-slate-400 pt-2 border-t border-slate-100">
-                感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button id="print-receipt-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition">
-                    🖨️ 列印收據
+
+            <div class="flex flex-wrap gap-2 pt-2 no-print">
+                <button id="print-receipt-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+                    <span>🖨️ 列印收據</span>
                 </button>
-                <button id="close-receipt-modal-btn" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
+                <button id="download-receipt-btn" type="button" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+                    <span>📥 下載雙聯明細單檔案 (.html)</span>
+                </button>
+                <button id="close-receipt-modal-btn" type="button" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs sm:text-sm transition">
                     關閉視窗
                 </button>
             </div>
@@ -923,8 +1071,10 @@
                         <input id="new-prod-code" type="text" placeholder="如 471009" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
+                        <label class="block font-semibold text-slate-700 mb-1">商品分類 (可選或新增)</label>
                         <select id="new-prod-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
+                            <option value="寶可夢">寶可夢 (預設免發票稅)</option>
+                            <option value="遊戲王">遊戲王 (預設免發票稅)</option>
                             <option value="飲品沖泡">飲品沖泡</option>
                             <option value="休閒零食">休閒零食</option>
                             <option value="日用百貨">日用百貨</option>
@@ -932,6 +1082,10 @@
                             <option value="3C配件">3C配件</option>
                         </select>
                     </div>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                    <input id="modal-custom-cat-input" type="text" placeholder="或在此輸入新分類名稱..." class="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 text-xs outline-none focus:border-blue-500 bg-white">
+                    <button id="modal-add-cat-btn" type="button" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold whitespace-nowrap transition">＋ 新增並選取分類</button>
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
@@ -1118,6 +1272,141 @@
         </div>
     </div>
 
+    <!-- ==================== FULL-SCREEN LOGIN GATE (員工專屬登錄系統 & 總管理員專屬登入) ==================== -->
+    <div id="auth-login-gate" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-lg w-full my-auto space-y-4">
+            <!-- System Title Header -->
+            <div class="text-center space-y-1">
+                <div class="inline-flex items-center gap-2 bg-blue-600 text-white font-extrabold px-3 py-1 rounded-full text-xs shadow">
+                    <span>🔒 PIPI結帳系統 — 專屬門禁登錄系統</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">歡迎進入 PIPI結帳系統</h1>
+                <p class="text-xs text-slate-400">⚠️ 本網站不開放外部自行註冊，所有員工帳號均須由總管理員後台新增配發</p>
+            </div>
+
+            <!-- Structured Login Table Card matching user's exact specification image -->
+            <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-700 text-slate-100">
+
+                <!-- Section 1: 一般員工登錄處 -->
+                <div class="p-4 sm:p-5 bg-slate-800/90">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-base sm:text-lg font-extrabold text-emerald-400 flex items-center gap-2">
+                            <span>👤 這邊是一般員工登錄處</span>
+                        </h2>
+                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded font-semibold">剛註冊初始密碼：0000</span>
+                    </div>
+                </div>
+
+                <!-- Row 2: 選擇帳號的下拉式選單的關鍵字搜尋處 -->
+                <div class="p-4 sm:p-5 space-y-2 bg-slate-900/90">
+                    <label for="staff-login-keyword" class="block text-xs sm:text-sm font-bold text-slate-200">
+                        🔍 選擇帳號的下拉式選單的關鍵字搜尋處
+                        <span class="block text-[11px] font-normal text-slate-400 mt-0.5">（如太多帳號，可打一些你的帳號有的字；打完就會出現有關於你打的字的帳號）</span>
+                    </label>
+                    <input id="staff-login-keyword" type="text" placeholder="輸入帳號關鍵字篩選 (例如輸入名字或帳號片段)..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-400 text-xs sm:text-sm outline-none focus:border-emerald-400">
+                </div>
+
+                <!-- Row 3: 選擇帳號的下拉式選單 (選單裡只有總管理員新增過的帳號) -->
+                <div class="p-4 sm:p-5 space-y-2 bg-slate-900/90">
+                    <label for="staff-login-select" class="block text-xs sm:text-sm font-bold text-slate-200">
+                        📋 選擇帳號的下拉式選單
+                        <span class="block text-[11px] font-normal text-slate-400 mt-0.5">（選單裡只有總管理員新增過的帳號）</span>
+                    </label>
+                    <select id="staff-login-select" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white text-xs sm:text-sm outline-none focus:border-emerald-400">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- Row 4: 這邊是打 4 位密碼 + 員工登入按鈕 -->
+                <div class="p-4 sm:p-5 space-y-3 bg-slate-900/90">
+                    <label for="staff-login-pin" class="block text-xs sm:text-sm font-bold text-slate-200">
+                        🔢 這邊是打 4 位密碼
+                        <span class="block text-[11px] font-normal text-slate-400 mt-0.5">（剛註冊預設為 <strong class="text-amber-300 font-mono">0000</strong>，首次登入後系統會強制要求修改為個人 4 位數密碼）</span>
+                    </label>
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <input id="staff-login-pin" type="password" inputmode="numeric" maxlength="4" placeholder="請輸入 4 位密碼 (預設 0000)" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white font-mono tracking-widest text-center text-base outline-none focus:border-emerald-400">
+                        <button id="staff-login-submit-btn" type="button" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm shadow-lg transition whitespace-nowrap">
+                            👤 員工登入系統
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 2: 這裡是總管理員專屬登入的地方 -->
+                <div class="p-4 sm:p-5 bg-blue-950/80 border-t-2 border-blue-500/40">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-base sm:text-lg font-extrabold text-amber-300 flex items-center gap-2">
+                            <span>🛡️ 這裡是總管理員專屬登入的地方</span>
+                        </h2>
+                        <span class="text-[11px] bg-amber-400/20 text-amber-200 border border-amber-400/30 px-2 py-0.5 rounded font-semibold">網站最高權限</span>
+                    </div>
+                </div>
+
+                <!-- Row 6: 這邊已經打好了是 (tw202501tw) -->
+                <div class="p-4 sm:p-5 space-y-2 bg-slate-900/95">
+                    <label for="admin-login-account" class="block text-xs sm:text-sm font-bold text-slate-200">
+                        👑 總管理員專屬帳號（這邊已經打好了）
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input id="admin-login-account" type="text" value="tw202501tw" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-600 text-amber-300 font-mono font-bold text-sm outline-none cursor-not-allowed">
+                        <span class="text-xs text-slate-400 font-mono whitespace-nowrap">@gmail.com</span>
+                    </div>
+                </div>
+
+                <!-- Row 7: 這邊不是 4 位密碼 (是總管理員專屬密碼) -->
+                <div class="p-4 sm:p-5 space-y-3 bg-slate-900/95">
+                    <label for="admin-login-password" class="block text-xs sm:text-sm font-bold text-slate-200">
+                        🔑 這邊不是 4 位密碼（是總管理員專屬密碼）
+                    </label>
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <input id="admin-login-password" type="password" placeholder="請輸入總管理員專屬密碼..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white font-mono text-sm outline-none focus:border-amber-400">
+                        <button id="admin-login-submit-btn" type="button" class="bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm shadow-lg transition whitespace-nowrap">
+                            🛡️ 總管理員登入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MANDATORY PASSWORD CHANGE MODAL (首次登入強制修改密碼 / 員工修改密碼) ==================== -->
+    <div id="force-change-pwd-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-amber-400 space-y-4">
+            <div class="space-y-1 border-b border-slate-100 pb-3">
+                <div class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">
+                    <span>🔐 帳號安全設定</span>
+                </div>
+                <h3 id="force-pwd-title" class="font-extrabold text-slate-900 text-lg">首次登入！請立即修改您的專屬 4 位密碼</h3>
+                <p id="force-pwd-desc" class="text-xs text-rose-600 font-semibold">
+                    您的帳號目前使用的是剛註冊預設密碼 (0000)，為保障收銀帳務安全，必須修改為新的 4 位數密碼才能進入系統（不能不改，且不可設為 0000）！
+                </p>
+            </div>
+
+            <div class="space-y-3 text-xs sm:text-sm">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">目前登入員工帳號</label>
+                    <input id="force-pwd-account" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono font-bold">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">請輸入新的 4 位數密碼 (不可為 0000)</label>
+                    <input id="force-pwd-new1" type="password" inputmode="numeric" maxlength="4" placeholder="請輸入 4 位數字新密碼 (如 1234)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-widest outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">再次確認新的 4 位數密碼</label>
+                    <input id="force-pwd-new2" type="password" inputmode="numeric" maxlength="4" placeholder="請再次輸入相同的 4 位數字密碼" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-widest outline-none focus:border-blue-500">
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button id="save-force-pwd-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
+                    ✅ 確認修改密碼並進入系統
+                </button>
+                <button id="cancel-voluntary-pwd-btn" type="button" class="hidden px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
@@ -1134,6 +1423,7 @@
                 announcement: 'PIPI結帳系統 — 全雲端、全模組、使用人數無上限、終身 0 元免月租費！',
                 receiptFooter: '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立'
             },
+            categories: ['寶可夢', '遊戲王', '飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件'],
             products: [],
             members: [],
             orders: [],
@@ -1148,6 +1438,8 @@
         let heldCarts = [];
         let selectedCategory = '全部';
         let selectedPayMethod = '現金';
+        let invoiceTaxEnabled = true; // 發票稅開關：寶可夢/遊戲王自動關閉，其他分類自動打開，亦可手動點 (打開) ↔️ (關閉)
+        let lastReceiptPayload = null;
         let catChartInstance = null;
         let payChartInstance = null;
 
@@ -1196,21 +1488,90 @@
             document.getElementById('pos-order-badge').textContent = `#POS-${String(appState.orders.length + 1).padStart(3, '0')}`;
         }
 
+        const TAX_EXEMPT_CATEGORIES = ['寶可夢', '遊戲王'];
+
+        function isTaxExemptCategory(catName) {
+            return TAX_EXEMPT_CATEGORIES.includes(String(catName || '').trim());
+        }
+
+        function ensureCategoriesList() {
+            if (!Array.isArray(appState.categories)) {
+                appState.categories = ['寶可夢', '遊戲王', '飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件'];
+            }
+            ['寶可夢', '遊戲王'].forEach(c => {
+                if (!appState.categories.includes(c)) appState.categories.unshift(c);
+            });
+            appState.products.forEach(p => {
+                if (p.category && !appState.categories.includes(p.category)) {
+                    appState.categories.push(p.category);
+                }
+            });
+        }
+
+        function syncProductCategorySelect() {
+            ensureCategoriesList();
+            const sel = document.getElementById('new-prod-cat');
+            if (!sel) return;
+            const cur = sel.value;
+            sel.innerHTML = '';
+            appState.categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = isTaxExemptCategory(cat) ? `${cat} (結帳自動關閉發票稅)` : cat;
+                sel.appendChild(opt);
+            });
+            if (cur && appState.categories.includes(cur)) sel.value = cur;
+        }
+
+        function addCustomCategory(rawName) {
+            const name = String(rawName || '').trim();
+            if (!name) {
+                showToast('請輸入要新增的分類名稱', 'error');
+                return false;
+            }
+            ensureCategoriesList();
+            if (!appState.categories.includes(name)) {
+                appState.categories.push(name);
+                saveState();
+            }
+            selectedCategory = name;
+            // 寶可夢、遊戲王自動關閉發票稅；其他分類自動打開發票稅
+            invoiceTaxEnabled = !isTaxExemptCategory(name);
+            renderCategories();
+            syncProductCategorySelect();
+            renderProductGrid();
+            renderCart();
+            showToast(`已新增並切換至分類【${name}】（發票稅已自動${invoiceTaxEnabled ? '打開' : '關閉'}）`);
+            return true;
+        }
+
         function renderCategories() {
-            const categories = ['全部', ...new Set(appState.products.map(p => p.category))];
+            ensureCategoriesList();
+            syncProductCategorySelect();
+            const categories = ['全部', ...appState.categories];
             const bar = document.getElementById('pos-category-bar');
             bar.innerHTML = '';
             categories.forEach(cat => {
                 const btn = document.createElement('button');
                 const active = cat === selectedCategory;
+                const isSpecial = isTaxExemptCategory(cat);
                 btn.className = active
-                    ? 'px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs shadow-xs whitespace-nowrap transition'
-                    : 'px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 font-semibold text-xs whitespace-nowrap transition';
-                btn.textContent = cat;
+                    ? 'px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-bold text-xs shadow-xs whitespace-nowrap transition'
+                    : 'px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs whitespace-nowrap transition';
+                btn.textContent = isSpecial ? `🃏 ${cat}` : cat;
                 btn.addEventListener('click', () => {
                     selectedCategory = cat;
+                    if (cat !== '全部') {
+                        if (isTaxExemptCategory(cat)) {
+                            invoiceTaxEnabled = false;
+                            showToast(`已切換至【${cat}】分類，發票稅已自動（關閉）`, 'info');
+                        } else {
+                            invoiceTaxEnabled = true;
+                        }
+                    }
                     renderCategories();
                     renderProductGrid();
+                    renderCart();
                 });
                 bar.appendChild(btn);
             });
@@ -1320,10 +1681,11 @@
             const isOriginalPriceMethod = (selectedPayMethod === '現金' || selectedPayMethod === '轉帳');
             const paymentFee = isOriginalPriceMethod ? 0 : Math.round(afterDiscount * 0.0103);
             const grandTotal = afterDiscount + paymentFee;
-            const taxIncluded = Math.round(grandTotal - (grandTotal / 1.05));
-            const profit = afterDiscount - totalCost;
+            const taxIncluded = invoiceTaxEnabled ? Math.round(grandTotal * 0.05) : 0; // 發票稅打開時 5%，關閉時 0
+            const grossProfit = grandTotal - totalCost;
+            const profit = grossProfit - taxIncluded;
 
-            return { subtotal, discount, paymentFee, isOriginalPriceMethod, grandTotal, taxIncluded, totalQty, profit, detailedItems };
+            return { subtotal, discount, paymentFee, isOriginalPriceMethod, grandTotal, taxIncluded, invoiceTaxEnabled, totalCost, grossProfit, totalQty, profit, detailedItems };
         }
 
         function renderCart() {
@@ -1375,7 +1737,20 @@
                 ? `支付加成 (${selectedPayMethod}：原價 0%)`
                 : `支付加成 (${selectedPayMethod}：+1.03%)`;
             document.getElementById('cart-fee').textContent = `+ NT$ ${totals.paymentFee.toLocaleString()}`;
-            document.getElementById('cart-tax').textContent = `NT$ ${totals.taxIncluded.toLocaleString()}`;
+            const openSpan = document.getElementById('tax-state-open');
+            const closeSpan = document.getElementById('tax-state-close');
+            if (openSpan && closeSpan) {
+                if (invoiceTaxEnabled) {
+                    openSpan.className = 'text-emerald-600 font-extrabold underline';
+                    closeSpan.className = 'text-slate-400 font-normal';
+                } else {
+                    openSpan.className = 'text-slate-400 font-normal';
+                    closeSpan.className = 'text-rose-600 font-extrabold underline';
+                }
+            }
+            document.getElementById('cart-tax').textContent = invoiceTaxEnabled
+                ? `NT$ ${totals.taxIncluded.toLocaleString()} (5%)`
+                : `NT$ 0 (已關閉)`;
             document.getElementById('cart-grand-total').textContent = `NT$ ${totals.grandTotal.toLocaleString()}`;
             document.getElementById('held-orders-count').textContent = heldCarts.length;
 
@@ -1407,6 +1782,17 @@
                 existing.qty += 1;
             } else {
                 currentCart.push({ id: prodId, qty: 1 });
+            }
+            // 自動依商品分類切換發票稅：若加入寶可夢或遊戲王商品則自動關閉發票稅；若全為其他一般分類則自動打開
+            const cartCategories = currentCart.map(ci => {
+                const p = appState.products.find(x => x.id === ci.id);
+                return p ? p.category : '';
+            });
+            const hasExemptItem = cartCategories.some(c => isTaxExemptCategory(c));
+            if (hasExemptItem) {
+                invoiceTaxEnabled = false;
+            } else {
+                invoiceTaxEnabled = true;
             }
             renderCart();
         }
@@ -1635,20 +2021,91 @@
             });
         }
 
-        // ==================== REPORTS & CHARTS ====================
+        // ==================== REPORTS & CHARTS (5% 發票稅 & 每月 $5,500 停車場費) ====================
+        const MONTHLY_PARKING_FEE = 5500;
+
+        function getOrderFinancials(o) {
+            const rev = Number(o.total) || 0;
+            const cost = (typeof o.totalCost === 'number')
+                ? o.totalCost
+                : (o.items || []).reduce((s, it) => s + ((Number(it.cost) || 0) * (Number(it.qty) || 1)), 0);
+            const gross = rev - cost;
+            const tax5 = (typeof o.invoiceTax === 'number') ? o.invoiceTax : Math.round(rev * 0.05);
+            const netAfterTax = gross - tax5;
+            return { rev, cost, gross, tax5, netAfterTax };
+        }
+
         function renderReports() {
             const validOrders = appState.orders.filter(o => o.status === '已完成');
-            const totalRevenue = validOrders.reduce((s, o) => s + o.total, 0);
-            const totalProfit = validOrders.reduce((s, o) => s + (o.profit || Math.round(o.total * 0.42)), 0);
+            let totalRevenue = 0;
+            let totalTax5 = 0;
+            let totalNetAfterTax = 0;
+
+            validOrders.forEach(o => {
+                const fin = getOrderFinancials(o);
+                totalRevenue += fin.rev;
+                totalTax5 += fin.tax5;
+                totalNetAfterTax += fin.netAfterTax;
+            });
+
             const count = validOrders.length;
             const avgTicket = count > 0 ? Math.round(totalRevenue / count) : 0;
-            const margin = totalRevenue > 0 ? Math.round((totalProfit / totalRevenue) * 100) : 0;
 
             document.getElementById('rep-total-revenue').textContent = `NT$ ${totalRevenue.toLocaleString()}`;
-            document.getElementById('rep-total-profit').textContent = `NT$ ${totalProfit.toLocaleString()}`;
-            document.getElementById('rep-profit-margin').textContent = `平均毛利率 ${margin}%`;
+            document.getElementById('rep-total-profit').textContent = `NT$ ${totalNetAfterTax.toLocaleString()}`;
+            document.getElementById('rep-profit-margin').textContent = `已扣除累計 5% 發票稅：NT$ ${totalTax5.toLocaleString()}`;
             document.getElementById('rep-total-orders').textContent = `${count} 筆`;
             document.getElementById('rep-avg-ticket').textContent = `平均客單價 NT$ ${avgTicket.toLocaleString()}`;
+
+            // Daily Net Profit Calculation (扣每筆單 5% 發票稅)
+            const dayPicker = document.getElementById('rep-daily-date-picker');
+            if (dayPicker && !dayPicker.value) {
+                dayPicker.value = selectedDateStr;
+            }
+            const targetDay = dayPicker ? dayPicker.value : selectedDateStr;
+            const dayOrders = validOrders.filter(o => (o.time || '').slice(0, 10) === targetDay);
+            let dRev = 0, dCost = 0, dGross = 0, dTax = 0, dNet = 0;
+            dayOrders.forEach(o => {
+                const fin = getOrderFinancials(o);
+                dRev += fin.rev;
+                dCost += fin.cost;
+                dGross += fin.gross;
+                dTax += fin.tax5;
+                dNet += fin.netAfterTax;
+            });
+
+            document.getElementById('rep-daily-rev').textContent = `${dayOrders.length} 筆 / NT$ ${dRev.toLocaleString()}`;
+            document.getElementById('rep-daily-cost').textContent = `- NT$ ${dCost.toLocaleString()}`;
+            document.getElementById('rep-daily-gross').textContent = `NT$ ${dGross.toLocaleString()}`;
+            document.getElementById('rep-daily-tax').textContent = `- NT$ ${dTax.toLocaleString()}`;
+            const dailyNetEl = document.getElementById('rep-daily-net');
+            dailyNetEl.textContent = `NT$ ${dNet.toLocaleString()}`;
+            dailyNetEl.className = `text-xl font-extrabold font-mono ${dNet < 0 ? 'text-rose-600' : 'text-emerald-600'}`;
+
+            // Monthly Net Profit Calculation (扣每筆單 5% 發票稅 + 扣每月公司停車場費用 $5,500)
+            const monthPicker = document.getElementById('rep-monthly-month-picker');
+            if (monthPicker && !monthPicker.value) {
+                monthPicker.value = selectedDateStr.slice(0, 7);
+            }
+            const targetMonth = monthPicker ? monthPicker.value : selectedDateStr.slice(0, 7);
+            const monthOrders = validOrders.filter(o => (o.time || '').slice(0, 7) === targetMonth);
+            let mRev = 0, mGross = 0, mTax = 0, mNetAfterTax = 0;
+            monthOrders.forEach(o => {
+                const fin = getOrderFinancials(o);
+                mRev += fin.rev;
+                mGross += fin.gross;
+                mTax += fin.tax5;
+                mNetAfterTax += fin.netAfterTax;
+            });
+            const mFinalNet = mNetAfterTax - MONTHLY_PARKING_FEE;
+
+            document.getElementById('rep-monthly-rev').textContent = `${monthOrders.length} 筆 / NT$ ${mRev.toLocaleString()}`;
+            document.getElementById('rep-monthly-gross').textContent = `NT$ ${mGross.toLocaleString()}`;
+            document.getElementById('rep-monthly-tax').textContent = `- NT$ ${mTax.toLocaleString()}`;
+            document.getElementById('rep-monthly-parking').textContent = `- NT$ ${MONTHLY_PARKING_FEE.toLocaleString()}`;
+            const monthlyNetEl = document.getElementById('rep-monthly-net');
+            monthlyNetEl.textContent = `NT$ ${mFinalNet.toLocaleString()}`;
+            monthlyNetEl.className = `text-xl font-extrabold font-mono ${mFinalNet < 0 ? 'text-rose-600' : 'text-indigo-600'}`;
 
             // Aggregate Category Sales
             const catMap = {};
@@ -1704,21 +2161,141 @@
             });
         }
 
-        // ==================== ADMIN STAFF RENDER ====================
+        // ==================== ADMIN STAFF RENDER & AUTH SYSTEM ====================
+        let currentSessionUser = null; // { role: 'admin' | 'staff', account: string }
+
+        function renderStaffLoginDropdown() {
+            const kwInput = document.getElementById('staff-login-keyword');
+            const sel = document.getElementById('staff-login-select');
+            if (!sel) return;
+            const kw = (kwInput ? kwInput.value : '').trim().toLowerCase();
+            sel.innerHTML = '';
+
+            if (!Array.isArray(appState.staff)) appState.staff = [];
+
+            const matched = appState.staff.filter(s => {
+                const acc = String(s.email || '').toLowerCase();
+                return !kw || acc.includes(kw);
+            });
+
+            if (appState.staff.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = '-- 尚無員工帳號 (請先由總管理員登入後台新增員工) --';
+                sel.appendChild(opt);
+                return;
+            }
+
+            if (matched.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = `-- 找不到包含「${kwInput.value}」的員工帳號 --`;
+                sel.appendChild(opt);
+                return;
+            }
+
+            matched.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.email;
+                const pwdHint = (s.mustChangePwd || (s.pin || '0000') === '0000') ? '初始密碼:0000 (待改密碼)' : '已自訂專屬密碼';
+                opt.textContent = `${s.email} (${s.role || '門市員工'} · ${pwdHint})`;
+                sel.appendChild(opt);
+            });
+        }
+
+        function updateSessionUI() {
+            const roleEl = document.getElementById('header-user-role');
+            const accEl = document.getElementById('header-user-account');
+            const cashierLabel = document.getElementById('pos-cashier-label');
+            const chgPwdBtn = document.getElementById('voluntary-change-pwd-btn');
+            const adminNavBtn = document.querySelector('.nav-tab[data-tab="admin"]');
+
+            if (!currentSessionUser) return;
+
+            if (currentSessionUser.role === 'admin') {
+                if (roleEl) roleEl.textContent = '👑 最高總管理員已登入';
+                if (accEl) accEl.textContent = 'tw202501tw@gmail.com';
+                if (cashierLabel) cashierLabel.textContent = '收銀員：tw202501tw@gmail.com (總管理員)';
+                if (chgPwdBtn) chgPwdBtn.classList.add('hidden');
+                if (adminNavBtn) adminNavBtn.classList.remove('hidden');
+            } else {
+                if (roleEl) roleEl.textContent = '👤 門市員工已登入';
+                if (accEl) accEl.textContent = currentSessionUser.account;
+                if (cashierLabel) cashierLabel.textContent = `收銀員：${currentSessionUser.account} (門市員工)`;
+                if (chgPwdBtn) chgPwdBtn.classList.remove('hidden');
+                if (adminNavBtn) adminNavBtn.classList.add('hidden');
+            }
+        }
+
+        function openForcePasswordModal(staffObj, isMandatory = true) {
+            const modal = document.getElementById('force-change-pwd-modal');
+            const titleEl = document.getElementById('force-pwd-title');
+            const descEl = document.getElementById('force-pwd-desc');
+            const cancelBtn = document.getElementById('cancel-voluntary-pwd-btn');
+
+            document.getElementById('force-pwd-account').value = staffObj.email;
+            document.getElementById('force-pwd-new1').value = '';
+            document.getElementById('force-pwd-new2').value = '';
+
+            if (isMandatory) {
+                titleEl.textContent = '首次登入！請立即修改您的專屬 4 位密碼';
+                descEl.textContent = '您的帳號目前使用的是剛註冊預設密碼 (0000)，系統規定首次進入必須修改為新的 4 位數字密碼（不能不改，且不可設為 0000）！';
+                cancelBtn.classList.add('hidden');
+            } else {
+                titleEl.textContent = '🔑 修改員工專屬 4 位數密碼';
+                descEl.textContent = '請輸入您要更新的 4 位數字密碼（不可設為預設值 0000）。';
+                cancelBtn.classList.remove('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
         function renderStaff() {
             const box = document.getElementById('staff-list-container');
             box.innerHTML = '';
+            if (!Array.isArray(appState.staff)) appState.staff = [];
+
+            if (appState.staff.length === 0) {
+                box.innerHTML = `<div class="p-4 rounded-xl border border-dashed border-slate-200 text-center text-slate-400 text-xs">目前尚無註冊任何員工帳號 (0 人)，請由下方輸入員工帳號新增（預設密碼 0000）。</div>`;
+                renderStaffLoginDropdown();
+                return;
+            }
+
             appState.staff.forEach((s, idx) => {
+                const pin = s.pin || '0000';
+                const isDefaultPin = (s.mustChangePwd !== false && pin === '0000');
                 const div = document.createElement('div');
-                div.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between';
+                div.className = 'p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-2';
                 div.innerHTML = `
                     <div>
-                        <div class="font-semibold text-slate-800">${s.email}</div>
-                        <div class="text-[11px] text-slate-500">${s.role} · ${s.status}</div>
+                        <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                            <span>👤 ${s.email}</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded font-bold ${isDefaultPin ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-700'}">
+                                ${isDefaultPin ? '初始密碼 0000 (待首次登入修改)' : '已修改個人密碼'}
+                            </span>
+                        </div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${s.role || '門市收銀員'} · 密碼狀態：<span class="font-mono font-semibold">${isDefaultPin ? '0000' : '**** (4位密碼)'}</span></div>
                     </div>
-                    <button data-del-staff="${idx}" class="text-rose-500 hover:text-rose-700 text-xs font-semibold">移除</button>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button data-reset-staff="${idx}" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[11px] font-semibold">重置為0000</button>
+                        <button data-del-staff="${idx}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-[11px] font-semibold">移除</button>
+                    </div>
                 `;
                 box.appendChild(div);
+            });
+
+            box.querySelectorAll('button[data-reset-staff]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-reset-staff'), 10);
+                    if (appState.staff[idx]) {
+                        appState.staff[idx].pin = '0000';
+                        appState.staff[idx].mustChangePwd = true;
+                        saveState();
+                        renderStaff();
+                        showToast(`已將【${appState.staff[idx].email}】密碼重置為 0000，下次登入將強制要求重設密碼！`);
+                    }
+                });
             });
 
             box.querySelectorAll('button[data-del-staff]').forEach(btn => {
@@ -1730,41 +2307,127 @@
                     showToast('已移除收銀員子帳號', 'info');
                 });
             });
+
+            renderStaffLoginDropdown();
         }
 
-        // ==================== RECEIPT MODAL ====================
-        function openReceiptModal(order) {
-            document.getElementById('receipt-store-title').textContent = appState.config.storeName;
-            document.getElementById('receipt-tax-info').textContent = appState.config.taxId;
-            document.getElementById('receipt-meta-info').textContent = `單號：${order.orderNo} ｜ 時間：${order.time}`;
-            document.getElementById('receipt-footer-text').textContent = appState.config.receiptFooter;
+        // ==================== DUAL RECEIPT MODAL (一般客人買賣 + 同行調貨 雙聯明細單) ====================
+        function openReceiptModal(doc) {
+            lastReceiptPayload = doc;
+            const isTransfer = Boolean(doc && doc.transferNo);
+            const storeName = appState.config.storeName || 'PIPI 旗艦零售門市';
+            const taxInfo = appState.config.taxId || '統編 88990011 / 02-2700-8888';
+            const footerText = appState.config.receiptFooter || '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立';
+            const handlerName = (currentSessionUser && currentSessionUser.account) ? currentSessionUser.account : 'tw202501tw@gmail.com';
 
-            const itemsBox = document.getElementById('receipt-items-container');
-            itemsBox.innerHTML = '';
-            order.items.forEach(i => {
-                const row = document.createElement('div');
-                row.className = 'flex justify-between';
-                row.innerHTML = `
-                    <span>${i.name} x ${i.qty}</span>
-                    <span class="font-mono font-semibold">NT$ ${(i.price * i.qty).toLocaleString()}</span>
+            const docBadge = document.getElementById('receipt-doc-type-badge');
+            const copy2Badge = document.getElementById('receipt-copy2-badge');
+
+            let metaText = '';
+            let itemsHtml = '';
+            let totalsHtml = '';
+
+            if (isTransfer) {
+                const isIn = doc.direction === 'in';
+                docBadge.textContent = `🤝 同行調貨明細單 (${isIn ? '向同行調入' : '調出給同行'})`;
+                docBadge.className = 'bg-indigo-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
+                copy2Badge.textContent = '第二聯：同行收執聯 (交予配合同行)';
+                metaText = `調貨單號：${doc.transferNo} ｜ 時間：${doc.time}`;
+
+                itemsHtml = `
+                    <div class="flex justify-between font-semibold text-slate-800">
+                        <span>[${isIn ? '調入' : '調出'}] #${doc.prodCode} ${doc.prodName} x ${doc.qty}</span>
+                        <span class="font-mono">NT$ ${doc.total.toLocaleString()}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500">同行調貨單價：NT$ ${doc.unitPrice.toLocaleString()} ｜ 建議售價：NT$ ${(doc.retailPrice || doc.unitPrice).toLocaleString()}</div>
+                    ${doc.note ? `<div class="text-[11px] text-indigo-600">備註：${doc.note}</div>` : ''}
                 `;
-                itemsBox.appendChild(row);
-            });
 
-            const feeAmount = order.paymentFee || 0;
-            const isOrig = (order.payMethod === '現金' || order.payMethod === '轉帳');
-            const totalsBox = document.getElementById('receipt-totals-container');
-            totalsBox.innerHTML = `
-                <div class="flex justify-between text-slate-500"><span>商品小計</span><span>NT$ ${order.subtotal.toLocaleString()}</span></div>
-                <div class="flex justify-between text-emerald-600"><span>折扣減免</span><span>- NT$ ${order.discount.toLocaleString()}</span></div>
-                <div class="flex justify-between text-amber-600"><span>支付加成 (${order.payMethod}${isOrig ? ' 原價' : ' +1.03%'})</span><span>+ NT$ ${feeAmount.toLocaleString()}</span></div>
-                <div class="flex justify-between font-extrabold text-sm text-slate-900 pt-1"><span>實收總計 (${order.payMethod})</span><span>NT$ ${order.total.toLocaleString()}</span></div>
-                <div class="flex justify-between text-slate-400 text-[11px] pt-1"><span>購買會員：${order.memberName}</span><span>經手管理員：tw202501tw@gmail.com</span></div>
-            `;
+                totalsHtml = `
+                    <div class="flex justify-between text-slate-600"><span>配合同行店家</span><span class="font-bold text-slate-900">${doc.peerName}</span></div>
+                    <div class="flex justify-between text-slate-600"><span>調貨方向</span><span class="font-bold">${isIn ? '📥 向同行調入 (進庫)' : '📤 調出給同行 (扣庫)'}</span></div>
+                    <div class="flex justify-between text-slate-600"><span>帳款結算狀態</span><span class="font-bold ${doc.settled ? 'text-emerald-600' : 'text-amber-600'}">${doc.settled ? '✅ 已結清' : '⏳ 未結清 (掛帳)'}</span></div>
+                    <div class="flex justify-between font-extrabold text-sm text-slate-900 pt-1 border-t border-slate-200">
+                        <span>${isIn ? '應付同行總計' : '應收同行總計'}</span>
+                        <span class="text-blue-600">NT$ ${doc.total.toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400 text-[10px] pt-1">
+                        <span>雙方簽章確認：________________</span>
+                        <span>經手人：${handlerName}</span>
+                    </div>
+                `;
+            } else {
+                docBadge.textContent = '🛒 一般客人買賣明細單';
+                docBadge.className = 'bg-blue-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
+                copy2Badge.textContent = '第二聯：客人收執聯 (交予客人)';
+                metaText = `交易單號：${doc.orderNo} ｜ 時間：${doc.time}`;
+
+                itemsHtml = (doc.items || []).map(i => `
+                    <div class="flex justify-between">
+                        <span>${i.name} x ${i.qty}</span>
+                        <span class="font-mono font-semibold">NT$ ${(i.price * i.qty).toLocaleString()}</span>
+                    </div>
+                `).join('');
+
+                const feeAmount = doc.paymentFee || 0;
+                const isOrig = (doc.payMethod === '現金' || doc.payMethod === '轉帳');
+                const taxAmt = (typeof doc.invoiceTax === 'number') ? doc.invoiceTax : Math.round((doc.total || 0) * 0.05);
+                const taxStatusText = taxAmt > 0 ? `NT$ ${taxAmt.toLocaleString()} (5% 打開)` : `NT$ 0 (關閉/免稅)`;
+
+                totalsHtml = `
+                    <div class="flex justify-between text-slate-500"><span>商品小計</span><span>NT$ ${(doc.subtotal || 0).toLocaleString()}</span></div>
+                    <div class="flex justify-between text-emerald-600"><span>折扣減免</span><span>- NT$ ${(doc.discount || 0).toLocaleString()}</span></div>
+                    <div class="flex justify-between text-amber-600"><span>支付加成 (${doc.payMethod}${isOrig ? ' 原價' : ' +1.03%'})</span><span>+ NT$ ${feeAmount.toLocaleString()}</span></div>
+                    <div class="flex justify-between text-slate-500"><span>發票稅額</span><span>${taxStatusText}</span></div>
+                    <div class="flex justify-between font-extrabold text-sm text-slate-900 pt-1 border-t border-slate-200"><span>實收總計 (${doc.payMethod})</span><span class="text-blue-600">NT$ ${(doc.total || 0).toLocaleString()}</span></div>
+                    <div class="flex justify-between text-slate-400 text-[10px] pt-1"><span>客戶/會員：${doc.memberName || '一般散客'}</span><span>經手人：${handlerName}</span></div>
+                `;
+            }
+
+            // Populate Copy 1 (店家聯) & Copy 2 (客人/同行聯)
+            ['', '-2'].forEach(suffix => {
+                document.getElementById(`receipt-store-title${suffix}`).textContent = storeName;
+                document.getElementById(`receipt-tax-info${suffix}`).textContent = taxInfo;
+                document.getElementById(`receipt-meta-info${suffix}`).textContent = metaText;
+                document.getElementById(`receipt-items-container${suffix}`).innerHTML = itemsHtml;
+                document.getElementById(`receipt-totals-container${suffix}`).innerHTML = totalsHtml;
+                document.getElementById(`receipt-footer-text${suffix}`).textContent = footerText;
+            });
 
             const modal = document.getElementById('receipt-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+        }
+
+        function downloadDualReceiptFile() {
+            if (!lastReceiptPayload) return;
+            const docNo = lastReceiptPayload.transferNo || lastReceiptPayload.orderNo || 'RECEIPT';
+            const innerContent = document.getElementById('dual-receipt-printable-area').innerHTML;
+            const standaloneHtml = `<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>PIPI結帳系統_雙聯明細單_${docNo}</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"><\/script>
+<style>body { font-family: sans-serif; padding: 24px; background: #f8fafc; }</style>
+</head>
+<body>
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl border border-slate-300">
+    <h2 class="text-center font-extrabold text-lg mb-4">PIPI結帳系統 — 雙聯正式明細單 (${docNo})</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">${innerContent}</div>
+</div>
+</body>
+</html>`;
+            const blob = new Blob([standaloneHtml], { type: 'text/html;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `PIPI雙聯明細單_${docNo}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`📥 已下載雙聯明細單檔案：PIPI雙聯明細單_${docNo}.html（含店家聯與客人/同行聯）`);
         }
 
         // ==================== CSV EXPORT HELPER ====================
@@ -2045,9 +2708,27 @@
             document.getElementById('cal-selected-festival').textContent = fest ? `節氣 / 節日：${fest}` : '一般營業日';
 
             const dayOrders = appState.orders.filter(o => o.status === '已完成' && (o.time || '').startsWith(selectedDateStr));
-            const dayRev = dayOrders.reduce((s, o) => s + o.total, 0);
-            document.getElementById('cal-day-orders').textContent = `成交 ${dayOrders.length} 筆`;
-            document.getElementById('cal-day-revenue').textContent = `NT$ ${dayRev.toLocaleString()}`;
+            let dayRev = 0, dayTax = 0, dayNet = 0;
+            dayOrders.forEach(o => {
+                const fin = getOrderFinancials(o);
+                dayRev += fin.rev;
+                dayTax += fin.tax5;
+                dayNet += fin.netAfterTax;
+            });
+
+            const monthPrefix = selectedDateStr.slice(0, 7);
+            const monthOrders = appState.orders.filter(o => o.status === '已完成' && (o.time || '').startsWith(monthPrefix));
+            let monthNetAfterTax = 0;
+            monthOrders.forEach(o => {
+                monthNetAfterTax += getOrderFinancials(o).netAfterTax;
+            });
+            const monthFinalNet = monthNetAfterTax - MONTHLY_PARKING_FEE;
+
+            document.getElementById('cal-day-orders').textContent = `當日成交 ${dayOrders.length} 筆`;
+            document.getElementById('cal-day-revenue').textContent = `營業額 NT$ ${dayRev.toLocaleString()}`;
+            document.getElementById('cal-day-tax').textContent = `- NT$ ${dayTax.toLocaleString()}`;
+            document.getElementById('cal-day-net-profit').textContent = `NT$ ${dayNet.toLocaleString()}`;
+            document.getElementById('cal-month-net-profit').textContent = `NT$ ${monthFinalNet.toLocaleString()}`;
 
             if (!appState.memos) appState.memos = {};
             const memos = appState.memos[selectedDateStr] || [];
@@ -2220,6 +2901,9 @@
                         </span>
                     </td>
                     <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
+                        <button data-trf-act="receipt" data-no="${t.transferNo}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold transition">
+                            🧾 雙聯明細單
+                        </button>
                         <button data-trf-act="toggle-settle" data-no="${t.transferNo}" class="px-2.5 py-1 ${t.settled ? 'bg-slate-100 text-slate-600' : 'bg-emerald-600 text-white'} rounded-lg text-xs font-semibold transition">
                             ${t.settled ? '改為未結' : '標記結清'}
                         </button>
@@ -2239,7 +2923,9 @@
                     if (idx === -1) return;
                     const rec = appState.transfers[idx];
 
-                    if (act === 'toggle-settle') {
+                    if (act === 'receipt') {
+                        openReceiptModal(rec);
+                    } else if (act === 'toggle-settle') {
                         rec.settled = !rec.settled;
                         saveState();
                         renderPeerTransfers();
@@ -2446,7 +3132,8 @@
                 renderProductGrid();
                 renderInventory();
                 renderPeerTransfers();
-                showToast(`🤝 同行調貨單 ${transferNo} 已開立！庫存已同步${direction === 'in' ? '增加' : '扣減'} ${qty} 件`);
+                openReceiptModal(appState.transfers[appState.transfers.length - 1]);
+                showToast(`🤝 同行調貨單 ${transferNo} 已開立並產生雙聯明細單！`);
             });
 
             document.getElementById('trf-search-input').addEventListener('input', renderPeerTransfers);
@@ -2497,6 +3184,9 @@
             });
 
             // Perpetual Calendar Controls
+            document.getElementById('rep-daily-date-picker').addEventListener('change', renderReports);
+            document.getElementById('rep-monthly-month-picker').addEventListener('change', renderReports);
+
             document.getElementById('cal-year-select').addEventListener('change', (e) => {
                 calYear = parseInt(e.target.value, 10);
                 renderPerpetualCalendar();
@@ -2690,6 +3380,9 @@
                     discount: totals.discount,
                     paymentFee: totals.paymentFee,
                     total: totals.grandTotal,
+                    totalCost: totals.totalCost,
+                    grossProfit: totals.grossProfit,
+                    invoiceTax: totals.taxIncluded,
                     profit: totals.profit,
                     status: '已完成',
                     items: totals.detailedItems
@@ -2708,15 +3401,46 @@
                 showToast(`結帳完成！單號 ${newOrder.orderNo} 實收 NT$ ${newOrder.total}`);
             });
 
-            // Receipt modal buttons
-            document.getElementById('close-receipt-modal-btn').addEventListener('click', () => {
-                document.getElementById('receipt-modal').classList.add('hidden');
-                document.getElementById('receipt-modal').classList.remove('flex');
+            // Invoice Tax Toggle Button: 發票稅：（打開） ↔️ （關閉）
+            document.getElementById('toggle-invoice-tax-btn').addEventListener('click', () => {
+                invoiceTaxEnabled = !invoiceTaxEnabled;
+                renderCart();
+                showToast(`發票稅 (5%) 已手動切換為：${invoiceTaxEnabled ? '（打開）' : '（關閉）'}`, 'info');
             });
-            document.getElementById('print-receipt-btn').addEventListener('click', () => {
-                showToast('🖨️ 已傳送至雲端熱感應出單機列印！');
+
+            // Quick Add Category on POS bar & inside Product Modal
+            document.getElementById('quick-add-cat-btn').addEventListener('click', () => {
+                const inp = document.getElementById('quick-new-cat-input');
+                if (addCustomCategory(inp.value)) inp.value = '';
+            });
+            document.getElementById('quick-new-cat-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const inp = document.getElementById('quick-new-cat-input');
+                    if (addCustomCategory(inp.value)) inp.value = '';
+                }
+            });
+            document.getElementById('modal-add-cat-btn').addEventListener('click', () => {
+                const inp = document.getElementById('modal-custom-cat-input');
+                const val = inp.value.trim();
+                if (addCustomCategory(val)) {
+                    document.getElementById('new-prod-cat').value = val;
+                    inp.value = '';
+                }
+            });
+
+            // Dual Receipt Modal buttons (Print 2 copies, Download .html, Close)
+            const closeReceiptModal = () => {
                 document.getElementById('receipt-modal').classList.add('hidden');
                 document.getElementById('receipt-modal').classList.remove('flex');
+            };
+            document.getElementById('close-receipt-modal-btn').addEventListener('click', closeReceiptModal);
+            document.getElementById('close-receipt-top-btn').addEventListener('click', closeReceiptModal);
+            document.getElementById('download-receipt-btn').addEventListener('click', downloadDualReceiptFile);
+            document.getElementById('print-receipt-btn').addEventListener('click', () => {
+                showToast('🖨️ 正在列印雙聯明細單（第一聯：店家存根聯 ＋ 第二聯：客人/同行收執聯）...');
+                setTimeout(() => {
+                    try { window.print(); } catch (e) {}
+                }, 250);
             });
 
             // Inventory filters & buttons
@@ -2869,18 +3593,149 @@
             document.getElementById('add-staff-btn').addEventListener('click', () => {
                 const email = document.getElementById('new-staff-email').value.trim();
                 if (!email) {
-                    showToast('請輸入要新增的收銀員信箱或姓名', 'error');
+                    showToast('請輸入要註冊的員工帳號或姓名', 'error');
+                    return;
+                }
+                if (appState.staff.some(s => s.email.toLowerCase() === email.toLowerCase())) {
+                    showToast('此員工帳號已經存在，請勿重複新增！', 'error');
                     return;
                 }
                 appState.staff.push({
                     email,
                     role: '門市收銀員',
-                    status: '啟用 (免費無上限)'
+                    status: '啟用 (免費無上限)',
+                    pin: '0000',
+                    mustChangePwd: true
                 });
                 document.getElementById('new-staff-email').value = '';
                 saveState();
                 renderStaff();
-                showToast(`已免費新增收銀員帳號：${email}`);
+                showToast(`已成功註冊員工帳號【${email}】！預設密碼為 0000（首次登入強制修改）`);
+            });
+
+            // ==================== AUTH LOGIN GATE & FORCE PASSWORD CHANGE LISTENERS ====================
+            renderStaffLoginDropdown();
+
+            document.getElementById('staff-login-keyword').addEventListener('input', () => {
+                renderStaffLoginDropdown();
+            });
+
+            // General Staff Login
+            document.getElementById('staff-login-submit-btn').addEventListener('click', () => {
+                const selectedAcc = document.getElementById('staff-login-select').value;
+                const pinInput = document.getElementById('staff-login-pin').value.trim();
+
+                if (!selectedAcc) {
+                    showToast('請先從下拉選單選擇您的員工帳號（若無帳號請先請總管理員註冊）', 'error');
+                    return;
+                }
+                if (!/^\d{4}$/.test(pinInput)) {
+                    showToast('員工密碼必須為 4 位數字！', 'error');
+                    return;
+                }
+
+                const staffObj = appState.staff.find(s => s.email === selectedAcc);
+                if (!staffObj) {
+                    showToast('查無此員工帳號，請確認是否已由總管理員註冊', 'error');
+                    return;
+                }
+
+                const expectedPin = staffObj.pin || '0000';
+                if (pinInput !== expectedPin) {
+                    showToast('員工 4 位密碼輸入錯誤，請重新確認！', 'error');
+                    return;
+                }
+
+                currentSessionUser = { role: 'staff', account: staffObj.email };
+                document.getElementById('staff-login-pin').value = '';
+                document.getElementById('auth-login-gate').classList.add('hidden');
+                updateSessionUI();
+                switchTab('pos');
+
+                // Check if first-time login (pin === '0000' or mustChangePwd)
+                if (staffObj.mustChangePwd !== false || expectedPin === '0000') {
+                    openForcePasswordModal(staffObj, true);
+                    showToast(`歡迎 ${staffObj.email}！首次登入請立即設定您的新 4 位數密碼`, 'info');
+                } else {
+                    showToast(`歡迎回來，${staffObj.email}！已進入 POS 收銀結帳系統`);
+                }
+            });
+
+            // Super Admin Login (tw202501tw / Chu610221)
+            document.getElementById('admin-login-submit-btn').addEventListener('click', () => {
+                const pwd = document.getElementById('admin-login-password').value;
+                if (pwd !== 'Chu610221') {
+                    showToast('總管理員專屬密碼錯誤！請輸入正確的總管理員專屬密碼', 'error');
+                    return;
+                }
+                currentSessionUser = { role: 'admin', account: 'tw202501tw@gmail.com' };
+                document.getElementById('admin-login-password').value = '';
+                document.getElementById('auth-login-gate').classList.add('hidden');
+                updateSessionUI();
+                showToast('👑 總管理員 (tw202501tw@gmail.com) 登入成功！可前往「管理員後台」註冊員工帳號');
+            });
+
+            document.getElementById('admin-login-password').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('admin-login-submit-btn').click();
+            });
+
+            document.getElementById('staff-login-pin').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('staff-login-submit-btn').click();
+            });
+
+            // Mandatory / Voluntary Staff Password Change Save
+            document.getElementById('save-force-pwd-btn').addEventListener('click', () => {
+                const acc = document.getElementById('force-pwd-account').value;
+                const p1 = document.getElementById('force-pwd-new1').value.trim();
+                const p2 = document.getElementById('force-pwd-new2').value.trim();
+
+                if (!/^\d{4}$/.test(p1)) {
+                    showToast('新密碼必須剛好是 4 位數字（例如 1234）！', 'error');
+                    return;
+                }
+                if (p1 === '0000') {
+                    showToast('新密碼不可設定為初始密碼 0000，請換一組 4 位數字！', 'error');
+                    return;
+                }
+                if (p1 !== p2) {
+                    showToast('兩次輸入的新密碼不一致，請重新確認！', 'error');
+                    return;
+                }
+
+                const staffObj = appState.staff.find(s => s.email === acc);
+                if (!staffObj) return;
+
+                staffObj.pin = p1;
+                staffObj.mustChangePwd = false;
+                saveState();
+                renderStaff();
+
+                document.getElementById('force-change-pwd-modal').classList.add('hidden');
+                document.getElementById('force-change-pwd-modal').classList.remove('flex');
+                showToast(`✅ 帳號【${acc}】的 4 位數密碼已修改完成！下次請使用新密碼登入`);
+            });
+
+            // Voluntary password change button for logged-in staff
+            document.getElementById('voluntary-change-pwd-btn').addEventListener('click', () => {
+                if (!currentSessionUser || currentSessionUser.role !== 'staff') return;
+                const staffObj = appState.staff.find(s => s.email === currentSessionUser.account);
+                if (staffObj) openForcePasswordModal(staffObj, false);
+            });
+
+            document.getElementById('cancel-voluntary-pwd-btn').addEventListener('click', () => {
+                document.getElementById('force-change-pwd-modal').classList.add('hidden');
+                document.getElementById('force-change-pwd-modal').classList.remove('flex');
+            });
+
+            // Logout / Switch Account Button
+            document.getElementById('logout-switch-user-btn').addEventListener('click', () => {
+                currentSessionUser = null;
+                document.getElementById('staff-login-keyword').value = '';
+                document.getElementById('staff-login-pin').value = '';
+                document.getElementById('admin-login-password').value = '';
+                renderStaffLoginDropdown();
+                document.getElementById('auth-login-gate').classList.remove('hidden');
+                showToast('已登出系統，請重新選擇員工或總管理員登入', 'info');
             });
         });
     </script>
