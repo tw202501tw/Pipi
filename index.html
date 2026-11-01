@@ -82,6 +82,9 @@
                 <button data-tab="inventory" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
                     <span>📦</span><span>庫存/品項管理</span>
                 </button>
+                <button data-tab="preorders" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                    <span>🎁</span><span>預購商品系統</span>
+                </button>
                 <button data-tab="transfer" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
                     <span>🤝</span><span>同行調貨系統</span>
                 </button>
@@ -516,6 +519,93 @@
                             </tr>
                         </thead>
                         <tbody id="inventory-table-body" class="divide-y divide-slate-100">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: 預購商品系統 (Pre-order Management System) ==================== -->
+        <div id="tab-preorders" class="tab-panel hidden space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-bold text-slate-900">🎁 門市預購商品管理系統 (寶可夢 / 遊戲王 / 限量商品預訂)</h2>
+                        <span class="bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold px-2.5 py-0.5 rounded-full">支援訂金與尾款結算</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">登記顧客新品預購訂單、追蹤已收訂金與尚欠尾款、記錄預計到貨日、辦理取貨交付並開立雙聯明細憑證</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="open-preorder-modal-btn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition">
+                        ＋ 新增預購訂單
+                    </button>
+                    <button id="export-preorders-csv-btn" type="button" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition">
+                        📥 匯出預購明細 CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pre-order KPI Metrics -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                    <div class="text-xs text-slate-500">累計預購總單數</div>
+                    <div id="pre-stat-count" class="text-2xl font-extrabold text-slate-900 mt-1">0 筆</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">顧客預訂登記總量</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                    <div class="text-xs text-slate-500">待到貨 / 待取貨件數</div>
+                    <div id="pre-stat-units" class="text-2xl font-extrabold text-blue-600 mt-1">0 件</div>
+                    <div class="text-[11px] text-blue-500 mt-0.5">未完成取貨件數</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                    <div class="text-xs text-slate-500">累計已收預購訂金</div>
+                    <div id="pre-stat-deposit" class="text-2xl font-extrabold text-emerald-600 mt-1">NT$ 0</div>
+                    <div class="text-[11px] text-emerald-500 mt-0.5">門市已收訂金款項</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                    <div class="text-xs text-slate-500">待收剩餘尾款總額</div>
+                    <div id="pre-stat-balance" class="text-2xl font-extrabold text-amber-600 mt-1">NT$ 0</div>
+                    <div class="text-[11px] text-amber-600 mt-0.5">客戶取貨時應付總額</div>
+                </div>
+            </div>
+
+            <!-- Pre-orders Table & Filters -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                <div class="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center">
+                    <input id="pre-search-input" type="text" placeholder="搜尋預購單號、客戶姓名、手機號碼或商品名稱..." class="sm:w-80 px-3.5 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
+                    <div class="flex items-center gap-2 text-xs">
+                        <select id="pre-filter-status" class="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white outline-none">
+                            <option value="all">全部預購狀態</option>
+                            <option value="pending">⏳ 未到貨 (已收訂金)</option>
+                            <option value="arrived">📦 已到貨 (待客戶取貨)</option>
+                            <option value="completed">✅ 已完成取貨 (結清尾款)</option>
+                            <option value="cancelled">❌ 已取消退訂</option>
+                        </select>
+                        <select id="pre-filter-cat" class="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white outline-none">
+                            <option value="all">全部分類</option>
+                            <option value="遊戲王">遊戲王</option>
+                            <option value="寶可夢">寶可夢</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
+                                <th class="py-3 px-3">預購單號 / 登記時間</th>
+                                <th class="py-3 px-3">預購客戶</th>
+                                <th class="py-3 px-3">預購商品 / 分類</th>
+                                <th class="py-3 px-3 text-center">數量</th>
+                                <th class="py-3 px-3 text-center">預計到貨日</th>
+                                <th class="py-3 px-3 text-right">總金額</th>
+                                <th class="py-3 px-3 text-right">已收訂金</th>
+                                <th class="py-3 px-3 text-right">剩餘尾款</th>
+                                <th class="py-3 px-3 text-center">訂單狀態</th>
+                                <th class="py-3 px-3 text-right">單據操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="preorders-table-body" class="divide-y divide-slate-100">
                             <!-- Populated via JS -->
                         </tbody>
                     </table>
@@ -1186,6 +1276,219 @@
         </div>
     </div>
 
+    <!-- ==================== MODAL: 修改商品售價與成本 (非結帳時隨時修改) ==================== -->
+    <div id="edit-price-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">✏️</span>
+                    <h3 class="font-bold text-slate-900 text-base">修改商品零售售價與進貨成本</h3>
+                </div>
+                <button id="close-edit-price-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm">
+                <input type="hidden" id="edit-prod-id">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
+                    <input id="edit-prod-name" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-800 font-bold">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
+                        <input id="edit-prod-code" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-600 font-mono">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
+                        <input id="edit-prod-cat" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-600 font-bold">
+                    </div>
+                </div>
+                <div class="bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 space-y-2">
+                    <label class="block font-extrabold text-blue-900 text-xs sm:text-sm">★ 門市零售單價 (售價 NT$)</label>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-600">NT$</span>
+                        <input id="edit-prod-price" type="number" min="0" class="flex-1 px-3 py-2 rounded-xl border-2 border-blue-500 bg-white text-lg font-extrabold text-blue-700 outline-none focus:ring-2 focus:ring-blue-300">
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-wrap pt-1">
+                        <span class="text-[11px] text-slate-500 font-medium">快捷增減：</span>
+                        <button type="button" data-price-delta="-50" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">-50</button>
+                        <button type="button" data-price-delta="-10" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">-10</button>
+                        <button type="button" data-price-delta="10" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+10</button>
+                        <button type="button" data-price-delta="50" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+50</button>
+                        <button type="button" data-price-delta="100" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+100</button>
+                    </div>
+                    <p class="text-[11px] text-slate-500">修改後將全站生效，POS收銀台入單將以新售價為預設價格。</p>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">進貨成本 ($)</label>
+                    <input id="edit-prod-cost" type="number" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="save-edit-price-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
+                    💾 確認儲存新售價
+                </button>
+                <button id="cancel-edit-price-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: 新增預購訂單 ==================== -->
+    <div id="preorder-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 my-auto">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🎁</span>
+                    <h3 class="font-bold text-slate-900 text-base">新增商品預購單 (登記訂金與尾款)</h3>
+                </div>
+                <button id="close-preorder-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm">
+                <!-- Customer Details -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">預購客戶姓名 <span class="text-rose-500">*</span></label>
+                        <input id="new-pre-name" type="text" placeholder="如：林小華" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">客戶手機號碼 <span class="text-rose-500">*</span></label>
+                        <input id="new-pre-phone" type="text" placeholder="如：0988-123-456" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- Product Selection / Input -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">選擇現有品項（或手動於下方填寫未上市新商品）</label>
+                    <select id="new-pre-prod-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
+                        <option value="">-- 手動填寫新預購商品，或由此帶入現有商品資料 --</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <label class="block font-semibold text-slate-700 mb-1">預購商品名稱 <span class="text-rose-500">*</span></label>
+                        <input id="new-pre-prod-name" type="text" placeholder="如：寶可夢 2026 最新特別企劃擴充盒" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-bold">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
+                        <select id="new-pre-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-semibold">
+                            <option value="遊戲王">遊戲王</option>
+                            <option value="寶可夢">寶可夢</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quantity & Price & Deposit Calculation -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">預購單價 ($)</label>
+                        <input id="new-pre-price" type="number" min="1" value="1200" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-mono font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">預購數量</label>
+                        <input id="new-pre-qty" type="number" min="1" value="1" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">預購總金額</label>
+                        <div id="new-pre-total-display" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono font-extrabold text-blue-600 text-sm">NT$ 1,200</div>
+                    </div>
+                </div>
+
+                <!-- Deposit & Balance -->
+                <div class="bg-amber-50/70 p-3 rounded-xl border border-amber-200 grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-amber-900 mb-1">已收預購訂金 ($)</label>
+                        <input id="new-pre-deposit" type="number" min="0" value="300" class="w-full px-3 py-2 rounded-lg border border-amber-300 bg-white font-mono font-extrabold text-amber-700 outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">到貨取貨應付尾款</label>
+                        <div id="new-pre-balance-display" class="w-full px-3 py-2 rounded-lg border border-amber-200 bg-white font-mono font-extrabold text-rose-600 text-sm">NT$ 900</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">訂金付款方式</label>
+                        <select id="new-pre-paymethod" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
+                            <option value="現金">💵 現金</option>
+                            <option value="轉帳">🏦 轉帳</option>
+                            <option value="LINE Pay">💚 LINE Pay</option>
+                            <option value="信用卡">💳 信用卡</option>
+                            <option value="行動支付">📱 行動支付</option>
+                            <option value="其他支付">🧾 其他支付</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">預計到貨日期</label>
+                        <input id="new-pre-arrival-date" type="date" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-mono font-bold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預購備註 (選填)</label>
+                    <input id="new-pre-note" type="text" placeholder="如：已加入官方LINE通知、附特典卡、指定黑貓宅配或自取..." class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="save-preorder-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
+                    ✅ 確認開立預購單並產生雙聯憑證
+                </button>
+                <button id="cancel-preorder-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: 預購取貨結清尾款 ==================== -->
+    <div id="preorder-pickup-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">💰</span>
+                    <h3 class="font-bold text-slate-900 text-base">顧客預購取貨與結清尾款</h3>
+                </div>
+                <button id="close-pickup-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm">
+                <input type="hidden" id="pickup-preorder-no">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">
+                    <div class="flex justify-between text-slate-600"><span>預購單號</span><strong id="pickup-doc-no" class="font-mono text-slate-800"></strong></div>
+                    <div class="flex justify-between text-slate-600"><span>預購客戶</span><strong id="pickup-cust-name" class="text-slate-900"></strong></div>
+                    <div class="flex justify-between text-slate-600"><span>預購商品</span><strong id="pickup-prod-name" class="text-slate-900"></strong></div>
+                    <div class="flex justify-between text-slate-600"><span>預購總價</span><span id="pickup-total-price" class="font-mono"></span></div>
+                    <div class="flex justify-between text-emerald-600"><span>已收訂金</span><span id="pickup-deposit-paid" class="font-mono"></span></div>
+                </div>
+
+                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-center space-y-1">
+                    <div class="text-xs text-emerald-800 font-bold">本次取貨應收尾款金額</div>
+                    <div id="pickup-balance-due" class="text-2xl font-extrabold text-emerald-700 font-mono">NT$ 0</div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">尾款收款方式</label>
+                    <select id="pickup-paymethod" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-bold text-slate-800">
+                        <option value="現金">💵 現金</option>
+                        <option value="轉帳">🏦 轉帳</option>
+                        <option value="LINE Pay">💚 LINE Pay</option>
+                        <option value="信用卡">💳 信用卡</option>
+                        <option value="行動支付">📱 行動支付</option>
+                        <option value="其他支付">🧾 其他支付</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="confirm-pickup-btn" type="button" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
+                    ✅ 確認收取尾款並完成取貨交付
+                </button>
+                <button id="cancel-pickup-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== MODAL: 新增商品品項 (只有遊戲王和寶可夢) ==================== -->
     <div id="product-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
@@ -1411,13 +1714,22 @@
             <!-- Structured Login Table Card -->
             <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-700 text-slate-100">
 
-                <!-- Section 1: 一般員工登錄處 -->
-                <div class="p-4 sm:p-5 bg-slate-800/90">
+                <!-- Section 1: 一般員工登錄處 (6大員工專屬功能) -->
+                <div class="p-4 sm:p-5 bg-slate-800/90 space-y-2">
                     <div class="flex items-center justify-between">
                         <h2 class="text-base sm:text-lg font-extrabold text-emerald-400 flex items-center gap-2">
                             <span>👤 這邊是一般員工登錄處</span>
                         </h2>
                         <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded font-semibold">剛註冊初始密碼：0000</span>
+                    </div>
+                    <div class="flex flex-wrap gap-1 text-[11px] text-slate-300">
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🛒 POS收銀結帳</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">📦 庫存/品項管理</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🤝 同行調貨系統</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🧾 銷售明細/退貨</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">📅 萬年曆/日程</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🎁 預購商品系統</span>
+                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">⏰ 員工打卡系統</span>
                     </div>
                 </div>
 
@@ -1550,6 +1862,7 @@
             products: [],
             members: [],
             orders: [],
+            preorders: [],
             staff: [],
             memos: {},
             peers: [],
@@ -1583,6 +1896,7 @@
                         } else {
                             parsed.categories = ['遊戲王', '寶可夢'];
                         }
+                        if (!Array.isArray(parsed.preorders)) parsed.preorders = [];
                         return parsed;
                     }
                 }
@@ -1787,7 +2101,9 @@
             currentCart.forEach(item => {
                 const prod = appState.products.find(p => p.id === item.id);
                 if (!prod) return;
-                const lineTotal = prod.price * item.qty;
+                const effectivePrice = (typeof item.customPrice === 'number' && item.customPrice >= 0) ? item.customPrice : prod.price;
+                const isCustomPrice = (effectivePrice !== prod.price);
+                const lineTotal = effectivePrice * item.qty;
                 const lineCost = prod.cost * item.qty;
                 subtotal += lineTotal;
                 totalCost += lineCost;
@@ -1796,7 +2112,9 @@
                     id: prod.id,
                     code: prod.code,
                     name: prod.name,
-                    price: prod.price,
+                    price: effectivePrice,
+                    originalPrice: prod.price,
+                    isCustomPrice,
                     cost: prod.cost,
                     qty: item.qty,
                     lineTotal
@@ -1843,17 +2161,35 @@
                     row.innerHTML = `
                         <div class="flex-1 min-w-0">
                             <div class="font-bold text-slate-800 truncate">${item.name}</div>
-                            <div class="text-slate-400 font-mono">NT$ ${item.price} x ${item.qty}</div>
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <span class="text-slate-400 font-mono text-[11px]">售價 NT$</span>
+                                <input type="number" min="0" data-cart-price="${item.id}" value="${item.price}" class="w-20 px-1.5 py-0.5 text-xs font-mono font-bold text-blue-700 border border-slate-300 hover:border-blue-400 focus:border-blue-600 rounded bg-white text-right outline-none transition" title="結帳時可直接點擊修改售價">
+                                ${item.isCustomPrice ? '<span class="text-[10px] text-amber-700 font-bold bg-amber-100 px-1 py-0.2 rounded whitespace-nowrap">已改價</span>' : ''}
+                                <span class="text-slate-400 font-mono text-[11px]">x ${item.qty}</span>
+                            </div>
                         </div>
                         <div class="flex items-center gap-1.5">
                             <button data-act="dec" data-id="${item.id}" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">-</button>
                             <span class="w-6 text-center font-bold">${item.qty}</span>
                             <button data-act="inc" data-id="${item.id}" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">+</button>
-                            <span class="w-16 text-right font-extrabold text-slate-900">NT$ ${item.lineTotal}</span>
+                            <span class="w-16 text-right font-extrabold text-slate-900">NT$ ${item.lineTotal.toLocaleString()}</span>
                             <button data-act="del" data-id="${item.id}" class="text-rose-400 hover:text-rose-600 pl-1 font-bold">✕</button>
                         </div>
                     `;
                     list.appendChild(row);
+                });
+
+                list.querySelectorAll('input[data-cart-price]').forEach(inp => {
+                    inp.addEventListener('change', () => {
+                        const id = inp.getAttribute('data-cart-price');
+                        const cartItem = currentCart.find(i => i.id === id);
+                        if (cartItem) {
+                            const newP = Math.max(0, parseFloat(inp.value) || 0);
+                            cartItem.customPrice = newP;
+                            renderCart();
+                            showToast(`已更改結帳售價為 NT$ ${newP}`);
+                        }
+                    });
                 });
 
                 list.querySelectorAll('button[data-act]').forEach(btn => {
@@ -1916,7 +2252,7 @@
             if (existing) {
                 existing.qty += 1;
             } else {
-                currentCart.push({ id: prodId, qty: 1 });
+                currentCart.push({ id: prodId, qty: 1, customPrice: prod.price });
             }
             const cartCategories = currentCart.map(ci => {
                 const p = appState.products.find(x => x.id === ci.id);
@@ -1992,7 +2328,9 @@
                     <td class="py-3 px-4 font-bold text-slate-900">${p.icon || '🛍️'} ${p.name}</td>
                     <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">${p.category}</span></td>
                     <td class="py-3 px-4 text-right font-mono">NT$ ${p.cost}</td>
-                    <td class="py-3 px-4 text-right font-mono font-bold text-blue-600">NT$ ${p.price}</td>
+                    <td class="py-3 px-4 text-right font-mono font-extrabold text-blue-600 hover:text-blue-800 cursor-pointer" data-inv-act="edit-price" data-id="${p.id}" title="點擊修改售價">
+                        NT$ ${p.price} <span class="text-[11px] underline">✏️</span>
+                    </td>
                     <td class="py-3 px-4 text-right font-mono text-emerald-600 font-semibold">${margin}%</td>
                     <td class="py-3 px-4 text-center">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${p.stock <= 10 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}">
@@ -2000,9 +2338,9 @@
                         </span>
                     </td>
                     <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
-                        <button data-inv-act="in10" data-id="${p.id}" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-semibold">＋進貨10</button>
-                        <button data-inv-act="price" data-id="${p.id}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold">調價 (+$5)</button>
-                        <button data-inv-act="del" data-id="${p.id}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold">刪除</button>
+                        <button data-inv-act="edit-price" data-id="${p.id}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition">✏️ 修改售價</button>
+                        <button data-inv-act="in10" data-id="${p.id}" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-semibold transition">＋進貨10</button>
+                        <button data-inv-act="del" data-id="${p.id}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold transition">刪除</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -2014,7 +2352,9 @@
                     const act = btn.getAttribute('data-inv-act');
                     const prod = appState.products.find(x => x.id === id);
                     if (!prod) return;
-                    if (act === 'in10') {
+                    if (act === 'edit-price') {
+                        openEditPriceModal(prod);
+                    } else if (act === 'in10') {
                         prod.stock += 10;
                         showToast(`已入庫【${prod.name}】+10 件，現有庫存 ${prod.stock} 件`);
                     } else if (act === 'price') {
@@ -2336,12 +2676,13 @@
             });
         }
 
+        const STAFF_ALLOWED_TABS = ['pos', 'inventory', 'preorders', 'transfer', 'orders', 'calendar', 'attendance'];
+
         function updateSessionUI() {
             const roleEl = document.getElementById('header-user-role');
             const accEl = document.getElementById('header-user-account');
             const cashierLabel = document.getElementById('pos-cashier-label');
             const chgPwdBtn = document.getElementById('voluntary-change-pwd-btn');
-            const adminNavBtn = document.querySelector('.nav-tab[data-tab="admin"]');
 
             if (!currentSessionUser) return;
 
@@ -2350,13 +2691,22 @@
                 if (accEl) accEl.textContent = 'tw202501tw@gmail.com';
                 if (cashierLabel) cashierLabel.textContent = '收銀員：tw202501tw@gmail.com (總管理員)';
                 if (chgPwdBtn) chgPwdBtn.classList.add('hidden');
-                if (adminNavBtn) adminNavBtn.classList.remove('hidden');
+                // 總管理員開放全模組導覽頁籤
+                document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('hidden'));
             } else {
                 if (roleEl) roleEl.textContent = '👤 門市員工已登入';
                 if (accEl) accEl.textContent = currentSessionUser.account;
                 if (cashierLabel) cashierLabel.textContent = `收銀員：${currentSessionUser.account} (門市員工)`;
                 if (chgPwdBtn) chgPwdBtn.classList.remove('hidden');
-                if (adminNavBtn) adminNavBtn.classList.add('hidden');
+                // 員工系統專屬權限：僅開放 🛒POS收銀、📦庫存品項、🤝同行調貨、🧾銷售明細、📅萬年曆、⏰員工打卡 6 大功能
+                document.querySelectorAll('.nav-tab').forEach(btn => {
+                    const tabKey = btn.getAttribute('data-tab');
+                    if (STAFF_ALLOWED_TABS.includes(tabKey)) {
+                        btn.classList.remove('hidden');
+                    } else {
+                        btn.classList.add('hidden');
+                    }
+                });
             }
             syncAttendanceStaffSelect();
         }
@@ -2409,7 +2759,7 @@
                                 ${isDefaultPin ? '初始密碼 0000 (待首次登入修改)' : '已修改個人密碼'}
                             </span>
                         </div>
-                        <div class="text-[11px] text-slate-500 mt-0.5">${s.role || '門市收銀員'} · 密碼狀態：<span class="font-mono font-semibold">${isDefaultPin ? '0000' : '**** (4位密碼)'}</span></div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${s.role || '門市收銀員'} · 員工系統權限：🛒收銀、📦庫存、🤝同行調貨、🧾銷售明細、📅萬年曆、⏰打卡 · 密碼狀態：<span class="font-mono font-semibold">${isDefaultPin ? '0000' : '**** (4位密碼)'}</span></div>
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button data-reset-staff="${idx}" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[11px] font-semibold">重置為0000</button>
@@ -2447,6 +2797,7 @@
         // ==================== DUAL RECEIPT MODAL ====================
         function openReceiptModal(doc) {
             lastReceiptPayload = doc;
+            const isPreorder = Boolean(doc && doc.preorderNo);
             const isTransfer = Boolean(doc && doc.transferNo);
             const storeName = appState.config.storeName || 'PIPI 旗艦零售門市';
             const taxInfo = appState.config.taxId || '統編 88990011 / 02-2700-8888';
@@ -2460,7 +2811,38 @@
             let itemsHtml = '';
             let totalsHtml = '';
 
-            if (isTransfer) {
+            if (isPreorder) {
+                const isCompleted = (doc.status === '已完成取貨 (結清尾款)');
+                docBadge.textContent = `🎁 門市預購明細憑證 (${doc.status})`;
+                docBadge.className = 'bg-amber-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
+                copy2Badge.textContent = '第二聯：客人預購收執聯 (憑此單取貨結清)';
+                metaText = `預購單號：${doc.preorderNo} ｜ 登記時間：${doc.time}`;
+
+                itemsHtml = `
+                    <div class="flex justify-between font-bold text-slate-900">
+                        <span>[預購] ${doc.prodName} x ${doc.qty}</span>
+                        <span class="font-mono">NT$ ${doc.total.toLocaleString()}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500">預購分類：${doc.category} ｜ 單價：NT$ ${(doc.unitPrice || (doc.total/doc.qty)).toLocaleString()}</div>
+                    <div class="text-[11px] text-indigo-600 font-semibold">預計到貨日：${doc.arrivalDate || '另行通知'}</div>
+                    ${doc.note ? `<div class="text-[11px] text-slate-500">備註：${doc.note}</div>` : ''}
+                `;
+
+                totalsHtml = `
+                    <div class="flex justify-between text-slate-600"><span>預購顧客姓名</span><span class="font-bold text-slate-900">${doc.customerName}</span></div>
+                    <div class="flex justify-between text-slate-600"><span>顧客聯絡手機</span><span class="font-mono font-bold text-slate-800">${doc.customerPhone}</span></div>
+                    <div class="flex justify-between text-slate-600"><span>預購總金額</span><span class="font-mono font-bold">NT$ ${doc.total.toLocaleString()}</span></div>
+                    <div class="flex justify-between text-emerald-600"><span>已收訂金 (${doc.depositPayMethod})</span><span class="font-mono font-bold">NT$ ${doc.deposit.toLocaleString()}</span></div>
+                    <div class="flex justify-between font-extrabold text-sm text-slate-900 pt-1 border-t border-slate-200">
+                        <span class="${doc.balance > 0 ? 'text-rose-600' : 'text-emerald-600'}">到貨取貨應付尾款</span>
+                        <span class="${doc.balance > 0 ? 'text-rose-600 font-mono text-base' : 'text-emerald-600 font-mono'}">${doc.balance > 0 ? `NT$ ${doc.balance.toLocaleString()}` : '已全額結清'}</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400 text-[10px] pt-1">
+                        <span>顧客確認簽名：________________</span>
+                        <span>經手人：${handlerName}</span>
+                    </div>
+                `;
+            } else if (isTransfer) {
                 const isIn = doc.direction === 'in';
                 docBadge.textContent = `🤝 同行調貨明細單 (${isIn ? '向同行調入' : '調出給同行'})`;
                 docBadge.className = 'bg-indigo-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
@@ -3239,7 +3621,226 @@
         }
 
         // ==================== EVENT LISTENERS ====================
+
+        // ==================== EDIT PRODUCT PRICE MODAL (隨時修改商品售價) ====================
+        function openEditPriceModal(prod) {
+            document.getElementById('edit-prod-id').value = prod.id;
+            document.getElementById('edit-prod-name').value = prod.name;
+            document.getElementById('edit-prod-code').value = prod.code;
+            document.getElementById('edit-prod-cat').value = prod.category;
+            document.getElementById('edit-prod-price').value = prod.price;
+            document.getElementById('edit-prod-cost').value = prod.cost;
+
+            const modal = document.getElementById('edit-price-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => document.getElementById('edit-prod-price').focus(), 50);
+        }
+
+        function closeEditPriceModal() {
+            const modal = document.getElementById('edit-price-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ==================== PRE-ORDER MANAGEMENT SYSTEM (預購商品系統) ====================
+        function ensurePreorderState() {
+            if (!Array.isArray(appState.preorders)) appState.preorders = [];
+        }
+
+        function populatePreorderModalOptions() {
+            const sel = document.getElementById('new-pre-prod-select');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">-- 手動填寫新預購商品，或由此帶入現有商品資料 --</option>';
+            appState.products.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `[#${p.code}] ${p.name} (定價: NT$ ${p.price})`;
+                sel.appendChild(opt);
+            });
+        }
+
+        function updatePreorderModalCalculations() {
+            const price = Math.max(0, parseFloat(document.getElementById('new-pre-price').value) || 0);
+            const qty = Math.max(1, parseInt(document.getElementById('new-pre-qty').value, 10) || 1);
+            const total = Math.round(price * qty);
+            document.getElementById('new-pre-total-display').textContent = `NT$ ${total.toLocaleString()}`;
+
+            const depositInput = document.getElementById('new-pre-deposit');
+            let deposit = Math.max(0, parseFloat(depositInput.value) || 0);
+            if (deposit > total) {
+                deposit = total;
+                depositInput.value = deposit;
+            }
+            const balance = Math.max(0, total - deposit);
+            document.getElementById('new-pre-balance-display').textContent = `NT$ ${balance.toLocaleString()}`;
+        }
+
+        function renderPreorders() {
+            ensurePreorderState();
+
+            // 1. KPI Calculations
+            const count = appState.preorders.length;
+            let pendingUnits = 0;
+            let totalDeposit = 0;
+            let totalBalance = 0;
+
+            appState.preorders.forEach(p => {
+                if (p.status !== '已取消退訂') {
+                    totalDeposit += (Number(p.deposit) || 0);
+                    if (p.status !== '已完成取貨 (結清尾款)') {
+                        pendingUnits += (Number(p.qty) || 1);
+                        totalBalance += (Number(p.balance) || 0);
+                    }
+                }
+            });
+
+            document.getElementById('pre-stat-count').textContent = `${count} 筆`;
+            document.getElementById('pre-stat-units').textContent = `${pendingUnits} 件`;
+            document.getElementById('pre-stat-deposit').textContent = `NT$ ${totalDeposit.toLocaleString()}`;
+            document.getElementById('pre-stat-balance').textContent = `NT$ ${totalBalance.toLocaleString()}`;
+
+            // 2. Table Render
+            const tbody = document.getElementById('preorders-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const q = (document.getElementById('pre-search-input').value || '').trim().toLowerCase();
+            const statusFilter = document.getElementById('pre-filter-status').value;
+            const catFilter = document.getElementById('pre-filter-cat').value;
+
+            const filtered = appState.preorders.filter(p => {
+                const matchQ = !q || p.preorderNo.toLowerCase().includes(q)
+                    || p.customerName.toLowerCase().includes(q)
+                    || p.customerPhone.toLowerCase().includes(q)
+                    || p.prodName.toLowerCase().includes(q);
+                let matchStatus = true;
+                if (statusFilter === 'pending') matchStatus = p.status === '未到貨 (已收訂金)';
+                else if (statusFilter === 'arrived') matchStatus = p.status === '已到貨 (待客戶取貨)';
+                else if (statusFilter === 'completed') matchStatus = p.status === '已完成取貨 (結清尾款)';
+                else if (statusFilter === 'cancelled') matchStatus = p.status === '已取消退訂';
+
+                const matchCat = (catFilter === 'all') || (p.category === catFilter);
+                return matchQ && matchStatus && matchCat;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="py-10 text-center text-slate-400 text-xs">目前尚無符合條件的預購訂單 (0 筆)，請點擊右上角「＋ 新增預購訂單」建立。</td></tr>`;
+                return;
+            }
+
+            filtered.slice().reverse().forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+
+                let statusBadgeClass = 'bg-amber-100 text-amber-800';
+                if (p.status === '已到貨 (待客戶取貨)') statusBadgeClass = 'bg-blue-100 text-blue-700 animate-pulse';
+                else if (p.status === '已完成取貨 (結清尾款)') statusBadgeClass = 'bg-emerald-100 text-emerald-700';
+                else if (p.status === '已取消退訂') statusBadgeClass = 'bg-rose-100 text-rose-600 line-through';
+
+                const isCompleted = p.status === '已完成取貨 (結清尾款)';
+                const isCancelled = p.status === '已取消退訂';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-3">
+                        <div class="font-mono font-bold text-slate-800 text-xs">${p.preorderNo}</div>
+                        <div class="font-mono text-[11px] text-slate-400">${p.time}</div>
+                    </td>
+                    <td class="py-3 px-3">
+                        <div class="font-bold text-slate-900">${p.customerName}</div>
+                        <div class="font-mono text-[11px] text-slate-500">${p.customerPhone}</div>
+                    </td>
+                    <td class="py-3 px-3">
+                        <div class="font-bold text-slate-900 max-w-xs truncate" title="${p.prodName}">${p.prodName}</div>
+                        <div class="text-[11px] text-slate-400"><span class="bg-slate-100 px-1.5 py-0.2 rounded font-semibold text-slate-600">${p.category}</span> ${p.note ? `· ${p.note}` : ''}</div>
+                    </td>
+                    <td class="py-3 px-3 text-center font-bold text-slate-800">${p.qty}</td>
+                    <td class="py-3 px-3 text-center font-mono font-semibold ${p.arrivalDate ? 'text-indigo-600' : 'text-slate-400'}">${p.arrivalDate || '未定'}</td>
+                    <td class="py-3 px-3 text-right font-mono font-bold text-slate-900">NT$ ${p.total.toLocaleString()}</td>
+                    <td class="py-3 px-3 text-right font-mono font-semibold text-emerald-600">NT$ ${p.deposit.toLocaleString()} (${p.depositPayMethod})</td>
+                    <td class="py-3 px-3 text-right font-mono font-extrabold ${p.balance > 0 ? 'text-rose-600' : 'text-slate-400'}">
+                        ${p.balance > 0 ? `NT$ ${p.balance.toLocaleString()}` : '已付清'}
+                    </td>
+                    <td class="py-3 px-3 text-center">
+                        <span class="px-2 py-0.5 rounded-full text-xs font-bold ${statusBadgeClass}">
+                            ${p.status}
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
+                        <button data-pre-act="receipt" data-no="${p.preorderNo}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold transition">
+                            🧾 雙聯收據
+                        </button>
+                        ${(!isCompleted && !isCancelled && p.status === '未到貨 (已收訂金)') ? `
+                            <button data-pre-act="arrived" data-no="${p.preorderNo}" class="px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-semibold transition">
+                                📦 標記到貨
+                            </button>
+                        ` : ''}
+                        ${(!isCompleted && !isCancelled) ? `
+                            <button data-pre-act="pickup" data-no="${p.preorderNo}" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition">
+                                💰 取貨結清
+                            </button>
+                            <button data-pre-act="cancel" data-no="${p.preorderNo}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold transition">
+                                退訂
+                            </button>
+                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            tbody.querySelectorAll('button[data-pre-act]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const no = btn.getAttribute('data-no');
+                    const act = btn.getAttribute('data-pre-act');
+                    const rec = appState.preorders.find(x => x.preorderNo === no);
+                    if (!rec) return;
+
+                    if (act === 'receipt') {
+                        openReceiptModal(rec);
+                    } else if (act === 'arrived') {
+                        rec.status = '已到貨 (待客戶取貨)';
+                        saveState();
+                        renderPreorders();
+                        showToast(`已將預購單 ${rec.preorderNo} 標記為「已到貨 (待客戶取貨)」，請通知 ${rec.customerName}！`);
+                    } else if (act === 'pickup') {
+                        openPreorderPickupModal(rec);
+                    } else if (act === 'cancel') {
+                        rec.status = '已取消退訂';
+                        saveState();
+                        renderPreorders();
+                        showToast(`預購單 ${rec.preorderNo} 已取消退訂`, 'info');
+                    }
+                });
+            });
+        }
+
+        function openPreorderPickupModal(rec) {
+            document.getElementById('pickup-preorder-no').value = rec.preorderNo;
+            document.getElementById('pickup-doc-no').textContent = rec.preorderNo;
+            document.getElementById('pickup-cust-name').textContent = `${rec.customerName} (${rec.customerPhone})`;
+            document.getElementById('pickup-prod-name').textContent = `${rec.prodName} x ${rec.qty}`;
+            document.getElementById('pickup-total-price').textContent = `NT$ ${rec.total.toLocaleString()}`;
+            document.getElementById('pickup-deposit-paid').textContent = `NT$ ${rec.deposit.toLocaleString()} (${rec.depositPayMethod})`;
+            document.getElementById('pickup-balance-due').textContent = `NT$ ${rec.balance.toLocaleString()}`;
+
+            const modal = document.getElementById('preorder-pickup-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePreorderPickupModal() {
+            const modal = document.getElementById('preorder-pickup-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
         function switchTab(tabId) {
+            // 員工系統權限限制：員工帳號僅限存取指定的 6 大功能
+            if (currentSessionUser && currentSessionUser.role === 'staff' && !STAFF_ALLOWED_TABS.includes(tabId)) {
+                showToast('該功能為管理員專屬權限，員工帳號無權限存取！', 'error');
+                tabId = 'pos';
+            }
+
             document.querySelectorAll('.nav-tab').forEach(btn => {
                 if (btn.getAttribute('data-tab') === tabId) {
                     btn.classList.add('tab-active');
@@ -3257,6 +3858,7 @@
             if (activePanel) activePanel.classList.remove('hidden');
 
             if (tabId === 'inventory') renderInventory();
+            if (tabId === 'preorders') renderPreorders();
             if (tabId === 'transfer') renderPeerTransfers();
             if (tabId === 'orders') renderOrders();
             if (tabId === 'crm') renderCRM();
@@ -3273,7 +3875,193 @@
             renderMemberOptions();
             renderCart();
             renderInventory();
+            renderPreorders();
             renderPeerTransfers();
+
+            // Edit Product Price Modal Listeners (隨時修改商品售價)
+            document.getElementById('close-edit-price-modal-btn').addEventListener('click', closeEditPriceModal);
+            document.getElementById('cancel-edit-price-modal-btn').addEventListener('click', closeEditPriceModal);
+            document.querySelectorAll('.quick-price-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const delta = parseFloat(btn.getAttribute('data-price-delta')) || 0;
+                    const priceInp = document.getElementById('edit-prod-price');
+                    const cur = parseFloat(priceInp.value) || 0;
+                    priceInp.value = Math.max(0, cur + delta);
+                });
+            });
+            document.getElementById('save-edit-price-btn').addEventListener('click', () => {
+                const id = document.getElementById('edit-prod-id').value;
+                const newPrice = Math.max(0, parseFloat(document.getElementById('edit-prod-price').value) || 0);
+                const newCost = Math.max(0, parseFloat(document.getElementById('edit-prod-cost').value) || 0);
+                const prod = appState.products.find(p => p.id === id);
+                if (prod) {
+                    prod.price = newPrice;
+                    prod.cost = newCost;
+                    saveState();
+                    renderInventory();
+                    renderProductGrid();
+                    renderCart();
+                    closeEditPriceModal();
+                    showToast(`✅ 已成功將【${prod.name}】售價更新為 NT$ ${newPrice}！`);
+                }
+            });
+
+            // Pre-order Modal Listeners
+            document.getElementById('open-preorder-modal-btn').addEventListener('click', () => {
+                populatePreorderModalOptions();
+                const now = new Date();
+                const datePlus14 = new Date(now.getTime() + 14 * 86400000);
+                document.getElementById('new-pre-arrival-date').value = `${datePlus14.getFullYear()}-${String(datePlus14.getMonth()+1).padStart(2,'0')}-${String(datePlus14.getDate()).padStart(2,'0')}`;
+                updatePreorderModalCalculations();
+                const modal = document.getElementById('preorder-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            });
+            const closePreorderModal = () => {
+                const modal = document.getElementById('preorder-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+            document.getElementById('close-preorder-modal-btn').addEventListener('click', closePreorderModal);
+            document.getElementById('cancel-preorder-modal-btn').addEventListener('click', closePreorderModal);
+
+            document.getElementById('new-pre-prod-select').addEventListener('change', (e) => {
+                const pid = e.target.value;
+                if (!pid) return;
+                const prod = appState.products.find(p => p.id === pid);
+                if (prod) {
+                    document.getElementById('new-pre-prod-name').value = prod.name;
+                    document.getElementById('new-pre-cat').value = prod.category || '寶可夢';
+                    document.getElementById('new-pre-price').value = prod.price;
+                    updatePreorderModalCalculations();
+                }
+            });
+            document.getElementById('new-pre-price').addEventListener('input', updatePreorderModalCalculations);
+            document.getElementById('new-pre-qty').addEventListener('input', updatePreorderModalCalculations);
+            document.getElementById('new-pre-deposit').addEventListener('input', updatePreorderModalCalculations);
+
+            document.getElementById('save-preorder-btn').addEventListener('click', () => {
+                ensurePreorderState();
+                const custName = document.getElementById('new-pre-name').value.trim();
+                const custPhone = document.getElementById('new-pre-phone').value.trim();
+                const prodName = document.getElementById('new-pre-prod-name').value.trim();
+                const category = document.getElementById('new-pre-cat').value;
+                const unitPrice = Math.max(1, parseFloat(document.getElementById('new-pre-price').value) || 0);
+                const qty = Math.max(1, parseInt(document.getElementById('new-pre-qty').value, 10) || 1);
+                const total = Math.round(unitPrice * qty);
+                const deposit = Math.min(total, Math.max(0, parseFloat(document.getElementById('new-pre-deposit').value) || 0));
+                const balance = Math.max(0, total - deposit);
+                const depositPayMethod = document.getElementById('new-pre-paymethod').value;
+                const arrivalDate = document.getElementById('new-pre-arrival-date').value;
+                const note = document.getElementById('new-pre-note').value.trim();
+
+                if (!custName) {
+                    showToast('請輸入預購客戶姓名！', 'error');
+                    return;
+                }
+                if (!custPhone) {
+                    showToast('請輸入客戶手機號碼！', 'error');
+                    return;
+                }
+                if (!prodName) {
+                    showToast('請輸入預購商品名稱！', 'error');
+                    return;
+                }
+
+                const now = new Date();
+                const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+                const preorderNo = `PRE-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(appState.preorders.length + 1).padStart(3, '0')}`;
+
+                const preDoc = {
+                    preorderNo,
+                    time: timeStr,
+                    customerName: custName,
+                    customerPhone: custPhone,
+                    prodName,
+                    category,
+                    unitPrice,
+                    qty,
+                    total,
+                    deposit,
+                    balance,
+                    depositPayMethod,
+                    arrivalDate,
+                    note,
+                    status: '未到貨 (已收訂金)'
+                };
+
+                appState.preorders.push(preDoc);
+
+                // Auto add reminder to calendar
+                if (arrivalDate) {
+                    if (!appState.memos) appState.memos = {};
+                    if (!appState.memos[arrivalDate]) appState.memos[arrivalDate] = [];
+                    appState.memos[arrivalDate].push(`🎁 [預購到貨] ${custName} 預購【${prodName}x${qty}】預計今日到貨`);
+                }
+
+                saveState();
+                document.getElementById('new-pre-name').value = '';
+                document.getElementById('new-pre-phone').value = '';
+                document.getElementById('new-pre-prod-name').value = '';
+                document.getElementById('new-pre-note').value = '';
+                closePreorderModal();
+
+                renderPreorders();
+                renderPerpetualCalendar();
+                openReceiptModal(preDoc);
+                showToast(`🎁 預購單 ${preorderNo} 開立成功！已開立雙聯收據憑證`);
+            });
+
+            // Preorder Pickup Modal Listeners
+            document.getElementById('close-pickup-modal-btn').addEventListener('click', closePreorderPickupModal);
+            document.getElementById('cancel-pickup-modal-btn').addEventListener('click', closePreorderPickupModal);
+            document.getElementById('confirm-pickup-btn').addEventListener('click', () => {
+                const no = document.getElementById('pickup-preorder-no').value;
+                const rec = appState.preorders.find(x => x.preorderNo === no);
+                if (!rec) return;
+
+                const pickupPay = document.getElementById('pickup-paymethod').value;
+                rec.status = '已完成取貨 (結清尾款)';
+                rec.pickupTime = new Date().toLocaleString();
+                rec.pickupPayMethod = pickupPay;
+                rec.balancePaid = rec.balance;
+                rec.balance = 0;
+
+                saveState();
+                renderPreorders();
+                closePreorderPickupModal();
+                openReceiptModal(rec);
+                showToast(`✅ 預購單 ${rec.preorderNo} 尾款已收清並完成商品取貨交付！`);
+            });
+
+            // Preorder Filters & CSV Export
+            document.getElementById('pre-search-input').addEventListener('input', renderPreorders);
+            document.getElementById('pre-filter-status').addEventListener('change', renderPreorders);
+            document.getElementById('pre-filter-cat').addEventListener('change', renderPreorders);
+            document.getElementById('export-preorders-csv-btn').addEventListener('click', () => {
+                ensurePreorderState();
+                const rows = [['預購單號', '登記時間', '客戶姓名', '手機號碼', '商品名稱', '分類', '數量', '預計到貨日', '總金額', '已收訂金', '訂金付款方式', '剩餘尾款', '狀態', '備註']];
+                appState.preorders.forEach(p => {
+                    rows.push([
+                        p.preorderNo,
+                        p.time,
+                        p.customerName,
+                        p.customerPhone,
+                        p.prodName,
+                        p.category,
+                        p.qty,
+                        p.arrivalDate || '',
+                        p.total,
+                        p.deposit,
+                        p.depositPayMethod,
+                        p.balance,
+                        p.status,
+                        p.note || ''
+                    ]);
+                });
+                downloadCSV('PIPI結帳系統_預購商品明細.csv', rows);
+                showToast('已匯出預購商品明細 CSV');
+            });
             renderOrders();
 
             // Peer Transfer & Partner Listeners
