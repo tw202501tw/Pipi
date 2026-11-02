@@ -57,76 +57,79 @@
         </div>
     </div>
 
-    <!-- Main Navigation Header -->
+    <!-- Main Navigation Header (iPad / Tablet / Desktop two-tier responsive layout without text squeezing) -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-            <!-- Brand Logo -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">
-                    P
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span id="header-sys-name" class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">PIPI結帳系統</span>
-                        <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded-full font-semibold">全模組免費版</span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <!-- Top Row: Brand Logo + User/Cloud/Logout Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-3 py-2.5">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-sm shrink-0">
+                        P
                     </div>
-                    <p class="text-xs text-slate-500 hidden sm:block">雲端零售業進銷存・POS收銀・報表管理平台</p>
+                    <div class="whitespace-nowrap">
+                        <div class="flex items-center gap-2">
+                            <span id="header-sys-name" class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">PIPI結帳系統</span>
+                            <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded-full font-semibold">全模組免費版</span>
+                        </div>
+                        <p class="text-xs text-slate-500 hidden md:block">雲端零售業進銷存・POS收銀・報表管理平台</p>
+                    </div>
+                </div>
+
+                <!-- User / Admin Profile & Logout Controls -->
+                <div class="flex items-center gap-2 shrink-0 ml-auto">
+                    <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 whitespace-nowrap">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <div class="text-xs leading-tight">
+                            <div id="header-user-role" class="font-bold text-slate-800">最高管理員已登入</div>
+                            <div id="header-user-account" class="text-slate-500 font-mono text-[11px]">tw202501tw@gmail.com</div>
+                        </div>
+                    </div>
+                    <button id="header-cloud-status-btn" type="button" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap flex items-center gap-1" title="開啟 Google 雲端硬碟資料庫同步中心">
+                        <span>☁️</span><span id="header-cloud-status-text">雲端資料庫已連結</span>
+                    </button>
+                    <button id="voluntary-change-pwd-btn" class="hidden text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap">
+                        🔑 修改密碼
+                    </button>
+                    <button id="logout-switch-user-btn" class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 py-1.5 rounded-xl transition whitespace-nowrap">
+                        🚪 登出 / 切換帳號
+                    </button>
                 </div>
             </div>
 
-            <!-- Navigation Tabs -->
-            <nav id="main-nav" class="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1">
-                <button data-tab="pos" class="nav-tab tab-active px-3 py-2 text-sm rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+            <!-- Bottom Row: Full-Width Scrollable Navigation Tabs -->
+            <nav id="main-nav" class="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar border-t border-slate-100 pt-1">
+                <button data-tab="pos" class="nav-tab tab-active px-3 py-2 text-sm rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>🛒</span><span>POS收銀結帳</span>
                 </button>
-                <button data-tab="inventory" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="inventory" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>📦</span><span>庫存/品項管理</span>
                 </button>
-                <button data-tab="preorders" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="preorders" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>🎁</span><span>預購商品系統</span>
                 </button>
-                <button data-tab="transfer" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="transfer" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>🤝</span><span>同行調貨系統</span>
                 </button>
-                <button data-tab="orders" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="orders" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>🧾</span><span>銷售明細/退貨</span>
                 </button>
-                <button data-tab="crm" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="crm" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>👥</span><span>會員/客戶管理</span>
                 </button>
-                <button data-tab="reports" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="reports" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>📊</span><span>營運財務報表</span>
                 </button>
-                <button data-tab="calendar" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="calendar" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>📅</span><span>萬年曆/日程</span>
                 </button>
-                <button data-tab="attendance" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="attendance" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>⏰</span><span>員工打卡系統</span>
                 </button>
-                <button data-tab="admin" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5">
+                <button data-tab="admin" class="nav-tab px-3 py-2 text-sm text-slate-600 hover:text-slate-900 rounded-t-lg transition whitespace-nowrap flex items-center gap-1.5 shrink-0">
                     <span>⚙️</span><span>管理員後台</span>
                 </button>
             </nav>
-
-            <!-- User / Admin Profile & Logout Controls -->
-            <div class="flex items-center gap-2">
-                <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <div class="text-xs">
-                        <div id="header-user-role" class="font-bold text-slate-800">最高管理員已登入</div>
-                        <div id="header-user-account" class="text-slate-500 font-mono text-[11px]">tw202501tw@gmail.com</div>
-                    </div>
-                </div>
-                <button id="header-cloud-status-btn" type="button" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap flex items-center gap-1" title="開啟 Google 雲端硬碟資料庫同步中心">
-                    <span>☁️</span><span id="header-cloud-status-text">雲端資料庫已連結</span>
-                </button>
-                <button id="voluntary-change-pwd-btn" class="hidden text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap">
-                    🔑 修改密碼
-                </button>
-                <button id="logout-switch-user-btn" class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 py-1.5 rounded-xl transition whitespace-nowrap">
-                    🚪 登出 / 切換帳號
-                </button>
-            </div>
         </div>
     </header>
 
@@ -5084,17 +5087,52 @@
                 reader.readAsText(file);
             });
             document.getElementById('copy-gas-code-btn').addEventListener('click', () => {
-                const gasCode = `// PIPI結帳系統 — Google Drive 雲端硬碟與 Google Sheet 即時同步腳本
+                const gasCode = `// PIPI結帳系統 — Google Drive 雲端硬碟與 8 分頁 Google Sheet 自動同步腳本
 // 已自動綁定您的資料夾 ID: ${CLOUD_DRIVE_FOLDER_ID} 與雲端總資料庫 Sheet ID: ${CLOUD_SHEET_DB_ID}
 const FOLDER_ID = '${CLOUD_DRIVE_FOLDER_ID}';
 const SHEET_ID = '${CLOUD_SHEET_DB_ID}';
 const JSON_FILE_ID = '${CLOUD_JSON_FILE_ID}';
 
+function writeSheetRows(ss, tabName, headers, rows) {
+  let sh = ss.getSheetByName(tabName);
+  if (!sh) sh = ss.insertSheet(tabName);
+  sh.clearContents();
+  const data = [headers, ...rows];
+  sh.getRange(1, 1, data.length, headers.length).setValues(data);
+}
+
 function doPost(e) {
   const payload = JSON.parse(e.postData.contents);
-  const state = payload.state;
+  const state = payload.state || {};
   DriveApp.getFileById(JSON_FILE_ID).setContent(JSON.stringify(state, null, 2));
-  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const now = new Date().toLocaleString('zh-TW', { hour12: false });
+
+  writeSheetRows(ss, '1_員工帳號密碼',
+    ['員工編號 (ID)', '員工登入帳號', '員工姓名', '職稱', '登入密碼 (8碼含大小寫英數/初始0000)', '需強制改密碼 (mustChangePwd)', '狀態', '建立時間', '最後更新時間'],
+    (state.staff || []).map((s, i) => ['STF-' + String(i + 1).padStart(3, '0'), s.email || '', s.email || '', s.role || '門市收銀員', s.pin || '0000', (s.mustChangePwd !== false && (s.pin || '0000') === '0000') ? 'TRUE' : 'FALSE', s.status || '啟用', now, now])
+  );
+  writeSheetRows(ss, '2_貨物資料與庫存',
+    ['商品代碼 (SKU)', '商品名稱', '分類 (預設寶可夢/遊戲王)', '單位', '進貨成本 ($)', '零售售價 ($)', '目前庫存數量', '安全庫存警示量', '最後異動時間'],
+    (state.products || []).map(p => [p.code || '', p.name || '', p.category || '', '件', p.cost || 0, p.price || 0, p.stock || 0, 10, now])
+  );
+  writeSheetRows(ss, '3_每日銷售明細',
+    ['交易單號', '交易日期時間', '收銀員帳號', '收銀員姓名', '客戶/會員名稱', '付款方式', '商品明細摘要', '商品小計 ($)', '折扣金額 ($)', '發票稅開關 (ON/OFF)', '5%發票稅額 ($)', '實收總額 ($)', '商品總成本 ($)', '單筆毛利 ($)', '扣除發票稅後淨利 ($)', '狀態'],
+    (state.orders || []).map(o => [o.orderNo || '', o.time || '', o.cashier || 'tw202501tw@gmail.com', o.cashier || '管理員', o.memberName || '一般散客', o.payMethod || '現金', (o.items || []).map(x => x.name + 'x' + x.qty).join('; '), o.subtotal || 0, o.discount || 0, o.invoiceTaxEnabled ? 'ON' : 'OFF', o.taxIncluded || 0, o.total || 0, o.totalCost || 0, o.grossProfit || 0, o.profit || 0, o.status || '已完成'])
+  );
+  writeSheetRows(ss, '4_員工打卡紀錄',
+    ['打卡紀錄編號', '日期', '時間', '員工帳號', '員工姓名', '職稱', '打卡類型 (上班/下班/外出/返回)', '備註說明'],
+    (state.attendance || []).map(a => [a.id || '', a.date || '', (a.clockIn || '') + ' ~ ' + (a.clockOut || '值班中'), a.account || '', a.account || '', a.role || '門市員工', a.status || '已打卡', a.note || ''])
+  );
+  writeSheetRows(ss, '5_預購商品紀錄',
+    ['預購單號', '建立時間', '預購客人姓名', '聯絡電話', '預購商品名稱', '分類', '數量', '預計售價單價 ($)', '預估單位成本 ($)', '商品總價 ($)', '已收訂金 ($)', '訂金付款方式', '待補尾款 ($)', '預計到貨日', '取貨狀態 (待取貨/已取貨完成/已取消)', '尾款結清時間', '經手員工', '備註'],
+    (state.preorders || []).map(p => [p.preorderNo || '', p.createdAt || '', p.customerName || '', p.phone || '', p.itemName || '', p.category || '', p.qty || 1, p.unitPrice || 0, p.unitCost || 0, p.totalPrice || 0, p.depositPaid || 0, p.payMethod || '現金', p.balanceDue || 0, p.arrivalDate || '待定', p.status || '待取貨', p.completedAt || '', p.handler || '', p.note || ''])
+  );
+  writeSheetRows(ss, '6_同行調貨紀錄',
+    ['調貨單號', '日期時間', '調貨類型 (調出給同行/從同行調入)', '同行店名', '商品代碼 (SKU)', '商品名稱', '數量', '原始成本單價 ($)', '同行調貨單價 ($)', '發票稅開關 (ON/OFF)', '5%發票稅額 ($)', '調貨總金額 ($)', '調貨價差毛利 ($)', '扣除5%稅後淨利 ($)', '結算狀態', '經手人', '備註'],
+    (state.transfers || []).map(t => [t.transferNo || '', t.time || '', t.direction === 'in' ? '從同行調入' : '調出給同行', t.peerName || '', t.sku || '', t.productName || '', t.qty || 1, t.unitCost || 0, t.peerUnitPrice || 0, t.invoiceTaxEnabled ? 'ON' : 'OFF', t.taxAmount || 0, t.totalAmount || 0, t.grossDiff || 0, t.netProfit || 0, t.settleStatus || '', '管理員/員工', t.note || ''])
+  );
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, syncedAt: now })).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doGet(e) {
@@ -5104,7 +5142,7 @@ function doGet(e) {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(gasCode);
                 }
-                showToast('⚡ 已複製專屬 Google Apps Script 自動同步程式碼！');
+                showToast('⚡ 已複製專屬 Google Apps Script 自動同步程式碼（可同時寫入 JSON 與 8 分頁 Google Sheet）！');
             });
 
             // Voluntary password change button for logged-in staff
