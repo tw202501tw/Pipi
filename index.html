@@ -117,6 +117,9 @@
                         <div id="header-user-account" class="text-slate-500 font-mono text-[11px]">tw202501tw@gmail.com</div>
                     </div>
                 </div>
+                <button id="header-cloud-status-btn" type="button" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap flex items-center gap-1" title="開啟 Google 雲端硬碟資料庫同步中心">
+                    <span>☁️</span><span id="header-cloud-status-text">雲端資料庫已連結</span>
+                </button>
                 <button id="voluntary-change-pwd-btn" class="hidden text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-xl transition whitespace-nowrap">
                     🔑 修改密碼
                 </button>
@@ -201,6 +204,7 @@
 
     <!-- Main Workspace Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+
         <!-- ==================== TAB 1: POS 收銀結帳 ==================== -->
         <div id="tab-pos" class="tab-panel grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- Left: Product Selection & Barcode Search -->
@@ -208,7 +212,7 @@
                 <!-- Search & Barcode Bar -->
                 <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
                     <div class="relative flex-1">
-                        <input id="pos-search-input" type="text" placeholder="掃描商品條碼 (如 YGO001、PKM001) 或輸入商品名稱搜尋，按 Enter 直接入單..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-sm">
+                        <input id="pos-search-input" type="text" placeholder="掃描商品條碼 (如 471001) 或輸入商品名稱搜尋，按 Enter 直接入單..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none text-sm">
                         <span class="absolute left-3.5 top-3 text-slate-400">🔍</span>
                     </div>
                     <div class="flex items-center gap-2">
@@ -413,7 +417,7 @@
                         <h3 class="font-bold text-slate-900 text-sm">📊 進貨範例 Excel 表（一次打好、一次批量上傳入庫）</h3>
                     </div>
                     <p class="text-xs text-slate-600">
-                        進貨時不用一筆一筆慢慢打！先點擊「<strong>📄 下載進貨範例 Excel 表</strong>」，在 Excel 內一次填好所有進貨商品的「<strong>品號/條碼、商品名稱、分類（遊戲王/寶可夢）、進貨成本、零售單價、進貨數量</strong>」，再點擊「<strong>📤 批量上傳進貨 Excel 表</strong>」即可一鍵全部匯入或累加庫存！
+                        進貨時不用一筆一筆慢慢打！先點擊「<strong>📄 下載進貨範例 Excel 表</strong>」，在 Excel 內一次填好所有進貨商品的「<strong>品號/條碼、商品名稱、分類、進貨成本、零售單價、進貨數量</strong>」，再點擊「<strong>📤 批量上傳進貨 Excel 表</strong>」即可一鍵全部匯入或累加庫存！
                     </p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -423,7 +427,7 @@
                 </div>
             </div>
 
-            <!-- Collapsible Sample Excel Format Preview Table (Updated to Yu-Gi-Oh & Pokemon) -->
+            <!-- Collapsible Sample Excel Format Preview Table -->
             <div id="excel-sample-preview-box" class="hidden bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-800">📋 進貨範例 Excel 表標準欄位預覽（支援 .xlsx / .xls / .csv 直接上傳）</span>
@@ -443,28 +447,28 @@
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-slate-600 font-mono">
                             <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">YGO001</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">遊戲王 基本補充包</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">遊戲王</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">40</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">60</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">100</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">PKM001</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢集換式卡牌 擴充包</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200">471001</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">手沖衣索比亞精品拿鐵</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">飲品沖泡</td>
                                 <td class="py-1.5 px-3 border-r border-slate-200 text-right">35</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">50</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">100</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">85</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">50</td>
                             </tr>
                             <tr>
-                                <td class="py-1.5 px-3 border-r border-slate-200">PKM002</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢 頂級收藏箱</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">寶可夢</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">800</td>
-                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">1200</td>
-                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">20</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200">471002</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">台灣阿里山冷泡青茶</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">飲品沖泡</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">20</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">55</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">80</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1.5 px-3 border-r border-slate-200">471003</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">比利時濃醇生巧克力餅</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 font-sans">休閒零食</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">40</td>
+                                <td class="py-1.5 px-3 border-r border-slate-200 text-right">89</td>
+                                <td class="py-1.5 px-3 text-right font-bold text-emerald-600">40</td>
                             </tr>
                         </tbody>
                     </table>
@@ -528,84 +532,77 @@
 
         <!-- ==================== TAB: 預購商品系統 (Pre-order Management System) ==================== -->
         <div id="tab-preorders" class="tab-panel hidden space-y-6">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
                 <div>
                     <div class="flex items-center gap-2">
-                        <h2 class="text-lg font-bold text-slate-900">🎁 門市預購商品管理系統 (寶可夢 / 遊戲王 / 限量商品預訂)</h2>
-                        <span class="bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold px-2.5 py-0.5 rounded-full">支援訂金與尾款結算</span>
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">卡牌與零售預購管理</span>
+                        <h2 class="text-lg font-extrabold text-slate-900">🎁 預購商品系統（訂金登記・到貨通知・尾款結清入帳）</h2>
                     </div>
-                    <p class="text-xs text-slate-500 mt-0.5">登記顧客新品預購訂單、追蹤已收訂金與尚欠尾款、記錄預計到貨日、辦理取貨交付並開立雙聯明細憑證</p>
+                    <p class="text-xs text-slate-500 mt-1">
+                        記錄客人預購寶可夢、遊戲王彈數或各式商品之訂金與尾款；客人取貨結清尾款時自動轉入每日銷售明細並開立雙聯收據。
+                    </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
-                    <button id="open-preorder-modal-btn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition">
-                        ＋ 新增預購訂單
+                    <button id="open-preorder-modal-btn" type="button" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                        ＋ 新增客人預購單
                     </button>
-                    <button id="export-preorders-csv-btn" type="button" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition">
-                        📥 匯出預購明細 CSV
+                    <button id="export-preorders-excel-btn" type="button" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                        📥 匯出預購名單 (.xlsx)
                     </button>
                 </div>
             </div>
 
-            <!-- Pre-order KPI Metrics -->
+            <!-- Pre-order KPI Summary -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded-2xl border border-slate-200">
-                    <div class="text-xs text-slate-500">累計預購總單數</div>
-                    <div id="pre-stat-count" class="text-2xl font-extrabold text-slate-900 mt-1">0 筆</div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">顧客預訂登記總量</div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+                    <div class="text-xs text-slate-500">預購單總筆數</div>
+                    <div id="pre-kpi-total" class="text-2xl font-extrabold text-slate-900 mt-1">0 筆</div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200">
-                    <div class="text-xs text-slate-500">待到貨 / 待取貨件數</div>
-                    <div id="pre-stat-units" class="text-2xl font-extrabold text-blue-600 mt-1">0 件</div>
-                    <div class="text-[11px] text-blue-500 mt-0.5">未完成取貨件數</div>
+                <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-2xs">
+                    <div class="text-xs text-amber-700 font-semibold">待取貨 / 待補尾款單數</div>
+                    <div id="pre-kpi-pending" class="text-2xl font-extrabold text-amber-600 mt-1">0 筆</div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200">
-                    <div class="text-xs text-slate-500">累計已收預購訂金</div>
-                    <div id="pre-stat-deposit" class="text-2xl font-extrabold text-emerald-600 mt-1">NT$ 0</div>
-                    <div class="text-[11px] text-emerald-500 mt-0.5">門市已收訂金款項</div>
+                <div class="bg-white p-4 rounded-2xl border border-emerald-200 shadow-2xs">
+                    <div class="text-xs text-emerald-700 font-semibold">累積已收預購訂金</div>
+                    <div id="pre-kpi-deposit" class="text-2xl font-extrabold text-emerald-600 mt-1">NT$ 0</div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200">
-                    <div class="text-xs text-slate-500">待收剩餘尾款總額</div>
-                    <div id="pre-stat-balance" class="text-2xl font-extrabold text-amber-600 mt-1">NT$ 0</div>
-                    <div class="text-[11px] text-amber-600 mt-0.5">客戶取貨時應付總額</div>
+                <div class="bg-white p-4 rounded-2xl border border-blue-200 shadow-2xs">
+                    <div class="text-xs text-blue-700 font-semibold">待收預購尾款總額</div>
+                    <div id="pre-kpi-balance" class="text-2xl font-extrabold text-blue-600 mt-1">NT$ 0</div>
                 </div>
             </div>
 
-            <!-- Pre-orders Table & Filters -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                <div class="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center">
-                    <input id="pre-search-input" type="text" placeholder="搜尋預購單號、客戶姓名、手機號碼或商品名稱..." class="sm:w-80 px-3.5 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
-                    <div class="flex items-center gap-2 text-xs">
-                        <select id="pre-filter-status" class="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white outline-none">
-                            <option value="all">全部預購狀態</option>
-                            <option value="pending">⏳ 未到貨 (已收訂金)</option>
-                            <option value="arrived">📦 已到貨 (待客戶取貨)</option>
-                            <option value="completed">✅ 已完成取貨 (結清尾款)</option>
-                            <option value="cancelled">❌ 已取消退訂</option>
-                        </select>
-                        <select id="pre-filter-cat" class="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white outline-none">
-                            <option value="all">全部分類</option>
-                            <option value="遊戲王">遊戲王</option>
-                            <option value="寶可夢">寶可夢</option>
-                        </select>
+            <!-- Pre-order Filter & Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between bg-slate-50">
+                    <div class="relative flex-1">
+                        <input id="preorder-search-input" type="text" placeholder="搜尋預購單號、客人姓名、電話或預購商品名稱..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 bg-white text-xs sm:text-sm outline-none focus:border-purple-500">
+                        <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
                     </div>
+                    <select id="preorder-status-filter" class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold">
+                        <option value="all">全部預購狀態</option>
+                        <option value="待取貨">⏳ 待取貨 / 待補尾款</option>
+                        <option value="已取貨完成">✅ 已取貨結清完成</option>
+                        <option value="已取消">❌ 已取消退訂</option>
+                    </select>
                 </div>
-                <div class="overflow-x-auto flex-1">
-                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
-                                <th class="py-3 px-3">預購單號 / 登記時間</th>
-                                <th class="py-3 px-3">預購客戶</th>
-                                <th class="py-3 px-3">預購商品 / 分類</th>
-                                <th class="py-3 px-3 text-center">數量</th>
-                                <th class="py-3 px-3 text-center">預計到貨日</th>
-                                <th class="py-3 px-3 text-right">總金額</th>
-                                <th class="py-3 px-3 text-right">已收訂金</th>
-                                <th class="py-3 px-3 text-right">剩餘尾款</th>
-                                <th class="py-3 px-3 text-center">訂單狀態</th>
-                                <th class="py-3 px-3 text-right">單據操作</th>
+                            <tr class="bg-slate-100 text-slate-600 text-xs uppercase border-b border-slate-200">
+                                <th class="py-3 px-4">預購單號 / 日期</th>
+                                <th class="py-3 px-4">預購客人 / 電話</th>
+                                <th class="py-3 px-4">預購商品 / 分類</th>
+                                <th class="py-3 px-4 text-center">數量</th>
+                                <th class="py-3 px-4 text-right">總價</th>
+                                <th class="py-3 px-4 text-right">已收訂金</th>
+                                <th class="py-3 px-4 text-right">待補尾款</th>
+                                <th class="py-3 px-4 text-center">預計到貨日</th>
+                                <th class="py-3 px-4 text-center">狀態</th>
+                                <th class="py-3 px-4 text-right">操作</th>
                             </tr>
                         </thead>
-                        <tbody id="preorders-table-body" class="divide-y divide-slate-100">
+                        <tbody id="preorders-table-body" class="divide-y divide-slate-200 text-xs">
                             <!-- Populated via JS -->
                         </tbody>
                     </table>
@@ -718,6 +715,7 @@
                 </div>
             </div>
         </div>
+
         <!-- ==================== TAB 3: 銷售明細/退貨 ==================== -->
         <div id="tab-orders" class="tab-panel hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -812,7 +810,7 @@
                 </div>
             </div>
 
-            <!-- Daily & Monthly Net Profit Breakdown Cards -->
+            <!-- Daily & Monthly Net Profit Breakdown Cards (5% Invoice Tax & $5500 Parking Fee) -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Daily Net Profit Calculator Card -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -898,7 +896,7 @@
             </div>
         </div>
 
-        <!-- ==================== TAB: 萬年曆 / 門市行事曆 ==================== -->
+                <!-- ==================== TAB: 萬年曆 / 門市行事曆 ==================== -->
         <div id="tab-calendar" class="tab-panel hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -964,7 +962,7 @@
                             </div>
                         </div>
 
-                        <!-- Add / View Daily Store Memo -->
+                        <!-- Add / View Daily Store Memo (e.g. 進貨提醒 / 盤點備忘) -->
                         <div class="space-y-2">
                             <label class="block text-xs font-bold text-slate-700">📌 當日門市備忘錄 / 進貨排程</label>
                             <div class="flex gap-2">
@@ -997,6 +995,7 @@
                 </div>
             </div>
 
+            <!-- Live Clock & Punch Action Panel + KPI Cards -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- Left: Digital Clock & Quick Punch Card -->
                 <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between space-y-5">
@@ -1147,7 +1146,7 @@
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">統一編號 / 門市電話</label>
-                            <input id="cfg-tax-id" type="text" value="統編 88990011 / 02-2700-8888" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-blue-500 outline-none">
+                            <input id="cfg-tax-id" type="text" value="統編 48676299 / 02-2550-8846" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-blue-500 outline-none">
                         </div>
                         <div class="sm:col-span-2">
                             <label class="block font-semibold text-slate-700 mb-1">全站頂部公告欄文字</label>
@@ -1193,13 +1192,13 @@
                         </div>
                     </div>
 
-                    <!-- Add Sub Cashier -->
+                    <!-- Add Sub Cashier (Only Super Admin can register staff; initial PIN = 0000) -->
                     <div class="pt-3 border-t border-slate-100 space-y-2">
                         <div class="flex items-center justify-between">
                             <label class="block text-xs font-bold text-slate-800">➕ 總管理員專屬：註冊新員工帳號 (初始密碼自動設為 0000)</label>
-                            <span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-semibold">員工首次登入強制改密碼</span>
+                            <span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-semibold">首次登入強制改 8 位數含大小寫英數密碼</span>
                         </div>
-                        <p class="text-[11px] text-slate-500">本系統禁止外部自行註冊，僅能由總管理員於此處建立員工帳號。員工首次使用 <strong>0000</strong> 登入時，系統會強制要求修改個人 4 位數密碼。</p>
+                        <p class="text-[11px] text-slate-500">本系統禁止外部自行註冊，僅能由總管理員建立員工帳號。員工首次使用 <strong>0000</strong> 登入時，系統會強制要求修改為 <strong>8 位數密碼（須含英文大寫、英文小寫、數字至少各一，可含符號）</strong>。</p>
                         <div class="flex gap-2">
                             <input id="new-staff-email" type="text" placeholder="自訂員工帳號或姓名 (如：staff01、王小美)..." class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-blue-500">
                             <button id="add-staff-btn" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl whitespace-nowrap transition">
@@ -1209,11 +1208,129 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ==================== GOOGLE DRIVE CLOUD DATABASE REPOSITORY CENTER ==================== -->
+            <div id="cloud-db-center-card" class="bg-white p-6 rounded-2xl border-2 border-blue-200 shadow-sm space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div class="space-y-1">
+                        <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-extrabold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>☁️ Google Drive 雲端硬碟資料庫已綁定</span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-slate-900">📂 PIPI結帳系統 — Google 雲端硬碟儲存庫與自動同步中心</h3>
+                        <p class="text-xs text-slate-500">
+                            已連結您的專屬雲端資料夾（儲存員工帳號與 8 位密碼、貨物庫存與數量、每日銷售明細、員工打卡紀錄、預購商品、同行調貨、會員名冊與系統設定）。
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <a href="https://drive.google.com/drive/folders/1-ZXsXnlhzm7YTg5gQG5bh4vMNmr6HO8C" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+                            <span>📁 開啟 Google 雲端硬碟資料夾</span>
+                        </a>
+                        <a href="https://docs.google.com/spreadsheets/d/1Ma9LwRPU1uj3Bf_Qehz4PBcpr7CFbpa1aSXa8vhrWx0/edit" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+                            <span>📊 開啟 8 分頁雲端總資料庫 (Google Sheet)</span>
+                        </a>
+                        <a href="https://drive.google.com/file/d/13Y7BriAsKt3sOckPW0m5MCIGA1cptBEX/view" target="_blank" rel="noopener noreferrer" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                            <span>🗄️ 雲端 JSON 狀態檔</span>
+                        </a>
+                        <a href="https://docs.google.com/document/d/1KLCws9MxbtFiuGZ0r622T1UNip1yJ9UN35wmbONdOOw/edit" target="_blank" rel="noopener noreferrer" class="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold transition">
+                            <span>📖 雲端連線說明書</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 8 Cloud Tables Status Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 text-xs">
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">1_員工帳號密碼</div>
+                        <div id="cloud-stat-staff" class="text-base font-extrabold text-slate-900 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">2_貨物資料與庫存</div>
+                        <div id="cloud-stat-products" class="text-base font-extrabold text-blue-600 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">3_每日銷售明細</div>
+                        <div id="cloud-stat-orders" class="text-base font-extrabold text-emerald-600 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">4_員工打卡紀錄</div>
+                        <div id="cloud-stat-attendance" class="text-base font-extrabold text-indigo-600 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">5_預購商品紀錄</div>
+                        <div id="cloud-stat-preorders" class="text-base font-extrabold text-purple-600 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">6_同行調貨紀錄</div>
+                        <div id="cloud-stat-transfers" class="text-base font-extrabold text-amber-600 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">7_會員與同行名冊</div>
+                        <div id="cloud-stat-crm" class="text-base font-extrabold text-slate-800 mt-0.5">0 筆</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div class="text-[11px] text-slate-500 font-semibold">8_系統設定參數</div>
+                        <div class="text-base font-extrabold text-emerald-700 mt-0.5">8 項已同步</div>
+                    </div>
+                </div>
+
+                <!-- Cloud Sync Bridge & Export Controls -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-1">
+                    <div class="lg:col-span-7 p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="text-xs font-extrabold text-blue-950">🔗 Google Apps Script 雲端硬碟自動同步橋接器 (選填，供 GitHub 跨裝置即時自動寫入)</div>
+                            <label class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-800 cursor-pointer">
+                                <input id="cloud-auto-sync-checkbox" type="checkbox" checked class="rounded border-blue-300 text-blue-600 focus:ring-blue-500">
+                                <span>每次異動自動推送至雲端硬碟</span>
+                            </label>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input id="cloud-webhook-url-input" type="url" placeholder="貼上部署後的 Google Apps Script Web App 網址 (https://script.google.com/macros/s/.../exec)" class="flex-1 px-3 py-2 rounded-xl border border-blue-300 bg-white text-xs font-mono outline-none focus:border-blue-600">
+                            <button id="save-cloud-webhook-btn" type="button" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold whitespace-nowrap transition">
+                                儲存橋接網址
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button id="cloud-push-now-btn" type="button" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-2xs transition">
+                                🚀 立即推送全站資料至 Google Drive
+                            </button>
+                            <button id="cloud-pull-now-btn" type="button" class="px-3.5 py-2 bg-white hover:bg-blue-50 text-blue-700 border border-blue-300 rounded-xl text-xs font-bold transition">
+                                📥 從 Google Drive 拉取最新資料
+                            </button>
+                            <button id="copy-gas-code-btn" type="button" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-amber-300 rounded-xl text-xs font-bold transition">
+                                ⚡ 複製專屬 Apps Script 程式碼 (已綁定您的資料夾 ID)
+                            </button>
+                            <span id="cloud-last-sync-time" class="text-[11px] text-slate-500 font-mono ml-auto">尚未執行遠端推送</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="text-xs font-extrabold text-slate-900">📦 雲端資料庫檔案一鍵匯出 / 匯入還原</div>
+                            <p class="text-[11px] text-slate-500 mt-0.5">
+                                可直接下載與雲端總資料庫完全對應的「8 分頁 Excel 總表 (.xlsx)」或「JSON 狀態資料庫檔」放入您的 Google Drive 資料夾，或隨時匯入還原。
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button id="export-cloud-8tabs-xlsx-btn" type="button" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded-xl text-xs shadow-2xs transition">
+                                📊 下載 8 分頁雲端總資料庫 (.xlsx)
+                            </button>
+                            <button id="export-cloud-json-btn" type="button" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-3 rounded-xl text-xs transition">
+                                🗄️ 下載 JSON 資料庫檔
+                            </button>
+                            <label class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold py-2 px-3 rounded-xl text-xs cursor-pointer transition">
+                                📂 匯入 JSON 檔
+                                <input id="import-cloud-json-input" type="file" accept=".json,application/json" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
 
-    <!-- ==================== MODAL: 電子明細單 / 雙聯收據 ==================== -->
+    <!-- ==================== MODAL: 電子明細單 / 雙聯收據 (店家聯 + 客人/同行聯) ==================== -->
     <div id="receipt-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 my-auto space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 no-print">
@@ -1227,7 +1344,7 @@
                 <button id="close-receipt-top-btn" type="button" class="text-slate-400 hover:text-slate-700 font-bold text-sm">✕</button>
             </div>
 
-            <!-- Dual Copies Container -->
+            <!-- Dual Copies Container (Copy 1: Store Copy, Copy 2: Customer/Peer Copy) -->
             <div id="dual-receipt-printable-area" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Copy 1: 店家聯 (Store Copy) -->
                 <div class="border-2 border-slate-300 rounded-xl p-4 bg-slate-50/40 space-y-3">
@@ -1237,7 +1354,7 @@
                     </div>
                     <div class="text-center border-b border-dashed border-slate-300 pb-3">
                         <h4 id="receipt-store-title" class="text-base font-extrabold text-slate-900">PIPI 旗艦零售門市</h4>
-                        <p id="receipt-tax-info" class="text-[11px] text-slate-500">統編 88990011 / 02-2700-8888</p>
+                        <p id="receipt-tax-info" class="text-[11px] text-slate-500">統編 48676299 / 02-2550-8846</p>
                         <p id="receipt-meta-info" class="text-[11px] text-slate-500 font-mono mt-1"></p>
                     </div>
                     <div id="receipt-items-container" class="space-y-1.5 text-xs max-h-48 overflow-y-auto border-b border-dashed border-slate-300 pb-2.5"></div>
@@ -1253,7 +1370,7 @@
                     </div>
                     <div class="text-center border-b border-dashed border-slate-300 pb-3">
                         <h4 id="receipt-store-title-2" class="text-base font-extrabold text-slate-900">PIPI 旗艦零售門市</h4>
-                        <p id="receipt-tax-info-2" class="text-[11px] text-slate-500">統編 88990011 / 02-2700-8888</p>
+                        <p id="receipt-tax-info-2" class="text-[11px] text-slate-500">統編 48676299 / 02-2550-8846</p>
                         <p id="receipt-meta-info-2" class="text-[11px] text-slate-500 font-mono mt-1"></p>
                     </div>
                     <div id="receipt-items-container-2" class="space-y-1.5 text-xs max-h-48 overflow-y-auto border-b border-dashed border-slate-300 pb-2.5"></div>
@@ -1276,220 +1393,7 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL: 修改商品售價與成本 (非結帳時隨時修改) ==================== -->
-    <div id="edit-price-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">✏️</span>
-                    <h3 class="font-bold text-slate-900 text-base">修改商品零售售價與進貨成本</h3>
-                </div>
-                <button id="close-edit-price-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
-            </div>
-            <div class="space-y-3 text-xs sm:text-sm">
-                <input type="hidden" id="edit-prod-id">
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
-                    <input id="edit-prod-name" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-800 font-bold">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
-                        <input id="edit-prod-code" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-600 font-mono">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
-                        <input id="edit-prod-cat" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-600 font-bold">
-                    </div>
-                </div>
-                <div class="bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 space-y-2">
-                    <label class="block font-extrabold text-blue-900 text-xs sm:text-sm">★ 門市零售單價 (售價 NT$)</label>
-                    <div class="flex items-center gap-2">
-                        <span class="font-bold text-slate-600">NT$</span>
-                        <input id="edit-prod-price" type="number" min="0" class="flex-1 px-3 py-2 rounded-xl border-2 border-blue-500 bg-white text-lg font-extrabold text-blue-700 outline-none focus:ring-2 focus:ring-blue-300">
-                    </div>
-                    <div class="flex items-center gap-1.5 flex-wrap pt-1">
-                        <span class="text-[11px] text-slate-500 font-medium">快捷增減：</span>
-                        <button type="button" data-price-delta="-50" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">-50</button>
-                        <button type="button" data-price-delta="-10" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">-10</button>
-                        <button type="button" data-price-delta="10" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+10</button>
-                        <button type="button" data-price-delta="50" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+50</button>
-                        <button type="button" data-price-delta="100" class="quick-price-btn text-[11px] bg-white border border-slate-300 hover:bg-slate-100 px-2 py-0.5 rounded font-semibold">+100</button>
-                    </div>
-                    <p class="text-[11px] text-slate-500">修改後將全站生效，POS收銀台入單將以新售價為預設價格。</p>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">進貨成本 ($)</label>
-                    <input id="edit-prod-cost" type="number" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
-                </div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button id="save-edit-price-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
-                    💾 確認儲存新售價
-                </button>
-                <button id="cancel-edit-price-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
-                    取消
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== MODAL: 新增預購訂單 ==================== -->
-    <div id="preorder-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 my-auto">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">🎁</span>
-                    <h3 class="font-bold text-slate-900 text-base">新增商品預購單 (登記訂金與尾款)</h3>
-                </div>
-                <button id="close-preorder-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
-            </div>
-            <div class="space-y-3 text-xs sm:text-sm">
-                <!-- Customer Details -->
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">預購客戶姓名 <span class="text-rose-500">*</span></label>
-                        <input id="new-pre-name" type="text" placeholder="如：林小華" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white outline-none focus:border-blue-500">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">客戶手機號碼 <span class="text-rose-500">*</span></label>
-                        <input id="new-pre-phone" type="text" placeholder="如：0988-123-456" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white outline-none focus:border-blue-500">
-                    </div>
-                </div>
-
-                <!-- Product Selection / Input -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">選擇現有品項（或手動於下方填寫未上市新商品）</label>
-                    <select id="new-pre-prod-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
-                        <option value="">-- 手動填寫新預購商品，或由此帶入現有商品資料 --</option>
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="col-span-2">
-                        <label class="block font-semibold text-slate-700 mb-1">預購商品名稱 <span class="text-rose-500">*</span></label>
-                        <input id="new-pre-prod-name" type="text" placeholder="如：寶可夢 2026 最新特別企劃擴充盒" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-bold">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
-                        <select id="new-pre-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-semibold">
-                            <option value="遊戲王">遊戲王</option>
-                            <option value="寶可夢">寶可夢</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Quantity & Price & Deposit Calculation -->
-                <div class="grid grid-cols-3 gap-3">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">預購單價 ($)</label>
-                        <input id="new-pre-price" type="number" min="1" value="1200" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-mono font-bold text-slate-800">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">預購數量</label>
-                        <input id="new-pre-qty" type="number" min="1" value="1" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500 font-bold text-slate-800">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">預購總金額</label>
-                        <div id="new-pre-total-display" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono font-extrabold text-blue-600 text-sm">NT$ 1,200</div>
-                    </div>
-                </div>
-
-                <!-- Deposit & Balance -->
-                <div class="bg-amber-50/70 p-3 rounded-xl border border-amber-200 grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-amber-900 mb-1">已收預購訂金 ($)</label>
-                        <input id="new-pre-deposit" type="number" min="0" value="300" class="w-full px-3 py-2 rounded-lg border border-amber-300 bg-white font-mono font-extrabold text-amber-700 outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">到貨取貨應付尾款</label>
-                        <div id="new-pre-balance-display" class="w-full px-3 py-2 rounded-lg border border-amber-200 bg-white font-mono font-extrabold text-rose-600 text-sm">NT$ 900</div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">訂金付款方式</label>
-                        <select id="new-pre-paymethod" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
-                            <option value="現金">💵 現金</option>
-                            <option value="轉帳">🏦 轉帳</option>
-                            <option value="LINE Pay">💚 LINE Pay</option>
-                            <option value="信用卡">💳 信用卡</option>
-                            <option value="行動支付">📱 行動支付</option>
-                            <option value="其他支付">🧾 其他支付</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">預計到貨日期</label>
-                        <input id="new-pre-arrival-date" type="date" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-mono font-bold">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">預購備註 (選填)</label>
-                    <input id="new-pre-note" type="text" placeholder="如：已加入官方LINE通知、附特典卡、指定黑貓宅配或自取..." class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
-                </div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button id="save-preorder-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
-                    ✅ 確認開立預購單並產生雙聯憑證
-                </button>
-                <button id="cancel-preorder-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
-                    取消
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== MODAL: 預購取貨結清尾款 ==================== -->
-    <div id="preorder-pickup-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">💰</span>
-                    <h3 class="font-bold text-slate-900 text-base">顧客預購取貨與結清尾款</h3>
-                </div>
-                <button id="close-pickup-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
-            </div>
-            <div class="space-y-3 text-xs sm:text-sm">
-                <input type="hidden" id="pickup-preorder-no">
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">
-                    <div class="flex justify-between text-slate-600"><span>預購單號</span><strong id="pickup-doc-no" class="font-mono text-slate-800"></strong></div>
-                    <div class="flex justify-between text-slate-600"><span>預購客戶</span><strong id="pickup-cust-name" class="text-slate-900"></strong></div>
-                    <div class="flex justify-between text-slate-600"><span>預購商品</span><strong id="pickup-prod-name" class="text-slate-900"></strong></div>
-                    <div class="flex justify-between text-slate-600"><span>預購總價</span><span id="pickup-total-price" class="font-mono"></span></div>
-                    <div class="flex justify-between text-emerald-600"><span>已收訂金</span><span id="pickup-deposit-paid" class="font-mono"></span></div>
-                </div>
-
-                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-center space-y-1">
-                    <div class="text-xs text-emerald-800 font-bold">本次取貨應收尾款金額</div>
-                    <div id="pickup-balance-due" class="text-2xl font-extrabold text-emerald-700 font-mono">NT$ 0</div>
-                </div>
-
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">尾款收款方式</label>
-                    <select id="pickup-paymethod" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500 font-bold text-slate-800">
-                        <option value="現金">💵 現金</option>
-                        <option value="轉帳">🏦 轉帳</option>
-                        <option value="LINE Pay">💚 LINE Pay</option>
-                        <option value="信用卡">💳 信用卡</option>
-                        <option value="行動支付">📱 行動支付</option>
-                        <option value="其他支付">🧾 其他支付</option>
-                    </select>
-                </div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button id="confirm-pickup-btn" type="button" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">
-                    ✅ 確認收取尾款並完成取貨交付
-                </button>
-                <button id="cancel-pickup-modal-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">
-                    取消
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== MODAL: 新增商品品項 (只有遊戲王和寶可夢) ==================== -->
+    <!-- ==================== MODAL: 新增商品品項 ==================== -->
     <div id="product-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -1500,13 +1404,13 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
-                        <input id="new-prod-code" type="text" placeholder="如 YGO002、PKM002" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                        <input id="new-prod-code" type="text" placeholder="如 471009" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">商品分類 (遊戲王 / 寶可夢)</label>
+                        <label class="block font-semibold text-slate-700 mb-1">商品分類 (可選或新增)</label>
                         <select id="new-prod-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-blue-500">
-                            <option value="遊戲王">遊戲王 (預設免發票稅)</option>
                             <option value="寶可夢">寶可夢 (預設免發票稅)</option>
+                            <option value="遊戲王">遊戲王 (預設免發票稅)</option>
                         </select>
                     </div>
                 </div>
@@ -1590,7 +1494,7 @@
             <div class="space-y-3 text-xs sm:text-sm">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">同行店家名稱</label>
-                    <input id="new-peer-name" type="text" placeholder="如：信義宏達卡牌社 / 忠孝友店" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                    <input id="new-peer-name" type="text" placeholder="如：信義宏達通訊行 / 忠孝友店" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -1651,7 +1555,7 @@
                 <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">商品條碼 / 品號</label>
-                        <input id="trf-prod-code" type="text" placeholder="如 YGO001" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
+                        <input id="trf-prod-code" type="text" placeholder="如 471001" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-blue-500">
                     </div>
                     <div class="col-span-2">
                         <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
@@ -1699,7 +1603,7 @@
         </div>
     </div>
 
-    <!-- ==================== FULL-SCREEN LOGIN GATE ==================== -->
+    <!-- ==================== FULL-SCREEN LOGIN GATE (員工專屬登錄系統 & 總管理員專屬登入) ==================== -->
     <div id="auth-login-gate" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="max-w-lg w-full my-auto space-y-4">
             <!-- System Title Header -->
@@ -1711,25 +1615,16 @@
                 <p class="text-xs text-slate-400">⚠️ 本網站不開放外部自行註冊，所有員工帳號均須由總管理員後台新增配發</p>
             </div>
 
-            <!-- Structured Login Table Card -->
+            <!-- Structured Login Table Card matching user's exact specification image -->
             <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-700 text-slate-100">
 
-                <!-- Section 1: 一般員工登錄處 (6大員工專屬功能) -->
-                <div class="p-4 sm:p-5 bg-slate-800/90 space-y-2">
+                <!-- Section 1: 一般員工登錄處 -->
+                <div class="p-4 sm:p-5 bg-slate-800/90">
                     <div class="flex items-center justify-between">
                         <h2 class="text-base sm:text-lg font-extrabold text-emerald-400 flex items-center gap-2">
                             <span>👤 這邊是一般員工登錄處</span>
                         </h2>
                         <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded font-semibold">剛註冊初始密碼：0000</span>
-                    </div>
-                    <div class="flex flex-wrap gap-1 text-[11px] text-slate-300">
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🛒 POS收銀結帳</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">📦 庫存/品項管理</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🤝 同行調貨系統</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🧾 銷售明細/退貨</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">📅 萬年曆/日程</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">🎁 預購商品系統</span>
-                        <span class="bg-slate-700/80 px-2 py-0.5 rounded">⏰ 員工打卡系統</span>
                     </div>
                 </div>
 
@@ -1742,7 +1637,7 @@
                     <input id="staff-login-keyword" type="text" placeholder="輸入帳號關鍵字篩選 (例如輸入名字或帳號片段)..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-400 text-xs sm:text-sm outline-none focus:border-emerald-400">
                 </div>
 
-                <!-- Row 3: 選擇帳號的下拉式選單 -->
+                <!-- Row 3: 選擇帳號的下拉式選單 (選單裡只有總管理員新增過的帳號) -->
                 <div class="p-4 sm:p-5 space-y-2 bg-slate-900/90">
                     <label for="staff-login-select" class="block text-xs sm:text-sm font-bold text-slate-200">
                         📋 選擇帳號的下拉式選單
@@ -1753,14 +1648,14 @@
                     </select>
                 </div>
 
-                <!-- Row 4: 這邊是打 4 位密碼 + 員工登入按鈕 -->
+                <!-- Row 4: 這邊是打員工密碼 (剛註冊預設 0000，修改後為 8 位數含大小寫英文與數字密碼) -->
                 <div class="p-4 sm:p-5 space-y-3 bg-slate-900/90">
                     <label for="staff-login-pin" class="block text-xs sm:text-sm font-bold text-slate-200">
-                        🔢 這邊是打 4 位密碼
-                        <span class="block text-[11px] font-normal text-slate-400 mt-0.5">（剛註冊預設為 <strong class="text-amber-300 font-mono">0000</strong>，首次登入後系統會強制要求修改為個人 4 位數密碼）</span>
+                        🔐 這邊是打員工專屬密碼（8 位數含大小寫英文與數字 / 剛註冊預設 0000）
+                        <span class="block text-[11px] font-normal text-slate-400 mt-0.5">（剛註冊預設為 <strong class="text-amber-300 font-mono">0000</strong>；首次登入後強制修改為 <strong class="text-emerald-300">8 位數密碼：須含英文大寫、小寫、數字至少各一，可含符號</strong>）</span>
                     </label>
                     <div class="flex flex-col sm:flex-row gap-2.5">
-                        <input id="staff-login-pin" type="password" inputmode="numeric" maxlength="4" placeholder="請輸入 4 位密碼 (預設 0000)" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white font-mono tracking-widest text-center text-base outline-none focus:border-emerald-400">
+                        <input id="staff-login-pin" type="password" maxlength="8" placeholder="請輸入 8 位密碼 (剛註冊請打 0000)" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white font-mono tracking-wider text-center text-base outline-none focus:border-emerald-400">
                         <button id="staff-login-submit-btn" type="button" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm shadow-lg transition whitespace-nowrap">
                             👤 員工登入系統
                         </button>
@@ -1804,16 +1699,119 @@
         </div>
     </div>
 
-    <!-- ==================== MANDATORY PASSWORD CHANGE MODAL ==================== -->
+    <!-- ==================== MODAL: 修改商品售價與成本 (Edit Price & Cost Modal) ==================== -->
+    <div id="edit-price-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-extrabold text-slate-900 text-base">✏️ 修改商品售價、成本與庫存數量</h3>
+                <button id="close-edit-price-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+            <input id="edit-price-prod-id" type="hidden">
+            <div class="space-y-3 text-xs sm:text-sm">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">商品名稱</label>
+                    <input id="edit-price-prod-name" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-800 outline-none focus:border-blue-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">進貨單位成本 (NT$)</label>
+                        <input id="edit-price-cost-input" type="number" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-blue-700 mb-1">最新零售售價 (NT$)</label>
+                        <input id="edit-price-price-input" type="number" min="0" class="w-full px-3 py-2 rounded-xl border-2 border-blue-400 font-mono font-bold text-blue-700 outline-none focus:border-blue-600">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">目前庫存數量 (件)</label>
+                    <input id="edit-price-stock-input" type="number" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="save-edit-price-btn" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm transition">💾 儲存修改</button>
+                <button id="cancel-edit-price-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: 新增客人預購單 (Create Preorder Modal) ==================== -->
+    <div id="preorder-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 my-auto space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-extrabold text-slate-900 text-base">🎁 新增客人預購單（收取訂金並開立雙聯預購憑證）</h3>
+                <button id="close-preorder-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預購客人姓名 *</label>
+                    <input id="pre-cust-name" type="text" placeholder="如：陳先生 / 王小美" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">聯絡電話 *</label>
+                    <input id="pre-cust-phone" type="text" placeholder="如：0912-345-678" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-purple-500">
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block font-semibold text-slate-700 mb-1">預購商品名稱 *</label>
+                    <input id="pre-item-name" type="text" placeholder="如：寶可夢 SV8a 太晶慶典 ex 補充包原盒" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">商品分類</label>
+                    <select id="pre-item-cat" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-purple-500">
+                        <option value="寶可夢">寶可夢 (預設免5%稅)</option>
+                        <option value="遊戲王">遊戲王 (預設免5%稅)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預購數量 *</label>
+                    <input id="pre-item-qty" type="number" min="1" value="1" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預購單價 (NT$) *</label>
+                    <input id="pre-item-price" type="number" min="0" value="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預估單位成本 (NT$)</label>
+                    <input id="pre-item-cost" type="number" min="0" value="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-emerald-700 mb-1">本次已收訂金 (NT$) *</label>
+                    <input id="pre-deposit-paid" type="number" min="0" value="0" class="w-full px-3 py-2 rounded-xl border-2 border-emerald-400 font-mono font-bold text-emerald-700 outline-none focus:border-emerald-600">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">訂金付款方式</label>
+                    <select id="pre-pay-method" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white outline-none focus:border-purple-500">
+                        <option value="現金">💵 現金</option>
+                        <option value="轉帳">🏦 轉帳</option>
+                        <option value="刷卡">💳 刷卡</option>
+                        <option value="電子支付">📱 電子支付</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">預計到貨日期</label>
+                    <input id="pre-arrival-date" type="date" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">備註說明</label>
+                    <input id="pre-note" type="text" placeholder="如：到貨請電話通知 / 保有原膜" class="w-full px-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-purple-500">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="save-preorder-btn" type="button" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow transition">✅ 建立預購單並印出訂金明細單</button>
+                <button id="cancel-preorder-btn" type="button" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MANDATORY PASSWORD CHANGE MODAL (首次登入強制修改 8 位密碼 / 員工修改密碼) ==================== -->
     <div id="force-change-pwd-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-amber-400 space-y-4">
             <div class="space-y-1 border-b border-slate-100 pb-3">
                 <div class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">
-                    <span>🔐 帳號安全設定</span>
+                    <span>🔐 員工帳號 8 位數安全密碼設定</span>
                 </div>
-                <h3 id="force-pwd-title" class="font-extrabold text-slate-900 text-lg">首次登入！請立即修改您的專屬 4 位密碼</h3>
+                <h3 id="force-pwd-title" class="font-extrabold text-slate-900 text-lg">首次登入！請立即設定您的 8 位數專屬密碼</h3>
                 <p id="force-pwd-desc" class="text-xs text-rose-600 font-semibold">
-                    您的帳號目前使用的是剛註冊預設密碼 (0000)，為保障收銀帳務安全，必須修改為新的 4 位數密碼才能進入系統（不能不改，且不可設為 0000）！
+                    您的帳號目前使用的是剛註冊預設密碼 (0000)，必須修改為新的 8 位數密碼（須含英文大寫、英文小寫、數字至少各一，可含符號，總長剛好 8 碼）才能進入系統！
                 </p>
             </div>
 
@@ -1823,12 +1821,19 @@
                     <input id="force-pwd-account" type="text" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono font-bold">
                 </div>
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">請輸入新的 4 位數密碼 (不可為 0000)</label>
-                    <input id="force-pwd-new1" type="password" inputmode="numeric" maxlength="4" placeholder="請輸入 4 位數字新密碼 (如 1234)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-widest outline-none focus:border-blue-500">
+                    <label class="block font-semibold text-slate-700 mb-1">請輸入新的 8 位數密碼（含大寫、小寫、數字，可含符號）</label>
+                    <input id="force-pwd-new1" type="password" maxlength="8" placeholder="例如：Abc12345 或 Pipi#888" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-wider outline-none focus:border-blue-500">
+                </div>
+                <!-- Live 8-Char Password Rule Checklist -->
+                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 grid grid-cols-2 gap-1.5 text-[11px]">
+                    <div id="pwd-rule-len" class="text-slate-500 font-semibold">○ 總長度剛好 8 位數</div>
+                    <div id="pwd-rule-upper" class="text-slate-500 font-semibold">○ 含至少 1 個英文大寫 (A-Z)</div>
+                    <div id="pwd-rule-lower" class="text-slate-500 font-semibold">○ 含至少 1 個英文小寫 (a-z)</div>
+                    <div id="pwd-rule-digit" class="text-slate-500 font-semibold">○ 含至少 1 個數字 (0-9)</div>
                 </div>
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">再次確認新的 4 位數密碼</label>
-                    <input id="force-pwd-new2" type="password" inputmode="numeric" maxlength="4" placeholder="請再次輸入相同的 4 位數字密碼" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-widest outline-none focus:border-blue-500">
+                    <label class="block font-semibold text-slate-700 mb-1">再次確認新的 8 位數密碼</label>
+                    <input id="force-pwd-new2" type="password" maxlength="8" placeholder="請再次輸入相同的 8 位數密碼" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-center text-base tracking-wider outline-none focus:border-blue-500">
                 </div>
             </div>
 
@@ -1845,20 +1850,32 @@
 
     <!-- Toast Notification -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
     <script>
-        // ==================== INITIAL STATE & DEFAULT DATA (只有遊戲王和寶可夢) ====================
+        // ==================== INITIAL STATE & DEFAULT DATA ====================
         const STORAGE_KEY = 'PIPI_POS_ERP_STATE_EMPTY_V3';
+
+        const CLOUD_DRIVE_FOLDER_ID = '1-ZXsXnlhzm7YTg5gQG5bh4vMNmr6HO8C';
+        const CLOUD_SHEET_DB_ID = '1Ma9LwRPU1uj3Bf_Qehz4PBcpr7CFbpa1aSXa8vhrWx0';
+        const CLOUD_JSON_FILE_ID = '13Y7BriAsKt3sOckPW0m5MCIGA1cptBEX';
+        const STAFF_ALLOWED_TABS = ['pos', 'inventory', 'preorders', 'transfer', 'attendance'];
 
         const defaultState = {
             config: {
                 systemName: 'PIPI結帳系統',
                 adminEmail: 'tw202501tw@gmail.com',
                 storeName: 'PIPI 旗艦零售門市',
-                taxId: '統編 88990011 / 02-2700-8888',
+                taxId: '統編 48676299 / 02-2550-8846',
                 announcement: 'PIPI結帳系統 — 全雲端、全模組、使用人數無上限、終身 0 元免月租費！',
-                receiptFooter: '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立'
+                receiptFooter: '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立',
+                driveFolderId: CLOUD_DRIVE_FOLDER_ID,
+                cloudSheetId: CLOUD_SHEET_DB_ID,
+                cloudJsonFileId: CLOUD_JSON_FILE_ID,
+                cloudWebhookUrl: '',
+                autoCloudSync: true,
+                lastCloudSync: ''
             },
-            categories: ['遊戲王', '寶可夢'],
+            categories: ['寶可夢', '遊戲王'],
             products: [],
             members: [],
             orders: [],
@@ -1875,7 +1892,7 @@
         let heldCarts = [];
         let selectedCategory = '全部';
         let selectedPayMethod = '現金';
-        let invoiceTaxEnabled = false; // 遊戲王與寶可夢預設免發票稅 (自動關閉)
+        let invoiceTaxEnabled = true; // 發票稅開關：寶可夢/遊戲王自動關閉，其他分類自動打開，亦可手動點 (打開) ↔️ (關閉)
         let lastReceiptPayload = null;
         let catChartInstance = null;
         let payChartInstance = null;
@@ -1887,15 +1904,12 @@
                     const parsed = JSON.parse(raw);
                     if (parsed && parsed.products && parsed.config) {
                         parsed.config.adminEmail = 'tw202501tw@gmail.com';
-                        // 自動過濾清除舊版本的預設雜項分類，只保留遊戲王與寶可夢
-                        const oldDefaultCats = ['飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件', '一般商品'];
-                        if (Array.isArray(parsed.categories)) {
-                            parsed.categories = parsed.categories.filter(c => !oldDefaultCats.includes(c));
-                            if (!parsed.categories.includes('遊戲王')) parsed.categories.unshift('遊戲王');
-                            if (!parsed.categories.includes('寶可夢')) parsed.categories.push('寶可夢');
-                        } else {
-                            parsed.categories = ['遊戲王', '寶可夢'];
+                        if (!parsed.config.taxId || parsed.config.taxId.includes('88990011')) {
+                            parsed.config.taxId = '統編 48676299 / 02-2550-8846';
                         }
+                        parsed.config.driveFolderId = CLOUD_DRIVE_FOLDER_ID;
+                        parsed.config.cloudSheetId = CLOUD_SHEET_DB_ID;
+                        parsed.config.cloudJsonFileId = CLOUD_JSON_FILE_ID;
                         if (!Array.isArray(parsed.preorders)) parsed.preorders = [];
                         return parsed;
                     }
@@ -1904,10 +1918,18 @@
             return JSON.parse(JSON.stringify(defaultState));
         }
 
+        let cloudSyncTimer = null;
         function saveState() {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
             } catch (e) {}
+            if (typeof updateCloudStatsUI === 'function') updateCloudStatsUI();
+            if (appState.config && appState.config.autoCloudSync !== false && appState.config.cloudWebhookUrl) {
+                clearTimeout(cloudSyncTimer);
+                cloudSyncTimer = setTimeout(() => {
+                    pushToGoogleDriveCloud(true);
+                }, 800);
+            }
         }
 
         function showToast(msg, type = 'success') {
@@ -1935,24 +1957,21 @@
             document.getElementById('pos-order-badge').textContent = `#POS-${String(appState.orders.length + 1).padStart(3, '0')}`;
         }
 
-        const TAX_EXEMPT_CATEGORIES = ['遊戲王', '寶可夢'];
+        const TAX_EXEMPT_CATEGORIES = ['寶可夢', '遊戲王'];
 
         function isTaxExemptCategory(catName) {
             return TAX_EXEMPT_CATEGORIES.includes(String(catName || '').trim());
         }
 
         function ensureCategoriesList() {
-            const oldDefaultCats = ['飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件', '一般商品'];
             if (!Array.isArray(appState.categories)) {
-                appState.categories = ['遊戲王', '寶可夢'];
-            } else {
-                appState.categories = appState.categories.filter(c => !oldDefaultCats.includes(c));
+                appState.categories = ['寶可夢', '遊戲王', '飲品沖泡', '休閒零食', '日用百貨', '生鮮熟食', '3C配件'];
             }
-            ['遊戲王', '寶可夢'].forEach(c => {
-                if (!appState.categories.includes(c)) appState.categories.push(c);
+            ['寶可夢', '遊戲王'].forEach(c => {
+                if (!appState.categories.includes(c)) appState.categories.unshift(c);
             });
             appState.products.forEach(p => {
-                if (p.category && !appState.categories.includes(p.category) && !oldDefaultCats.includes(p.category)) {
+                if (p.category && !appState.categories.includes(p.category)) {
                     appState.categories.push(p.category);
                 }
             });
@@ -1985,6 +2004,7 @@
                 saveState();
             }
             selectedCategory = name;
+            // 寶可夢、遊戲王自動關閉發票稅；其他分類自動打開發票稅
             invoiceTaxEnabled = !isTaxExemptCategory(name);
             renderCategories();
             syncProductCategorySelect();
@@ -2042,7 +2062,7 @@
                     <div class="col-span-full bg-white p-10 rounded-2xl border border-dashed border-slate-300 text-center space-y-2">
                         <div class="text-3xl">📦</div>
                         <div class="font-bold text-slate-700 text-sm">目前尚無任何產品資料 (產品數：0)</div>
-                        <div class="text-xs text-slate-400">請點擊右上角「＋ 臨時商品」或切換至「📦 庫存/品項管理」新增遊戲王或寶可夢商品。</div>
+                        <div class="text-xs text-slate-400">請點擊右上角「＋ 臨時商品」或切換至「📦 庫存/品項管理」新增您的第一項商品。</div>
                     </div>
                 `;
                 return;
@@ -2101,9 +2121,7 @@
             currentCart.forEach(item => {
                 const prod = appState.products.find(p => p.id === item.id);
                 if (!prod) return;
-                const effectivePrice = (typeof item.customPrice === 'number' && item.customPrice >= 0) ? item.customPrice : prod.price;
-                const isCustomPrice = (effectivePrice !== prod.price);
-                const lineTotal = effectivePrice * item.qty;
+                const lineTotal = prod.price * item.qty;
                 const lineCost = prod.cost * item.qty;
                 subtotal += lineTotal;
                 totalCost += lineCost;
@@ -2112,9 +2130,7 @@
                     id: prod.id,
                     code: prod.code,
                     name: prod.name,
-                    price: effectivePrice,
-                    originalPrice: prod.price,
-                    isCustomPrice,
+                    price: prod.price,
                     cost: prod.cost,
                     qty: item.qty,
                     lineTotal
@@ -2134,7 +2150,7 @@
             const isOriginalPriceMethod = (selectedPayMethod === '現金' || selectedPayMethod === '轉帳');
             const paymentFee = isOriginalPriceMethod ? 0 : Math.round(afterDiscount * 0.0103);
             const grandTotal = afterDiscount + paymentFee;
-            const taxIncluded = invoiceTaxEnabled ? Math.round(grandTotal * 0.05) : 0;
+            const taxIncluded = invoiceTaxEnabled ? Math.round(grandTotal * 0.05) : 0; // 發票稅打開時 5%，關閉時 0
             const grossProfit = grandTotal - totalCost;
             const profit = grossProfit - taxIncluded;
 
@@ -2161,35 +2177,17 @@
                     row.innerHTML = `
                         <div class="flex-1 min-w-0">
                             <div class="font-bold text-slate-800 truncate">${item.name}</div>
-                            <div class="flex items-center gap-1.5 mt-0.5">
-                                <span class="text-slate-400 font-mono text-[11px]">售價 NT$</span>
-                                <input type="number" min="0" data-cart-price="${item.id}" value="${item.price}" class="w-20 px-1.5 py-0.5 text-xs font-mono font-bold text-blue-700 border border-slate-300 hover:border-blue-400 focus:border-blue-600 rounded bg-white text-right outline-none transition" title="結帳時可直接點擊修改售價">
-                                ${item.isCustomPrice ? '<span class="text-[10px] text-amber-700 font-bold bg-amber-100 px-1 py-0.2 rounded whitespace-nowrap">已改價</span>' : ''}
-                                <span class="text-slate-400 font-mono text-[11px]">x ${item.qty}</span>
-                            </div>
+                            <div class="text-slate-400 font-mono">NT$ ${item.price} x ${item.qty}</div>
                         </div>
                         <div class="flex items-center gap-1.5">
                             <button data-act="dec" data-id="${item.id}" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">-</button>
                             <span class="w-6 text-center font-bold">${item.qty}</span>
                             <button data-act="inc" data-id="${item.id}" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">+</button>
-                            <span class="w-16 text-right font-extrabold text-slate-900">NT$ ${item.lineTotal.toLocaleString()}</span>
+                            <span class="w-16 text-right font-extrabold text-slate-900">NT$ ${item.lineTotal}</span>
                             <button data-act="del" data-id="${item.id}" class="text-rose-400 hover:text-rose-600 pl-1 font-bold">✕</button>
                         </div>
                     `;
                     list.appendChild(row);
-                });
-
-                list.querySelectorAll('input[data-cart-price]').forEach(inp => {
-                    inp.addEventListener('change', () => {
-                        const id = inp.getAttribute('data-cart-price');
-                        const cartItem = currentCart.find(i => i.id === id);
-                        if (cartItem) {
-                            const newP = Math.max(0, parseFloat(inp.value) || 0);
-                            cartItem.customPrice = newP;
-                            renderCart();
-                            showToast(`已更改結帳售價為 NT$ ${newP}`);
-                        }
-                    });
                 });
 
                 list.querySelectorAll('button[data-act]').forEach(btn => {
@@ -2252,8 +2250,9 @@
             if (existing) {
                 existing.qty += 1;
             } else {
-                currentCart.push({ id: prodId, qty: 1, customPrice: prod.price });
+                currentCart.push({ id: prodId, qty: 1 });
             }
+            // 自動依商品分類切換發票稅：若加入寶可夢或遊戲王商品則自動關閉發票稅；若全為其他一般分類則自動打開
             const cartCategories = currentCart.map(ci => {
                 const p = appState.products.find(x => x.id === ci.id);
                 return p ? p.category : '';
@@ -2315,7 +2314,7 @@
             });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="py-10 text-center text-slate-400 text-xs">目前尚無任何產品品項資料 (0 項)，請點擊右上角「＋ 新增商品品項」建立遊戲王或寶可夢商品。</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="py-10 text-center text-slate-400 text-xs">目前尚無任何產品品項資料 (0 項)，請點擊右上角「＋ 新增商品品項」建立產品。</td></tr>`;
                 return;
             }
 
@@ -2328,9 +2327,7 @@
                     <td class="py-3 px-4 font-bold text-slate-900">${p.icon || '🛍️'} ${p.name}</td>
                     <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">${p.category}</span></td>
                     <td class="py-3 px-4 text-right font-mono">NT$ ${p.cost}</td>
-                    <td class="py-3 px-4 text-right font-mono font-extrabold text-blue-600 hover:text-blue-800 cursor-pointer" data-inv-act="edit-price" data-id="${p.id}" title="點擊修改售價">
-                        NT$ ${p.price} <span class="text-[11px] underline">✏️</span>
-                    </td>
+                    <td class="py-3 px-4 text-right font-mono font-bold text-blue-600">NT$ ${p.price}</td>
                     <td class="py-3 px-4 text-right font-mono text-emerald-600 font-semibold">${margin}%</td>
                     <td class="py-3 px-4 text-center">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${p.stock <= 10 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}">
@@ -2338,9 +2335,9 @@
                         </span>
                     </td>
                     <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
-                        <button data-inv-act="edit-price" data-id="${p.id}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition">✏️ 修改售價</button>
-                        <button data-inv-act="in10" data-id="${p.id}" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-semibold transition">＋進貨10</button>
-                        <button data-inv-act="del" data-id="${p.id}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold transition">刪除</button>
+                        <button data-inv-act="in10" data-id="${p.id}" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-semibold">＋進貨10</button>
+                        <button data-inv-act="price" data-id="${p.id}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold">✏️ 修改售價/庫存</button>
+                        <button data-inv-act="del" data-id="${p.id}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold">刪除</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -2352,14 +2349,12 @@
                     const act = btn.getAttribute('data-inv-act');
                     const prod = appState.products.find(x => x.id === id);
                     if (!prod) return;
-                    if (act === 'edit-price') {
-                        openEditPriceModal(prod);
-                    } else if (act === 'in10') {
+                    if (act === 'in10') {
                         prod.stock += 10;
                         showToast(`已入庫【${prod.name}】+10 件，現有庫存 ${prod.stock} 件`);
                     } else if (act === 'price') {
-                        prod.price += 5;
-                        showToast(`已調升【${prod.name}】零售價至 NT$ ${prod.price}`);
+                        openEditPriceModal(prod);
+                        return;
                     } else if (act === 'del') {
                         appState.products = appState.products.filter(x => x.id !== id);
                         currentCart = currentCart.filter(c => c.id !== id);
@@ -2372,6 +2367,7 @@
                 });
             });
         }
+
         // ==================== ORDERS RENDER ====================
         function renderOrders() {
             const tbody = document.getElementById('orders-table-body');
@@ -2494,7 +2490,7 @@
             });
         }
 
-        // ==================== REPORTS & CHARTS ====================
+        // ==================== REPORTS & CHARTS (5% 發票稅 & 每月 $5,500 停車場費) ====================
         const MONTHLY_PARKING_FEE = 5500;
 
         function getOrderFinancials(o) {
@@ -2530,7 +2526,7 @@
             document.getElementById('rep-total-orders').textContent = `${count} 筆`;
             document.getElementById('rep-avg-ticket').textContent = `平均客單價 NT$ ${avgTicket.toLocaleString()}`;
 
-            // Daily Net Profit
+            // Daily Net Profit Calculation (扣每筆單 5% 發票稅)
             const dayPicker = document.getElementById('rep-daily-date-picker');
             if (dayPicker && !dayPicker.value) {
                 dayPicker.value = selectedDateStr;
@@ -2555,7 +2551,7 @@
             dailyNetEl.textContent = `NT$ ${dNet.toLocaleString()}`;
             dailyNetEl.className = `text-xl font-extrabold font-mono ${dNet < 0 ? 'text-rose-600' : 'text-emerald-600'}`;
 
-            // Monthly Net Profit
+            // Monthly Net Profit Calculation (扣每筆單 5% 發票稅 + 扣每月公司停車場費用 $5,500)
             const monthPicker = document.getElementById('rep-monthly-month-picker');
             if (monthPicker && !monthPicker.value) {
                 monthPicker.value = selectedDateStr.slice(0, 7);
@@ -2635,7 +2631,7 @@
         }
 
         // ==================== ADMIN STAFF RENDER & AUTH SYSTEM ====================
-        let currentSessionUser = null;
+        let currentSessionUser = null; // { role: 'admin' | 'staff', account: string }
 
         function renderStaffLoginDropdown() {
             const kwInput = document.getElementById('staff-login-keyword');
@@ -2676,7 +2672,35 @@
             });
         }
 
-        const STAFF_ALLOWED_TABS = ['pos', 'inventory', 'preorders', 'transfer', 'orders', 'calendar', 'attendance'];
+        function validateStaffPassword8(pwd) {
+            const s = String(pwd || '');
+            const hasLen8 = s.length === 8;
+            const hasUpper = /[A-Z]/.test(s);
+            const hasLower = /[a-z]/.test(s);
+            const hasDigit = /\d/.test(s);
+            const noSpace = !/\s/.test(s);
+            return {
+                valid: hasLen8 && hasUpper && hasLower && hasDigit && noSpace && s !== '0000',
+                hasLen8,
+                hasUpper,
+                hasLower,
+                hasDigit
+            };
+        }
+
+        function updatePasswordChecklistUI(val) {
+            const res = validateStaffPassword8(val);
+            const setRule = (id, ok, text) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = `${ok ? '✓' : '○'} ${text}`;
+                el.className = ok ? 'text-emerald-600 font-extrabold' : 'text-slate-500 font-semibold';
+            };
+            setRule('pwd-rule-len', res.hasLen8, '總長度剛好 8 位數');
+            setRule('pwd-rule-upper', res.hasUpper, '含至少 1 個英文大寫 (A-Z)');
+            setRule('pwd-rule-lower', res.hasLower, '含至少 1 個英文小寫 (a-z)');
+            setRule('pwd-rule-digit', res.hasDigit, '含至少 1 個數字 (0-9)');
+        }
 
         function updateSessionUI() {
             const roleEl = document.getElementById('header-user-role');
@@ -2691,17 +2715,15 @@
                 if (accEl) accEl.textContent = 'tw202501tw@gmail.com';
                 if (cashierLabel) cashierLabel.textContent = '收銀員：tw202501tw@gmail.com (總管理員)';
                 if (chgPwdBtn) chgPwdBtn.classList.add('hidden');
-                // 總管理員開放全模組導覽頁籤
                 document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('hidden'));
             } else {
                 if (roleEl) roleEl.textContent = '👤 門市員工已登入';
                 if (accEl) accEl.textContent = currentSessionUser.account;
                 if (cashierLabel) cashierLabel.textContent = `收銀員：${currentSessionUser.account} (門市員工)`;
                 if (chgPwdBtn) chgPwdBtn.classList.remove('hidden');
-                // 員工系統專屬權限：僅開放 🛒POS收銀、📦庫存品項、🤝同行調貨、🧾銷售明細、📅萬年曆、⏰員工打卡 6 大功能
                 document.querySelectorAll('.nav-tab').forEach(btn => {
-                    const tabKey = btn.getAttribute('data-tab');
-                    if (STAFF_ALLOWED_TABS.includes(tabKey)) {
+                    const t = btn.getAttribute('data-tab');
+                    if (STAFF_ALLOWED_TABS.includes(t)) {
                         btn.classList.remove('hidden');
                     } else {
                         btn.classList.add('hidden');
@@ -2720,14 +2742,15 @@
             document.getElementById('force-pwd-account').value = staffObj.email;
             document.getElementById('force-pwd-new1').value = '';
             document.getElementById('force-pwd-new2').value = '';
+            updatePasswordChecklistUI('');
 
             if (isMandatory) {
-                titleEl.textContent = '首次登入！請立即修改您的專屬 4 位密碼';
-                descEl.textContent = '您的帳號目前使用的是剛註冊預設密碼 (0000)，系統規定首次進入必須修改為新的 4 位數字密碼（不能不改，且不可設為 0000）！';
+                titleEl.textContent = '首次登入！請立即設定您的 8 位數專屬密碼';
+                descEl.textContent = '您的帳號目前使用的是剛註冊預設密碼 (0000)，系統規定首次進入必須修改為 8 位數密碼（須包含英文大寫、英文小寫、數字至少各一，可含符號）才能進入系統！';
                 cancelBtn.classList.add('hidden');
             } else {
-                titleEl.textContent = '🔑 修改員工專屬 4 位數密碼';
-                descEl.textContent = '請輸入您要更新的 4 位數字密碼（不可設為預設值 0000）。';
+                titleEl.textContent = '🔑 修改員工專屬 8 位數安全密碼';
+                descEl.textContent = '請輸入新的 8 位數密碼（須包含英文大寫、英文小寫、數字至少各一，可含符號，總長剛好 8 碼）。';
                 cancelBtn.classList.remove('hidden');
             }
 
@@ -2741,7 +2764,7 @@
             if (!Array.isArray(appState.staff)) appState.staff = [];
 
             if (appState.staff.length === 0) {
-                box.innerHTML = `<div class="p-4 rounded-xl border border-dashed border-slate-200 text-center text-slate-400 text-xs">目前尚無註冊任何員工帳號 (0 人)，請由下方輸入員工帳號新增（預設密碼 0000）。</div>`;
+                box.innerHTML = `<div class="p-4 rounded-xl border border-dashed border-slate-200 text-center text-slate-400 text-xs">目前尚無註冊任何員工帳號 (0 人)，請由下方輸入員工帳號新增（預設密碼 0000，首次登入強制改為 8 位數大小寫英數密碼）。</div>`;
                 renderStaffLoginDropdown();
                 return;
             }
@@ -2756,10 +2779,10 @@
                         <div class="font-bold text-slate-900 flex items-center gap-1.5">
                             <span>👤 ${s.email}</span>
                             <span class="text-[10px] px-2 py-0.5 rounded font-bold ${isDefaultPin ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-700'}">
-                                ${isDefaultPin ? '初始密碼 0000 (待首次登入修改)' : '已修改個人密碼'}
+                                ${isDefaultPin ? '初始密碼 0000 (待首登改8碼)' : '已設定 8 位數安全密碼'}
                             </span>
                         </div>
-                        <div class="text-[11px] text-slate-500 mt-0.5">${s.role || '門市收銀員'} · 員工系統權限：🛒收銀、📦庫存、🤝同行調貨、🧾銷售明細、📅萬年曆、⏰打卡 · 密碼狀態：<span class="font-mono font-semibold">${isDefaultPin ? '0000' : '**** (4位密碼)'}</span></div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${s.role || '門市收銀員'} · 密碼狀態：<span class="font-mono font-semibold">${isDefaultPin ? '0000' : '******** (8碼含大小寫英數)'}</span></div>
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button data-reset-staff="${idx}" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[11px] font-semibold">重置為0000</button>
@@ -2794,13 +2817,13 @@
 
             renderStaffLoginDropdown();
         }
-        // ==================== DUAL RECEIPT MODAL ====================
+
+        // ==================== DUAL RECEIPT MODAL (一般客人買賣 + 同行調貨 雙聯明細單) ====================
         function openReceiptModal(doc) {
             lastReceiptPayload = doc;
-            const isPreorder = Boolean(doc && doc.preorderNo);
             const isTransfer = Boolean(doc && doc.transferNo);
             const storeName = appState.config.storeName || 'PIPI 旗艦零售門市';
-            const taxInfo = appState.config.taxId || '統編 88990011 / 02-2700-8888';
+            const taxInfo = appState.config.taxId || '統編 48676299 / 02-2550-8846';
             const footerText = appState.config.receiptFooter || '感謝您的光臨！本收據由【PIPI結帳系統】免費雲端POS開立';
             const handlerName = (currentSessionUser && currentSessionUser.account) ? currentSessionUser.account : 'tw202501tw@gmail.com';
 
@@ -2811,38 +2834,7 @@
             let itemsHtml = '';
             let totalsHtml = '';
 
-            if (isPreorder) {
-                const isCompleted = (doc.status === '已完成取貨 (結清尾款)');
-                docBadge.textContent = `🎁 門市預購明細憑證 (${doc.status})`;
-                docBadge.className = 'bg-amber-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
-                copy2Badge.textContent = '第二聯：客人預購收執聯 (憑此單取貨結清)';
-                metaText = `預購單號：${doc.preorderNo} ｜ 登記時間：${doc.time}`;
-
-                itemsHtml = `
-                    <div class="flex justify-between font-bold text-slate-900">
-                        <span>[預購] ${doc.prodName} x ${doc.qty}</span>
-                        <span class="font-mono">NT$ ${doc.total.toLocaleString()}</span>
-                    </div>
-                    <div class="text-[11px] text-slate-500">預購分類：${doc.category} ｜ 單價：NT$ ${(doc.unitPrice || (doc.total/doc.qty)).toLocaleString()}</div>
-                    <div class="text-[11px] text-indigo-600 font-semibold">預計到貨日：${doc.arrivalDate || '另行通知'}</div>
-                    ${doc.note ? `<div class="text-[11px] text-slate-500">備註：${doc.note}</div>` : ''}
-                `;
-
-                totalsHtml = `
-                    <div class="flex justify-between text-slate-600"><span>預購顧客姓名</span><span class="font-bold text-slate-900">${doc.customerName}</span></div>
-                    <div class="flex justify-between text-slate-600"><span>顧客聯絡手機</span><span class="font-mono font-bold text-slate-800">${doc.customerPhone}</span></div>
-                    <div class="flex justify-between text-slate-600"><span>預購總金額</span><span class="font-mono font-bold">NT$ ${doc.total.toLocaleString()}</span></div>
-                    <div class="flex justify-between text-emerald-600"><span>已收訂金 (${doc.depositPayMethod})</span><span class="font-mono font-bold">NT$ ${doc.deposit.toLocaleString()}</span></div>
-                    <div class="flex justify-between font-extrabold text-sm text-slate-900 pt-1 border-t border-slate-200">
-                        <span class="${doc.balance > 0 ? 'text-rose-600' : 'text-emerald-600'}">到貨取貨應付尾款</span>
-                        <span class="${doc.balance > 0 ? 'text-rose-600 font-mono text-base' : 'text-emerald-600 font-mono'}">${doc.balance > 0 ? `NT$ ${doc.balance.toLocaleString()}` : '已全額結清'}</span>
-                    </div>
-                    <div class="flex justify-between text-slate-400 text-[10px] pt-1">
-                        <span>顧客確認簽名：________________</span>
-                        <span>經手人：${handlerName}</span>
-                    </div>
-                `;
-            } else if (isTransfer) {
+            if (isTransfer) {
                 const isIn = doc.direction === 'in';
                 docBadge.textContent = `🤝 同行調貨明細單 (${isIn ? '向同行調入' : '調出給同行'})`;
                 docBadge.className = 'bg-indigo-600 text-white text-xs font-bold px-2.5 py-0.5 rounded';
@@ -2899,7 +2891,7 @@
                 `;
             }
 
-            // Populate Copy 1 & Copy 2
+            // Populate Copy 1 (店家聯) & Copy 2 (客人/同行聯)
             ['', '-2'].forEach(suffix => {
                 document.getElementById(`receipt-store-title${suffix}`).textContent = storeName;
                 document.getElementById(`receipt-tax-info${suffix}`).textContent = taxInfo;
@@ -2959,13 +2951,12 @@
             URL.revokeObjectURL(url);
         }
 
-        // ==================== EXCEL BATCH IMPORT & TEMPLATE DOWNLOAD (純遊戲王與寶可夢) ====================
+        // ==================== EXCEL BATCH IMPORT & TEMPLATE DOWNLOAD ====================
         function downloadSamplePurchaseExcel() {
             const sampleRows = [
                 ['品號/條碼', '商品名稱', '分類', '進貨成本', '零售單價', '進貨數量'],
-                ['YGO001', '遊戲王 基本補充包', '遊戲王', 40, 60, 100],
                 ['PKM001', '寶可夢集換式卡牌 擴充包', '寶可夢', 35, 50, 100],
-                ['PKM002', '寶可夢 頂級收藏箱', '寶可夢', 800, 1200, 20]
+                ['YGO001', '遊戲王 基本補充包', '遊戲王', 40, 60, 100]
             ];
             if (typeof XLSX !== 'undefined') {
                 const ws = XLSX.utils.aoa_to_sheet(sampleRows);
@@ -3012,11 +3003,11 @@
                         const name = String(r[1] || '').trim();
                         if (!code && !name) continue;
 
-                        const category = String(r[2] || '遊戲王').trim() || '遊戲王';
+                        const category = String(r[2] || '一般商品').trim() || '一般商品';
                         const cost = Math.max(0, parseFloat(r[3]) || 0);
                         const price = Math.max(1, parseFloat(r[4]) || Math.round(cost * 1.5) || 50);
                         const qty = Math.max(0, parseInt(r[5], 10) || 0);
-                        const finalCode = code || `YGO00${appState.products.length + i + 10}`;
+                        const finalCode = code || `4710${appState.products.length + i + 10}`;
                         const finalName = name || `未命名商品-${finalCode}`;
 
                         const existing = appState.products.find(p => p.code === finalCode || p.name === finalName);
@@ -3035,7 +3026,7 @@
                                 cost,
                                 price,
                                 stock: qty,
-                                icon: category === '寶可夢' ? '⚡' : '🃏'
+                                icon: '📦'
                             });
                             addedCount++;
                         }
@@ -3053,10 +3044,10 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // ==================== PERPETUAL CALENDAR ====================
+        // ==================== PERPETUAL CALENDAR (萬年曆 1900-2100) ====================
         const todayDate = new Date();
         let calYear = todayDate.getFullYear();
-        let calMonth = todayDate.getMonth() + 1;
+        let calMonth = todayDate.getMonth() + 1; // 1..12
         let selectedDateStr = `${calYear}-${String(calMonth).padStart(2, '0')}-${String(todayDate.getDate()).padStart(2, '0')}`;
 
         const SOLAR_FESTIVALS = {
@@ -3132,6 +3123,7 @@
             const todayStr = `${todayDate.getFullYear()}-${String(todayDate.getMonth() + 1).padStart(2, '0')}-${String(todayDate.getDate()).padStart(2, '0')}`;
             if (!appState.memos) appState.memos = {};
 
+            // Map orders by date
             const ordersByDate = {};
             appState.orders.filter(o => o.status === '已完成').forEach(o => {
                 const dKey = (o.time || '').slice(0, 10);
@@ -3140,6 +3132,7 @@
                 ordersByDate[dKey].rev += o.total;
             });
 
+            // 42 cells (6 rows x 7 cols)
             for (let i = 0; i < 42; i++) {
                 const cell = document.createElement('div');
                 let cellDay = 0;
@@ -3269,7 +3262,7 @@
             }
         }
 
-        // ==================== PEER TRANSFER SYSTEM ====================
+        // ==================== PEER TRANSFER SYSTEM (同行調貨系統) ====================
         function ensureTransferState() {
             if (!Array.isArray(appState.peers)) appState.peers = [];
             if (!Array.isArray(appState.transfers)) appState.transfers = [];
@@ -3302,11 +3295,12 @@
         function renderPeerTransfers() {
             ensureTransferState();
 
+            // 1. KPI metrics
             const peerCount = appState.peers.length;
             let inQty = 0;
             let outQty = 0;
-            let unsettledPayable = 0;
-            let unsettledReceivable = 0;
+            let unsettledPayable = 0;    // 調入未結清 (應付同行)
+            let unsettledReceivable = 0; // 調出未結清 (應收同行)
 
             appState.transfers.forEach(t => {
                 if (t.status === '已取消') return;
@@ -3326,6 +3320,7 @@
             document.getElementById('trf-stat-receivable').textContent = `NT$ ${unsettledReceivable.toLocaleString()}`;
             document.getElementById('peer-list-badge').textContent = `${peerCount} 家`;
 
+            // 2. Render Peer Stores Directory
             const peerListEl = document.getElementById('peer-stores-list');
             peerListEl.innerHTML = '';
             if (appState.peers.length === 0) {
@@ -3362,6 +3357,7 @@
                 });
             }
 
+            // 3. Render Transfer Orders Table
             const tbody = document.getElementById('transfer-table-body');
             tbody.innerHTML = '';
             const q = (document.getElementById('trf-search-input').value || '').trim().toLowerCase();
@@ -3439,6 +3435,7 @@
                         renderPeerTransfers();
                         showToast(`調貨單 ${rec.transferNo} 已更新為「${rec.settled ? '已結清' : '未結清'}」`);
                     } else if (act === 'delete') {
+                        // Reverse stock impact
                         const prod = appState.products.find(p => p.code === rec.prodCode || p.name === rec.prodName);
                         if (prod) {
                             if (rec.direction === 'in') {
@@ -3458,7 +3455,7 @@
             });
         }
 
-        // ==================== EMPLOYEE ATTENDANCE SYSTEM ====================
+        // ==================== EMPLOYEE ATTENDANCE / TIME CLOCK SYSTEM (員工打卡系統) ====================
         let liveClockInterval = null;
 
         function ensureAttendanceState() {
@@ -3492,12 +3489,14 @@
             sel.innerHTML = '';
 
             if (!isAdmin) {
+                // 一般員工登入時僅能打卡自己本人帳號
                 const opt = document.createElement('option');
                 opt.value = currentAcc;
                 opt.textContent = `👤 ${currentAcc} (本人打卡)`;
                 sel.appendChild(opt);
                 sel.value = currentAcc;
             } else {
+                // 總管理員可選擇自己或任何已註冊員工
                 const adminOpt = document.createElement('option');
                 adminOpt.value = 'tw202501tw@gmail.com';
                 adminOpt.textContent = '👑 tw202501tw@gmail.com (總管理員)';
@@ -3622,166 +3621,114 @@
 
         // ==================== EVENT LISTENERS ====================
 
-        // ==================== EDIT PRODUCT PRICE MODAL (隨時修改商品售價) ====================
+        // ==================== EDIT PRODUCT PRICE / COST / STOCK MODAL ====================
         function openEditPriceModal(prod) {
-            document.getElementById('edit-prod-id').value = prod.id;
-            document.getElementById('edit-prod-name').value = prod.name;
-            document.getElementById('edit-prod-code').value = prod.code;
-            document.getElementById('edit-prod-cat').value = prod.category;
-            document.getElementById('edit-prod-price').value = prod.price;
-            document.getElementById('edit-prod-cost').value = prod.cost;
-
+            if (!prod) return;
+            document.getElementById('edit-price-prod-id').value = prod.id;
+            document.getElementById('edit-price-prod-name').value = prod.name;
+            document.getElementById('edit-price-cost-input').value = prod.cost;
+            document.getElementById('edit-price-price-input').value = prod.price;
+            document.getElementById('edit-price-stock-input').value = prod.stock;
             const modal = document.getElementById('edit-price-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            setTimeout(() => document.getElementById('edit-prod-price').focus(), 50);
         }
 
-        function closeEditPriceModal() {
-            const modal = document.getElementById('edit-price-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // ==================== PRE-ORDER MANAGEMENT SYSTEM (預購商品系統) ====================
-        function ensurePreorderState() {
+        // ==================== PRE-ORDER SYSTEM FUNCTIONS ====================
+        function ensurePreordersState() {
             if (!Array.isArray(appState.preorders)) appState.preorders = [];
         }
 
-        function populatePreorderModalOptions() {
-            const sel = document.getElementById('new-pre-prod-select');
+        function syncPreorderCategorySelect() {
+            ensureCategoriesList();
+            const sel = document.getElementById('pre-item-cat');
             if (!sel) return;
-            sel.innerHTML = '<option value="">-- 手動填寫新預購商品，或由此帶入現有商品資料 --</option>';
-            appState.products.forEach(p => {
+            const cur = sel.value || '寶可夢';
+            sel.innerHTML = '';
+            appState.categories.forEach(c => {
                 const opt = document.createElement('option');
-                opt.value = p.id;
-                opt.textContent = `[#${p.code}] ${p.name} (定價: NT$ ${p.price})`;
+                opt.value = c;
+                opt.textContent = isTaxExemptCategory(c) ? `${c} (預設關閉5%發票稅)` : `${c} (預設開啟5%發票稅)`;
                 sel.appendChild(opt);
             });
-        }
-
-        function updatePreorderModalCalculations() {
-            const price = Math.max(0, parseFloat(document.getElementById('new-pre-price').value) || 0);
-            const qty = Math.max(1, parseInt(document.getElementById('new-pre-qty').value, 10) || 1);
-            const total = Math.round(price * qty);
-            document.getElementById('new-pre-total-display').textContent = `NT$ ${total.toLocaleString()}`;
-
-            const depositInput = document.getElementById('new-pre-deposit');
-            let deposit = Math.max(0, parseFloat(depositInput.value) || 0);
-            if (deposit > total) {
-                deposit = total;
-                depositInput.value = deposit;
-            }
-            const balance = Math.max(0, total - deposit);
-            document.getElementById('new-pre-balance-display').textContent = `NT$ ${balance.toLocaleString()}`;
+            sel.value = appState.categories.includes(cur) ? cur : appState.categories[0];
         }
 
         function renderPreorders() {
-            ensurePreorderState();
+            ensurePreordersState();
+            syncPreorderCategorySelect();
+            const tbody = document.getElementById('preorders-table-body');
+            if (!tbody) return;
+            const q = (document.getElementById('preorder-search-input')?.value || '').trim().toLowerCase();
+            const st = document.getElementById('preorder-status-filter')?.value || 'all';
+            tbody.innerHTML = '';
 
-            // 1. KPI Calculations
-            const count = appState.preorders.length;
-            let pendingUnits = 0;
+            let pendingCount = 0;
             let totalDeposit = 0;
             let totalBalance = 0;
 
             appState.preorders.forEach(p => {
-                if (p.status !== '已取消退訂') {
-                    totalDeposit += (Number(p.deposit) || 0);
-                    if (p.status !== '已完成取貨 (結清尾款)') {
-                        pendingUnits += (Number(p.qty) || 1);
-                        totalBalance += (Number(p.balance) || 0);
-                    }
+                if (p.status !== '已取消') {
+                    totalDeposit += (Number(p.depositPaid) || 0);
+                }
+                if (p.status === '待取貨') {
+                    pendingCount++;
+                    totalBalance += (Number(p.balanceDue) || 0);
                 }
             });
 
-            document.getElementById('pre-stat-count').textContent = `${count} 筆`;
-            document.getElementById('pre-stat-units').textContent = `${pendingUnits} 件`;
-            document.getElementById('pre-stat-deposit').textContent = `NT$ ${totalDeposit.toLocaleString()}`;
-            document.getElementById('pre-stat-balance').textContent = `NT$ ${totalBalance.toLocaleString()}`;
-
-            // 2. Table Render
-            const tbody = document.getElementById('preorders-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            const q = (document.getElementById('pre-search-input').value || '').trim().toLowerCase();
-            const statusFilter = document.getElementById('pre-filter-status').value;
-            const catFilter = document.getElementById('pre-filter-cat').value;
+            document.getElementById('pre-kpi-total').textContent = `${appState.preorders.length} 筆`;
+            document.getElementById('pre-kpi-pending').textContent = `${pendingCount} 筆`;
+            document.getElementById('pre-kpi-deposit').textContent = `NT$ ${totalDeposit.toLocaleString()}`;
+            document.getElementById('pre-kpi-balance').textContent = `NT$ ${totalBalance.toLocaleString()}`;
 
             const filtered = appState.preorders.filter(p => {
-                const matchQ = !q || p.preorderNo.toLowerCase().includes(q)
-                    || p.customerName.toLowerCase().includes(q)
-                    || p.customerPhone.toLowerCase().includes(q)
-                    || p.prodName.toLowerCase().includes(q);
-                let matchStatus = true;
-                if (statusFilter === 'pending') matchStatus = p.status === '未到貨 (已收訂金)';
-                else if (statusFilter === 'arrived') matchStatus = p.status === '已到貨 (待客戶取貨)';
-                else if (statusFilter === 'completed') matchStatus = p.status === '已完成取貨 (結清尾款)';
-                else if (statusFilter === 'cancelled') matchStatus = p.status === '已取消退訂';
-
-                const matchCat = (catFilter === 'all') || (p.category === catFilter);
-                return matchQ && matchStatus && matchCat;
+                const matchSt = st === 'all' || p.status === st;
+                const matchQ = !q ||
+                    String(p.preorderNo || '').toLowerCase().includes(q) ||
+                    String(p.customerName || '').toLowerCase().includes(q) ||
+                    String(p.phone || '').toLowerCase().includes(q) ||
+                    String(p.itemName || '').toLowerCase().includes(q);
+                return matchSt && matchQ;
             });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="py-10 text-center text-slate-400 text-xs">目前尚無符合條件的預購訂單 (0 筆)，請點擊右上角「＋ 新增預購訂單」建立。</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" class="py-10 text-center text-slate-400 text-xs">目前尚無任何預購商品紀錄 (0 筆)，請點擊右上角「＋ 新增客人預購單」建立。</td></tr>`;
                 return;
             }
 
-            filtered.slice().reverse().forEach(p => {
+            filtered.forEach(p => {
+                const badgeCls = p.status === '已取貨完成'
+                    ? 'bg-emerald-100 text-emerald-700'
+                    : p.status === '已取消'
+                        ? 'bg-rose-100 text-rose-700'
+                        : 'bg-amber-100 text-amber-800';
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50 transition';
-
-                let statusBadgeClass = 'bg-amber-100 text-amber-800';
-                if (p.status === '已到貨 (待客戶取貨)') statusBadgeClass = 'bg-blue-100 text-blue-700 animate-pulse';
-                else if (p.status === '已完成取貨 (結清尾款)') statusBadgeClass = 'bg-emerald-100 text-emerald-700';
-                else if (p.status === '已取消退訂') statusBadgeClass = 'bg-rose-100 text-rose-600 line-through';
-
-                const isCompleted = p.status === '已完成取貨 (結清尾款)';
-                const isCancelled = p.status === '已取消退訂';
-
                 tr.innerHTML = `
-                    <td class="py-3 px-3">
-                        <div class="font-mono font-bold text-slate-800 text-xs">${p.preorderNo}</div>
-                        <div class="font-mono text-[11px] text-slate-400">${p.time}</div>
+                    <td class="py-3 px-4 font-mono">
+                        <div class="font-bold text-slate-900">${p.preorderNo}</div>
+                        <div class="text-[11px] text-slate-400">${p.createdAt}</div>
                     </td>
-                    <td class="py-3 px-3">
+                    <td class="py-3 px-4">
                         <div class="font-bold text-slate-900">${p.customerName}</div>
-                        <div class="font-mono text-[11px] text-slate-500">${p.customerPhone}</div>
+                        <div class="text-[11px] font-mono text-slate-500">${p.phone}</div>
                     </td>
-                    <td class="py-3 px-3">
-                        <div class="font-bold text-slate-900 max-w-xs truncate" title="${p.prodName}">${p.prodName}</div>
-                        <div class="text-[11px] text-slate-400"><span class="bg-slate-100 px-1.5 py-0.2 rounded font-semibold text-slate-600">${p.category}</span> ${p.note ? `· ${p.note}` : ''}</div>
+                    <td class="py-3 px-4">
+                        <div class="font-bold text-slate-800">${p.itemName}</div>
+                        <span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[10px] font-semibold">${p.category || '寶可夢'}</span>
                     </td>
-                    <td class="py-3 px-3 text-center font-bold text-slate-800">${p.qty}</td>
-                    <td class="py-3 px-3 text-center font-mono font-semibold ${p.arrivalDate ? 'text-indigo-600' : 'text-slate-400'}">${p.arrivalDate || '未定'}</td>
-                    <td class="py-3 px-3 text-right font-mono font-bold text-slate-900">NT$ ${p.total.toLocaleString()}</td>
-                    <td class="py-3 px-3 text-right font-mono font-semibold text-emerald-600">NT$ ${p.deposit.toLocaleString()} (${p.depositPayMethod})</td>
-                    <td class="py-3 px-3 text-right font-mono font-extrabold ${p.balance > 0 ? 'text-rose-600' : 'text-slate-400'}">
-                        ${p.balance > 0 ? `NT$ ${p.balance.toLocaleString()}` : '已付清'}
-                    </td>
-                    <td class="py-3 px-3 text-center">
-                        <span class="px-2 py-0.5 rounded-full text-xs font-bold ${statusBadgeClass}">
-                            ${p.status}
-                        </span>
-                    </td>
-                    <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
-                        <button data-pre-act="receipt" data-no="${p.preorderNo}" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold transition">
-                            🧾 雙聯收據
-                        </button>
-                        ${(!isCompleted && !isCancelled && p.status === '未到貨 (已收訂金)') ? `
-                            <button data-pre-act="arrived" data-no="${p.preorderNo}" class="px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-semibold transition">
-                                📦 標記到貨
-                            </button>
-                        ` : ''}
-                        ${(!isCompleted && !isCancelled) ? `
-                            <button data-pre-act="pickup" data-no="${p.preorderNo}" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition">
-                                💰 取貨結清
-                            </button>
-                            <button data-pre-act="cancel" data-no="${p.preorderNo}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold transition">
-                                退訂
-                            </button>
+                    <td class="py-3 px-4 text-center font-mono font-bold">${p.qty}</td>
+                    <td class="py-3 px-4 text-right font-mono font-bold">NT$ ${Number(p.totalPrice || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right font-mono font-bold text-emerald-600">NT$ ${Number(p.depositPaid || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right font-mono font-extrabold text-blue-600">NT$ ${Number(p.balanceDue || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-center font-mono text-slate-600">${p.arrivalDate || '待定'}</td>
+                    <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded-full text-[11px] font-bold ${badgeCls}">${p.status}</span></td>
+                    <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+                        <button data-pre-act="receipt" data-id="${p.preorderNo}" class="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-bold">🧾 憑證</button>
+                        ${p.status === '待取貨' ? `
+                            <button data-pre-act="pickup" data-id="${p.preorderNo}" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold">✅ 取貨結清尾款</button>
+                            <button data-pre-act="cancel" data-id="${p.preorderNo}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-[11px] font-semibold">取消</button>
                         ` : ''}
                     </td>
                 `;
@@ -3790,57 +3737,292 @@
 
             tbody.querySelectorAll('button[data-pre-act]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const no = btn.getAttribute('data-no');
+                    const id = btn.getAttribute('data-id');
                     const act = btn.getAttribute('data-pre-act');
-                    const rec = appState.preorders.find(x => x.preorderNo === no);
-                    if (!rec) return;
-
+                    const pre = appState.preorders.find(x => x.preorderNo === id);
+                    if (!pre) return;
                     if (act === 'receipt') {
-                        openReceiptModal(rec);
-                    } else if (act === 'arrived') {
-                        rec.status = '已到貨 (待客戶取貨)';
-                        saveState();
-                        renderPreorders();
-                        showToast(`已將預購單 ${rec.preorderNo} 標記為「已到貨 (待客戶取貨)」，請通知 ${rec.customerName}！`);
+                        openReceiptModal({
+                            orderNo: pre.preorderNo,
+                            time: pre.createdAt,
+                            memberName: `${pre.customerName} (${pre.phone}) [預購單-${pre.status}]`,
+                            payMethod: pre.payMethod || '現金',
+                            subtotal: pre.totalPrice,
+                            discount: 0,
+                            paymentFee: 0,
+                            taxIncluded: 0,
+                            invoiceTaxEnabled: false,
+                            total: pre.depositPaid,
+                            items: [{ name: `[預購] ${pre.itemName} (總價$${pre.totalPrice} / 尾款$${pre.balanceDue})`, price: pre.unitPrice, qty: pre.qty, lineTotal: pre.totalPrice }]
+                        });
                     } else if (act === 'pickup') {
-                        openPreorderPickupModal(rec);
-                    } else if (act === 'cancel') {
-                        rec.status = '已取消退訂';
+                        pre.status = '已取貨完成';
+                        const nowStr = new Date().toLocaleString('zh-TW', { hour12: false });
+                        pre.completedAt = nowStr;
+                        pre.balanceDue = 0;
+                        const taxExempt = isTaxExemptCategory(pre.category || '寶可夢');
+                        const taxAmt = taxExempt ? 0 : Math.round(pre.totalPrice * 0.05);
+                        const totalCost = (Number(pre.unitCost) || 0) * (Number(pre.qty) || 1);
+                        const grossProfit = pre.totalPrice - totalCost;
+                        const netProfit = grossProfit - taxAmt;
+                        const orderObj = {
+                            orderNo: `ORD-PRE-${Date.now().toString().slice(-5)}`,
+                            time: nowStr,
+                            cashier: (currentSessionUser && currentSessionUser.account) ? currentSessionUser.account : 'tw202501tw@gmail.com',
+                            memberId: 'M00',
+                            memberName: `${pre.customerName} (預購取貨)`,
+                            payMethod: pre.payMethod || '現金',
+                            subtotal: pre.totalPrice,
+                            discount: 0,
+                            paymentFee: 0,
+                            taxIncluded: taxAmt,
+                            invoiceTaxEnabled: !taxExempt,
+                            total: pre.totalPrice,
+                            totalCost,
+                            grossProfit,
+                            profit: netProfit,
+                            status: '已完成',
+                            items: [{
+                                id: 'PRE',
+                                code: pre.preorderNo,
+                                name: `[預購取貨] ${pre.itemName}`,
+                                price: pre.unitPrice,
+                                cost: pre.unitCost || 0,
+                                qty: pre.qty,
+                                lineTotal: pre.totalPrice
+                            }]
+                        };
+                        appState.orders.unshift(orderObj);
                         saveState();
                         renderPreorders();
-                        showToast(`預購單 ${rec.preorderNo} 已取消退訂`, 'info');
+                        renderOrders();
+                        openReceiptModal(orderObj);
+                        showToast(`🎉 預購單【${pre.preorderNo}】已取貨並結清尾款，已自動轉入每日銷售明細！`);
+                    } else if (act === 'cancel') {
+                        pre.status = '已取消';
+                        saveState();
+                        renderPreorders();
+                        showToast(`已將預購單【${pre.preorderNo}】標記為已取消`, 'info');
                     }
                 });
             });
         }
 
-        function openPreorderPickupModal(rec) {
-            document.getElementById('pickup-preorder-no').value = rec.preorderNo;
-            document.getElementById('pickup-doc-no').textContent = rec.preorderNo;
-            document.getElementById('pickup-cust-name').textContent = `${rec.customerName} (${rec.customerPhone})`;
-            document.getElementById('pickup-prod-name').textContent = `${rec.prodName} x ${rec.qty}`;
-            document.getElementById('pickup-total-price').textContent = `NT$ ${rec.total.toLocaleString()}`;
-            document.getElementById('pickup-deposit-paid').textContent = `NT$ ${rec.deposit.toLocaleString()} (${rec.depositPayMethod})`;
-            document.getElementById('pickup-balance-due').textContent = `NT$ ${rec.balance.toLocaleString()}`;
-
-            const modal = document.getElementById('preorder-pickup-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        // ==================== GOOGLE DRIVE CLOUD DATABASE SYNC & EXPORT FUNCTIONS ====================
+        function updateCloudStatsUI() {
+            const setTxt = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            };
+            setTxt('cloud-stat-staff', `${(appState.staff || []).length} 筆`);
+            setTxt('cloud-stat-products', `${(appState.products || []).length} 筆`);
+            setTxt('cloud-stat-orders', `${(appState.orders || []).length} 筆`);
+            setTxt('cloud-stat-attendance', `${(appState.attendance || []).length} 筆`);
+            setTxt('cloud-stat-preorders', `${(appState.preorders || []).length} 筆`);
+            setTxt('cloud-stat-transfers', `${(appState.transfers || []).length} 筆`);
+            setTxt('cloud-stat-crm', `${((appState.members || []).length + (appState.peers || []).length)} 筆`);
+            const syncEl = document.getElementById('cloud-last-sync-time');
+            if (syncEl && appState.config && appState.config.lastCloudSync) {
+                syncEl.textContent = `最後雲端同步：${appState.config.lastCloudSync}`;
+            }
+            const urlInput = document.getElementById('cloud-webhook-url-input');
+            if (urlInput && appState.config && appState.config.cloudWebhookUrl && !urlInput.value) {
+                urlInput.value = appState.config.cloudWebhookUrl;
+            }
         }
 
-        function closePreorderPickupModal() {
-            const modal = document.getElementById('preorder-pickup-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        function buildCloudWorkbook() {
+            const wb = XLSX.utils.book_new();
+
+            // 1_員工帳號密碼
+            const staffRows = (appState.staff || []).map((s, i) => ({
+                '員工編號 (ID)': `STF-${String(i + 1).padStart(3, '0')}`,
+                '員工登入帳號': s.email,
+                '員工姓名': s.email,
+                '職稱': s.role || '門市收銀員',
+                '登入密碼 (8碼含大小寫英數/初始0000)': s.pin || '0000',
+                '需強制改密碼 (mustChangePwd)': (s.mustChangePwd !== false && (s.pin || '0000') === '0000') ? 'TRUE' : 'FALSE',
+                '狀態': s.status || '啟用',
+                '最後更新時間': new Date().toLocaleString('zh-TW', { hour12: false })
+            }));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(staffRows.length ? staffRows : [{'員工編號 (ID)': '', '員工登入帳號': '', '登入密碼 (8碼含大小寫英數/初始0000)': '', '需強制改密碼 (mustChangePwd)': ''}]), '1_員工帳號密碼');
+
+            // 2_貨物資料與庫存
+            const prodRows = (appState.products || []).map(p => ({
+                '商品代碼 (SKU)': p.code,
+                '商品名稱': p.name,
+                '分類 (預設寶可夢/遊戲王)': p.category,
+                '進貨成本 ($)': p.cost,
+                '零售售價 ($)': p.price,
+                '目前庫存數量': p.stock,
+                '安全庫存警示量': 10
+            }));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(prodRows.length ? prodRows : [{'商品代碼 (SKU)': '', '商品名稱': '', '分類 (預設寶可夢/遊戲王)': '', '進貨成本 ($)': '', '零售售價 ($)': '', '目前庫存數量': ''}]), '2_貨物資料與庫存');
+
+            // 3_每日銷售明細
+            const orderRows = (appState.orders || []).map(o => {
+                const fin = getOrderFinancials(o);
+                return {
+                    '交易單號': o.orderNo,
+                    '交易日期時間': o.time,
+                    '收銀員帳號': o.cashier || 'tw202501tw@gmail.com',
+                    '客戶/會員名稱': o.memberName,
+                    '付款方式': o.payMethod,
+                    '商品明細摘要': (o.items || []).map(i => `${i.name}x${i.qty}`).join('; '),
+                    '商品小計 ($)': o.subtotal,
+                    '折扣金額 ($)': o.discount,
+                    '發票稅開關 (ON/OFF)': fin.invoiceTaxEnabled ? 'ON' : 'OFF',
+                    '5%發票稅額 ($)': fin.tax,
+                    '實收總額 ($)': o.total,
+                    '商品總成本 ($)': fin.totalCost,
+                    '單筆毛利 ($)': fin.grossProfit,
+                    '扣除發票稅後淨利 ($)': fin.netProfit,
+                    '狀態': o.status
+                };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(orderRows.length ? orderRows : [{'交易單號': '', '交易日期時間': '', '收銀員帳號': '', '實收總額 ($)': '', '扣除發票稅後淨利 ($)': ''}]), '3_每日銷售明細');
+
+            // 4_員工打卡紀錄
+            const attRows = (appState.attendance || []).map(a => ({
+                '打卡紀錄編號': a.id,
+                '日期': a.date,
+                '員工帳號': a.account,
+                '上班打卡時間': a.clockIn,
+                '下班打卡時間': a.clockOut || '值班中',
+                '累積工時 (小時)': a.hours || 0,
+                '狀態': a.status,
+                '備註說明': a.note || ''
+            }));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(attRows.length ? attRows : [{'打卡紀錄編號': '', '日期': '', '員工帳號': '', '上班打卡時間': '', '下班打卡時間': ''}]), '4_員工打卡紀錄');
+
+            // 5_預購商品紀錄
+            const preRows = (appState.preorders || []).map(p => ({
+                '預購單號': p.preorderNo,
+                '建立時間': p.createdAt,
+                '預購客人姓名': p.customerName,
+                '聯絡電話': p.phone,
+                '預購商品名稱': p.itemName,
+                '分類': p.category,
+                '數量': p.qty,
+                '預計售價單價 ($)': p.unitPrice,
+                '商品總價 ($)': p.totalPrice,
+                '已收訂金 ($)': p.depositPaid,
+                '待補尾款 ($)': p.balanceDue,
+                '預計到貨日': p.arrivalDate,
+                '取貨狀態': p.status,
+                '經手員工': p.handler || ''
+            }));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(preRows.length ? preRows : [{'預購單號': '', '預購客人姓名': '', '預購商品名稱': '', '已收訂金 ($)': '', '待補尾款 ($)': ''}]), '5_預購商品紀錄');
+
+            // 6_同行調貨紀錄
+            const trfRows = (appState.transfers || []).map(t => ({
+                '調貨單號': t.transferNo,
+                '日期時間': t.time,
+                '調貨類型': t.direction === 'in' ? '從同行調入' : '調出給同行',
+                '同行店名': t.peerName,
+                '商品代碼 (SKU)': t.sku,
+                '商品名稱': t.productName,
+                '數量': t.qty,
+                '原始成本單價 ($)': t.unitCost,
+                '同行調貨單價 ($)': t.peerUnitPrice,
+                '發票稅開關': t.invoiceTaxEnabled ? 'ON' : 'OFF',
+                '5%發票稅額 ($)': t.taxAmount || 0,
+                '調貨總金額 ($)': t.totalAmount,
+                '扣除5%稅後淨利 ($)': t.netProfit || 0,
+                '結算狀態': t.settleStatus
+            }));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(trfRows.length ? trfRows : [{'調貨單號': '', '同行店名': '', '商品名稱': '', '數量': '', '調貨總金額 ($)': ''}]), '6_同行調貨紀錄');
+
+            // 7_會員與同行名冊
+            const crmRows = [
+                ...(appState.members || []).map(m => ({ '編號': m.id, '名稱/店名': m.name, '身份類別': m.tier, '聯絡電話': m.phone, '累積消費額 ($)': m.spent, '目前點數': m.points })),
+                ...(appState.peers || []).map(p => ({ '編號': p.id, '名稱/店名': p.name, '身份類別': '合作同行', '聯絡電話': p.phone, '累積消費額 ($)': 0, '目前點數': 0 }))
+            ];
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(crmRows.length ? crmRows : [{'編號': '', '名稱/店名': '', '身份類別': '', '聯絡電話': ''}]), '7_會員與同行名冊');
+
+            // 8_系統設定
+            const cfgRows = [
+                { '設定項目代碼': 'storeName', '設定項目名稱': '店鋪名稱', '目前設定值': appState.config.storeName },
+                { '設定項目代碼': 'taxId', '設定項目名稱': '統編與電話', '目前設定值': appState.config.taxId },
+                { '設定項目代碼': 'taxRate', '設定項目名稱': '發票稅率 (%)', '目前設定值': '5%' },
+                { '設定項目代碼': 'parkingFee', '設定項目名稱': '每月公司停車場固定費用 ($)', '目前設定值': '5500' },
+                { '設定項目代碼': 'categories', '設定項目名稱': '商品分類清單', '目前設定值': (appState.categories || []).join(', ') },
+                { '設定項目代碼': 'staffPwdPolicy', '設定項目名稱': '員工密碼規範', '目前設定值': '8位數（含英文大寫、小寫、數字至少各一，可含符號）' },
+                { '設定項目代碼': 'driveFolderId', '設定項目名稱': 'Google Drive 資料庫資料夾 ID', '目前設定值': CLOUD_DRIVE_FOLDER_ID },
+                { '設定項目代碼': 'cloudSheetId', '設定項目名稱': 'Google Sheet 雲端總資料庫 ID', '目前設定值': CLOUD_SHEET_DB_ID }
+            ];
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(cfgRows), '8_系統設定');
+
+            return wb;
+        }
+
+        async function pushToGoogleDriveCloud(silent = false) {
+            const url = (appState.config && appState.config.cloudWebhookUrl) ? appState.config.cloudWebhookUrl.trim() : '';
+            const nowStr = new Date().toLocaleString('zh-TW', { hour12: false });
+            appState.config.lastCloudSync = nowStr;
+            updateCloudStatsUI();
+
+            if (!url) {
+                if (!silent) {
+                    showToast('已更新本地與雲端快取！若需跨裝置寫入 Google Sheet，請先貼上 Apps Script 網址或點擊「下載 8 分頁雲端總資料庫」', 'info');
+                }
+                return;
+            }
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'syncAll',
+                        folderId: CLOUD_DRIVE_FOLDER_ID,
+                        sheetId: CLOUD_SHEET_DB_ID,
+                        jsonFileId: CLOUD_JSON_FILE_ID,
+                        timestamp: nowStr,
+                        state: appState
+                    })
+                });
+                if (!silent) showToast(`☁️ 已成功推送全站 8 大資料表至 Google 雲端硬碟 (${nowStr})！`);
+            } catch (err) {
+                if (!silent) showToast('雲端推送連線失敗，請檢查 Apps Script 網址是否正確', 'error');
+            }
+        }
+
+        async function pullFromGoogleDriveCloud() {
+            const url = (appState.config && appState.config.cloudWebhookUrl) ? appState.config.cloudWebhookUrl.trim() : '';
+            if (!url) {
+                showToast('請先於雲端同步中心貼上您的 Google Apps Script 橋接網址，或使用右側「📂 匯入 JSON 檔」還原！', 'info');
+                return;
+            }
+            try {
+                const targetUrl = new URL(url); targetUrl.searchParams.set("action", "getState"); targetUrl.searchParams.set("folderId", CLOUD_DRIVE_FOLDER_ID); const res = await fetch(targetUrl.toString());
+                const data = await res.json();
+                if (data && data.state && data.state.config) {
+                    appState = data.state;
+                    appState.config.taxId = appState.config.taxId || '統編 48676299 / 02-2550-8846';
+                    saveState();
+                    applyConfigUI();
+                    renderCategories();
+                    renderProductGrid();
+                    renderInventory();
+                    renderPreorders();
+                    renderPeerTransfers();
+                    renderOrders();
+                    renderCRM();
+                    renderStaff();
+                    renderAttendance();
+                    showToast('☁️ 已從 Google Drive 雲端硬碟成功拉取最新資料庫！');
+                }
+            } catch (e) {
+                showToast('無法從網址讀取，請確認 Apps Script 權限設為「所有人」或使用 JSON 檔案匯入', 'error');
+            }
         }
 
         function switchTab(tabId) {
-            // 員工系統權限限制：員工帳號僅限存取指定的 6 大功能
             if (currentSessionUser && currentSessionUser.role === 'staff' && !STAFF_ALLOWED_TABS.includes(tabId)) {
-                showToast('該功能為管理員專屬權限，員工帳號無權限存取！', 'error');
-                tabId = 'pos';
+                showToast('一般員工僅開放使用：POS收銀、庫存管理、預購系統、同行調貨與員工打卡系統', 'error');
+                return;
             }
-
             document.querySelectorAll('.nav-tab').forEach(btn => {
                 if (btn.getAttribute('data-tab') === tabId) {
                     btn.classList.add('tab-active');
@@ -3865,7 +4047,10 @@
             if (tabId === 'reports') renderReports();
             if (tabId === 'calendar') renderPerpetualCalendar();
             if (tabId === 'attendance') renderAttendance();
-            if (tabId === 'admin') renderStaff();
+            if (tabId === 'admin') {
+                renderStaff();
+                updateCloudStatsUI();
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -3875,193 +4060,7 @@
             renderMemberOptions();
             renderCart();
             renderInventory();
-            renderPreorders();
             renderPeerTransfers();
-
-            // Edit Product Price Modal Listeners (隨時修改商品售價)
-            document.getElementById('close-edit-price-modal-btn').addEventListener('click', closeEditPriceModal);
-            document.getElementById('cancel-edit-price-modal-btn').addEventListener('click', closeEditPriceModal);
-            document.querySelectorAll('.quick-price-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const delta = parseFloat(btn.getAttribute('data-price-delta')) || 0;
-                    const priceInp = document.getElementById('edit-prod-price');
-                    const cur = parseFloat(priceInp.value) || 0;
-                    priceInp.value = Math.max(0, cur + delta);
-                });
-            });
-            document.getElementById('save-edit-price-btn').addEventListener('click', () => {
-                const id = document.getElementById('edit-prod-id').value;
-                const newPrice = Math.max(0, parseFloat(document.getElementById('edit-prod-price').value) || 0);
-                const newCost = Math.max(0, parseFloat(document.getElementById('edit-prod-cost').value) || 0);
-                const prod = appState.products.find(p => p.id === id);
-                if (prod) {
-                    prod.price = newPrice;
-                    prod.cost = newCost;
-                    saveState();
-                    renderInventory();
-                    renderProductGrid();
-                    renderCart();
-                    closeEditPriceModal();
-                    showToast(`✅ 已成功將【${prod.name}】售價更新為 NT$ ${newPrice}！`);
-                }
-            });
-
-            // Pre-order Modal Listeners
-            document.getElementById('open-preorder-modal-btn').addEventListener('click', () => {
-                populatePreorderModalOptions();
-                const now = new Date();
-                const datePlus14 = new Date(now.getTime() + 14 * 86400000);
-                document.getElementById('new-pre-arrival-date').value = `${datePlus14.getFullYear()}-${String(datePlus14.getMonth()+1).padStart(2,'0')}-${String(datePlus14.getDate()).padStart(2,'0')}`;
-                updatePreorderModalCalculations();
-                const modal = document.getElementById('preorder-modal');
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            });
-            const closePreorderModal = () => {
-                const modal = document.getElementById('preorder-modal');
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            };
-            document.getElementById('close-preorder-modal-btn').addEventListener('click', closePreorderModal);
-            document.getElementById('cancel-preorder-modal-btn').addEventListener('click', closePreorderModal);
-
-            document.getElementById('new-pre-prod-select').addEventListener('change', (e) => {
-                const pid = e.target.value;
-                if (!pid) return;
-                const prod = appState.products.find(p => p.id === pid);
-                if (prod) {
-                    document.getElementById('new-pre-prod-name').value = prod.name;
-                    document.getElementById('new-pre-cat').value = prod.category || '寶可夢';
-                    document.getElementById('new-pre-price').value = prod.price;
-                    updatePreorderModalCalculations();
-                }
-            });
-            document.getElementById('new-pre-price').addEventListener('input', updatePreorderModalCalculations);
-            document.getElementById('new-pre-qty').addEventListener('input', updatePreorderModalCalculations);
-            document.getElementById('new-pre-deposit').addEventListener('input', updatePreorderModalCalculations);
-
-            document.getElementById('save-preorder-btn').addEventListener('click', () => {
-                ensurePreorderState();
-                const custName = document.getElementById('new-pre-name').value.trim();
-                const custPhone = document.getElementById('new-pre-phone').value.trim();
-                const prodName = document.getElementById('new-pre-prod-name').value.trim();
-                const category = document.getElementById('new-pre-cat').value;
-                const unitPrice = Math.max(1, parseFloat(document.getElementById('new-pre-price').value) || 0);
-                const qty = Math.max(1, parseInt(document.getElementById('new-pre-qty').value, 10) || 1);
-                const total = Math.round(unitPrice * qty);
-                const deposit = Math.min(total, Math.max(0, parseFloat(document.getElementById('new-pre-deposit').value) || 0));
-                const balance = Math.max(0, total - deposit);
-                const depositPayMethod = document.getElementById('new-pre-paymethod').value;
-                const arrivalDate = document.getElementById('new-pre-arrival-date').value;
-                const note = document.getElementById('new-pre-note').value.trim();
-
-                if (!custName) {
-                    showToast('請輸入預購客戶姓名！', 'error');
-                    return;
-                }
-                if (!custPhone) {
-                    showToast('請輸入客戶手機號碼！', 'error');
-                    return;
-                }
-                if (!prodName) {
-                    showToast('請輸入預購商品名稱！', 'error');
-                    return;
-                }
-
-                const now = new Date();
-                const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-                const preorderNo = `PRE-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(appState.preorders.length + 1).padStart(3, '0')}`;
-
-                const preDoc = {
-                    preorderNo,
-                    time: timeStr,
-                    customerName: custName,
-                    customerPhone: custPhone,
-                    prodName,
-                    category,
-                    unitPrice,
-                    qty,
-                    total,
-                    deposit,
-                    balance,
-                    depositPayMethod,
-                    arrivalDate,
-                    note,
-                    status: '未到貨 (已收訂金)'
-                };
-
-                appState.preorders.push(preDoc);
-
-                // Auto add reminder to calendar
-                if (arrivalDate) {
-                    if (!appState.memos) appState.memos = {};
-                    if (!appState.memos[arrivalDate]) appState.memos[arrivalDate] = [];
-                    appState.memos[arrivalDate].push(`🎁 [預購到貨] ${custName} 預購【${prodName}x${qty}】預計今日到貨`);
-                }
-
-                saveState();
-                document.getElementById('new-pre-name').value = '';
-                document.getElementById('new-pre-phone').value = '';
-                document.getElementById('new-pre-prod-name').value = '';
-                document.getElementById('new-pre-note').value = '';
-                closePreorderModal();
-
-                renderPreorders();
-                renderPerpetualCalendar();
-                openReceiptModal(preDoc);
-                showToast(`🎁 預購單 ${preorderNo} 開立成功！已開立雙聯收據憑證`);
-            });
-
-            // Preorder Pickup Modal Listeners
-            document.getElementById('close-pickup-modal-btn').addEventListener('click', closePreorderPickupModal);
-            document.getElementById('cancel-pickup-modal-btn').addEventListener('click', closePreorderPickupModal);
-            document.getElementById('confirm-pickup-btn').addEventListener('click', () => {
-                const no = document.getElementById('pickup-preorder-no').value;
-                const rec = appState.preorders.find(x => x.preorderNo === no);
-                if (!rec) return;
-
-                const pickupPay = document.getElementById('pickup-paymethod').value;
-                rec.status = '已完成取貨 (結清尾款)';
-                rec.pickupTime = new Date().toLocaleString();
-                rec.pickupPayMethod = pickupPay;
-                rec.balancePaid = rec.balance;
-                rec.balance = 0;
-
-                saveState();
-                renderPreorders();
-                closePreorderPickupModal();
-                openReceiptModal(rec);
-                showToast(`✅ 預購單 ${rec.preorderNo} 尾款已收清並完成商品取貨交付！`);
-            });
-
-            // Preorder Filters & CSV Export
-            document.getElementById('pre-search-input').addEventListener('input', renderPreorders);
-            document.getElementById('pre-filter-status').addEventListener('change', renderPreorders);
-            document.getElementById('pre-filter-cat').addEventListener('change', renderPreorders);
-            document.getElementById('export-preorders-csv-btn').addEventListener('click', () => {
-                ensurePreorderState();
-                const rows = [['預購單號', '登記時間', '客戶姓名', '手機號碼', '商品名稱', '分類', '數量', '預計到貨日', '總金額', '已收訂金', '訂金付款方式', '剩餘尾款', '狀態', '備註']];
-                appState.preorders.forEach(p => {
-                    rows.push([
-                        p.preorderNo,
-                        p.time,
-                        p.customerName,
-                        p.customerPhone,
-                        p.prodName,
-                        p.category,
-                        p.qty,
-                        p.arrivalDate || '',
-                        p.total,
-                        p.deposit,
-                        p.depositPayMethod,
-                        p.balance,
-                        p.status,
-                        p.note || ''
-                    ]);
-                });
-                downloadCSV('PIPI結帳系統_預購商品明細.csv', rows);
-                showToast('已匯出預購商品明細 CSV');
-            });
             renderOrders();
 
             // Peer Transfer & Partner Listeners
@@ -4129,7 +4128,7 @@
                 ensureTransferState();
                 const direction = document.getElementById('trf-direction-select').value;
                 const peerName = document.getElementById('trf-peer-input').value.trim();
-                const prodCode = document.getElementById('trf-prod-code').value.trim() || `YGO00${appState.products.length + 11}`;
+                const prodCode = document.getElementById('trf-prod-code').value.trim() || `4710${appState.products.length + 11}`;
                 const prodName = document.getElementById('trf-prod-name').value.trim();
                 const unitPrice = Math.max(0, parseFloat(document.getElementById('trf-unit-price').value) || 0);
                 const retailPrice = Math.max(1, parseFloat(document.getElementById('trf-retail-price').value) || Math.round(unitPrice * 1.4) || 50);
@@ -4155,6 +4154,7 @@
                     }
                     existingProd.stock -= qty;
                 } else {
+                    // 調入進庫：若商品存在則加庫存，若不存在則自動建立新品項
                     if (existingProd) {
                         existingProd.stock += qty;
                     } else {
@@ -4162,7 +4162,7 @@
                             id: `P${Date.now()}`,
                             code: prodCode,
                             name: prodName,
-                            category: '遊戲王',
+                            category: '同行調入',
                             cost: unitPrice,
                             price: retailPrice,
                             stock: qty,
@@ -4171,6 +4171,7 @@
                     }
                 }
 
+                // 若該同行店名尚未在名冊中，自動加入同行名冊
                 if (!appState.peers.some(p => p.name === peerName)) {
                     appState.peers.push({ id: `PEER_${Date.now()}`, name: peerName, contact: '同行窗口', phone: '-', note: '調貨單自動建立' });
                 }
@@ -4244,7 +4245,7 @@
             if (liveClockInterval) clearInterval(liveClockInterval);
             liveClockInterval = setInterval(updateLiveClockDisplay, 1000);
 
-            // Attendance Listeners
+            // Employee Attendance (打卡系統) Listeners
             document.getElementById('punch-in-btn').addEventListener('click', () => {
                 ensureAttendanceState();
                 const account = document.getElementById('att-staff-select').value;
@@ -4276,6 +4277,7 @@
                     hours: 0
                 });
 
+                // 同步寫入萬年曆當日備忘錄，方便管理員在萬年曆一目了然看到誰幾點打卡上班
                 if (!appState.memos) appState.memos = {};
                 if (!appState.memos[dateStr]) appState.memos[dateStr] = [];
                 appState.memos[dateStr].push(`⏰ [打卡] ${account} (${shift}) ${timeStr} 上班`);
@@ -4506,11 +4508,13 @@
                     return;
                 }
 
+                // Deduct stock
                 totals.detailedItems.forEach(item => {
                     const prod = appState.products.find(p => p.id === item.id);
                     if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
                 });
 
+                // Update member points
                 const memId = document.getElementById('pos-member-select').value;
                 const mem = appState.members.find(m => m.id === memId) || { id: 'M00', name: '一般散客' };
                 if (mem && mem.id !== 'M00') {
@@ -4552,7 +4556,7 @@
                 showToast(`結帳完成！單號 ${newOrder.orderNo} 實收 NT$ ${newOrder.total}`);
             });
 
-            // Invoice Tax Toggle Button
+            // Invoice Tax Toggle Button: 發票稅：（打開） ↔️ （關閉）
             document.getElementById('toggle-invoice-tax-btn').addEventListener('click', () => {
                 invoiceTaxEnabled = !invoiceTaxEnabled;
                 renderCart();
@@ -4579,7 +4583,7 @@
                 }
             });
 
-            // Dual Receipt Modal buttons
+            // Dual Receipt Modal buttons (Print 2 copies, Download .html, Close)
             const closeReceiptModal = () => {
                 document.getElementById('receipt-modal').classList.add('hidden');
                 document.getElementById('receipt-modal').classList.remove('flex');
@@ -4611,7 +4615,7 @@
             });
 
             document.getElementById('save-new-product-btn').addEventListener('click', () => {
-                const code = document.getElementById('new-prod-code').value.trim() || `YGO00${appState.products.length + 11}`;
+                const code = document.getElementById('new-prod-code').value.trim() || `4710${appState.products.length + 11}`;
                 const cat = document.getElementById('new-prod-cat').value;
                 const name = document.getElementById('new-prod-name').value.trim();
                 const cost = parseInt(document.getElementById('new-prod-cost').value, 10) || 20;
@@ -4631,7 +4635,7 @@
                     cost,
                     price,
                     stock,
-                    icon: cat === '寶可夢' ? '⚡' : '🃏'
+                    icon: '🛍️'
                 });
                 saveState();
                 document.getElementById('new-prod-name').value = '';
@@ -4766,24 +4770,20 @@
                 showToast(`已成功註冊員工帳號【${email}】！預設密碼為 0000（首次登入強制修改）`);
             });
 
-            // Auth Login Gate & Force Password Change Listeners
+            // ==================== AUTH LOGIN GATE & FORCE PASSWORD CHANGE LISTENERS ====================
             renderStaffLoginDropdown();
 
             document.getElementById('staff-login-keyword').addEventListener('input', () => {
                 renderStaffLoginDropdown();
             });
 
-            // General Staff Login
+            // General Staff Login (Initial password 0000 -> forced change to 8-char password with uppercase, lowercase, digit)
             document.getElementById('staff-login-submit-btn').addEventListener('click', () => {
                 const selectedAcc = document.getElementById('staff-login-select').value;
                 const pinInput = document.getElementById('staff-login-pin').value.trim();
 
                 if (!selectedAcc) {
                     showToast('請先從下拉選單選擇您的員工帳號（若無帳號請先請總管理員註冊）', 'error');
-                    return;
-                }
-                if (!/^\d{4}$/.test(pinInput)) {
-                    showToast('員工密碼必須為 4 位數字！', 'error');
                     return;
                 }
 
@@ -4794,9 +4794,18 @@
                 }
 
                 const expectedPin = staffObj.pin || '0000';
-                if (pinInput !== expectedPin) {
-                    showToast('員工 4 位密碼輸入錯誤，請重新確認！', 'error');
-                    return;
+                const isFirstLogin = (staffObj.mustChangePwd !== false || expectedPin === '0000');
+
+                if (isFirstLogin) {
+                    if (pinInput !== '0000') {
+                        showToast('剛註冊尚未改密碼之員工，請輸入預設密碼 0000 登入並設定 8 位新密碼！', 'error');
+                        return;
+                    }
+                } else {
+                    if (pinInput !== expectedPin) {
+                        showToast('員工 8 位數密碼輸入錯誤，請重新確認（須注意英文大小寫）！', 'error');
+                        return;
+                    }
                 }
 
                 currentSessionUser = { role: 'staff', account: staffObj.email };
@@ -4805,15 +4814,16 @@
                 updateSessionUI();
                 switchTab('pos');
 
-                if (staffObj.mustChangePwd !== false || expectedPin === '0000') {
+                // Check if first-time login (pin === '0000' or mustChangePwd)
+                if (isFirstLogin) {
                     openForcePasswordModal(staffObj, true);
-                    showToast(`歡迎 ${staffObj.email}！首次登入請立即設定您的新 4 位數密碼`, 'info');
+                    showToast(`歡迎 ${staffObj.email}！首次登入請立即設定您的 8 位數安全密碼`, 'info');
                 } else {
                     showToast(`歡迎回來，${staffObj.email}！已進入 POS 收銀結帳系統`);
                 }
             });
 
-            // Super Admin Login
+            // Super Admin Login (tw202501tw / Chu610221)
             document.getElementById('admin-login-submit-btn').addEventListener('click', () => {
                 const pwd = document.getElementById('admin-login-password').value;
                 if (pwd !== 'Chu610221') {
@@ -4835,22 +4845,39 @@
                 if (e.key === 'Enter') document.getElementById('staff-login-submit-btn').click();
             });
 
-            // Password Change Save
+            document.getElementById('force-pwd-new1').addEventListener('input', (e) => {
+                updatePasswordChecklistUI(e.target.value);
+            });
+
+            // Mandatory / Voluntary Staff Password Change Save (8 characters: Uppercase + Lowercase + Digit, symbols allowed)
             document.getElementById('save-force-pwd-btn').addEventListener('click', () => {
                 const acc = document.getElementById('force-pwd-account').value;
                 const p1 = document.getElementById('force-pwd-new1').value.trim();
                 const p2 = document.getElementById('force-pwd-new2').value.trim();
 
-                if (!/^\d{4}$/.test(p1)) {
-                    showToast('新密碼必須剛好是 4 位數字（例如 1234）！', 'error');
+                const check = validateStaffPassword8(p1);
+                if (!check.hasLen8) {
+                    showToast('新密碼總長度必須「剛好 8 位數」（不可多也不可少）！', 'error');
                     return;
                 }
-                if (p1 === '0000') {
-                    showToast('新密碼不可設定為初始密碼 0000，請換一組 4 位數字！', 'error');
+                if (!check.hasUpper) {
+                    showToast('8 位數密碼必須包含至少 1 個「英文大寫 (A-Z)」！', 'error');
+                    return;
+                }
+                if (!check.hasLower) {
+                    showToast('8 位數密碼必須包含至少 1 個「英文小寫 (a-z)」！', 'error');
+                    return;
+                }
+                if (!check.hasDigit) {
+                    showToast('8 位數密碼必須包含至少 1 個「數字 (0-9)」！', 'error');
+                    return;
+                }
+                if (!check.valid) {
+                    showToast('密碼格式不符規範（不可含空白），請重新輸入！', 'error');
                     return;
                 }
                 if (p1 !== p2) {
-                    showToast('兩次輸入的新密碼不一致，請重新確認！', 'error');
+                    showToast('兩次輸入的 8 位數新密碼不一致，請重新確認！', 'error');
                     return;
                 }
 
@@ -4864,9 +4891,223 @@
 
                 document.getElementById('force-change-pwd-modal').classList.add('hidden');
                 document.getElementById('force-change-pwd-modal').classList.remove('flex');
-                showToast(`✅ 帳號【${acc}】的 4 位數密碼已修改完成！下次請使用新密碼登入`);
+                showToast(`✅ 帳號【${acc}】的 8 位數安全密碼已修改完成並同步！下次請使用新密碼登入`);
             });
 
+            // Edit Price Modal Listeners
+            document.getElementById('close-edit-price-modal-btn').addEventListener('click', () => {
+                document.getElementById('edit-price-modal').classList.add('hidden');
+                document.getElementById('edit-price-modal').classList.remove('flex');
+            });
+            document.getElementById('cancel-edit-price-btn').addEventListener('click', () => {
+                document.getElementById('edit-price-modal').classList.add('hidden');
+                document.getElementById('edit-price-modal').classList.remove('flex');
+            });
+            document.getElementById('save-edit-price-btn').addEventListener('click', () => {
+                const id = document.getElementById('edit-price-prod-id').value;
+                const prod = appState.products.find(x => x.id === id);
+                if (!prod) return;
+                const newName = document.getElementById('edit-price-prod-name').value.trim();
+                const newCost = parseFloat(document.getElementById('edit-price-cost-input').value);
+                const newPrice = parseFloat(document.getElementById('edit-price-price-input').value);
+                const newStock = parseInt(document.getElementById('edit-price-stock-input').value, 10);
+                if (newName) prod.name = newName;
+                if (!isNaN(newCost) && newCost >= 0) prod.cost = newCost;
+                if (!isNaN(newPrice) && newPrice >= 0) prod.price = newPrice;
+                if (!isNaN(newStock) && newStock >= 0) prod.stock = newStock;
+                saveState();
+                renderInventory();
+                renderProductGrid();
+                renderCart();
+                document.getElementById('edit-price-modal').classList.add('hidden');
+                document.getElementById('edit-price-modal').classList.remove('flex');
+                showToast(`已更新【${prod.name}】售價 NT$ ${prod.price} / 成本 NT$ ${prod.cost} / 庫存 ${prod.stock} 件`);
+            });
+
+            // Preorders Listeners
+            renderPreorders();
+            document.getElementById('open-preorder-modal-btn').addEventListener('click', () => {
+                syncPreorderCategorySelect();
+                const m = document.getElementById('preorder-modal');
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            });
+            document.getElementById('close-preorder-modal-btn').addEventListener('click', () => {
+                const m = document.getElementById('preorder-modal');
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            });
+            document.getElementById('cancel-preorder-btn').addEventListener('click', () => {
+                const m = document.getElementById('preorder-modal');
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            });
+            document.getElementById('save-preorder-btn').addEventListener('click', () => {
+                ensurePreordersState();
+                const customerName = document.getElementById('pre-cust-name').value.trim();
+                const phone = document.getElementById('pre-cust-phone').value.trim();
+                const itemName = document.getElementById('pre-item-name').value.trim();
+                const category = document.getElementById('pre-item-cat').value || '寶可夢';
+                const qty = Math.max(1, parseInt(document.getElementById('pre-item-qty').value, 10) || 1);
+                const unitPrice = Math.max(0, parseFloat(document.getElementById('pre-item-price').value) || 0);
+                const unitCost = Math.max(0, parseFloat(document.getElementById('pre-item-cost').value) || 0);
+                const depositPaid = Math.max(0, parseFloat(document.getElementById('pre-deposit-paid').value) || 0);
+                const payMethod = document.getElementById('pre-pay-method').value || '現金';
+                const arrivalDate = document.getElementById('pre-arrival-date').value || '待定';
+                const note = document.getElementById('pre-note').value.trim();
+
+                if (!customerName || !phone || !itemName) {
+                    showToast('請填寫預購客人姓名、聯絡電話與預購商品名稱！', 'error');
+                    return;
+                }
+                const totalPrice = unitPrice * qty;
+                const balanceDue = Math.max(0, totalPrice - depositPaid);
+                const preorderNo = `PRE-${Date.now().toString().slice(-6)}`;
+                const createdAt = new Date().toLocaleString('zh-TW', { hour12: false });
+                const handler = (currentSessionUser && currentSessionUser.account) ? currentSessionUser.account : 'tw202501tw@gmail.com';
+
+                const preObj = {
+                    preorderNo,
+                    createdAt,
+                    customerName,
+                    phone,
+                    itemName,
+                    category,
+                    qty,
+                    unitPrice,
+                    unitCost,
+                    totalPrice,
+                    depositPaid,
+                    payMethod,
+                    balanceDue,
+                    arrivalDate,
+                    status: '待取貨',
+                    handler,
+                    note
+                };
+                appState.preorders.unshift(preObj);
+                saveState();
+                renderPreorders();
+
+                document.getElementById('pre-cust-name').value = '';
+                document.getElementById('pre-cust-phone').value = '';
+                document.getElementById('pre-item-name').value = '';
+                document.getElementById('pre-deposit-paid').value = '0';
+                document.getElementById('pre-note').value = '';
+                document.getElementById('preorder-modal').classList.add('hidden');
+                document.getElementById('preorder-modal').classList.remove('flex');
+
+                openReceiptModal({
+                    orderNo: preorderNo,
+                    time: createdAt,
+                    memberName: `${customerName} (${phone}) [預購訂金憑證]`,
+                    payMethod,
+                    subtotal: totalPrice,
+                    discount: 0,
+                    paymentFee: 0,
+                    taxIncluded: 0,
+                    invoiceTaxEnabled: false,
+                    total: depositPaid,
+                    items: [{ name: `[預購] ${itemName} (總價$${totalPrice} / 已付訂金$${depositPaid} / 待補尾款$${balanceDue})`, price: unitPrice, qty, lineTotal: totalPrice }]
+                });
+                showToast(`🎁 已建立預購單【${preorderNo}】並產生雙聯預購憑證！`);
+            });
+            document.getElementById('preorder-search-input').addEventListener('input', renderPreorders);
+            document.getElementById('preorder-status-filter').addEventListener('change', renderPreorders);
+            document.getElementById('export-preorders-excel-btn').addEventListener('click', () => {
+                const wb = buildCloudWorkbook();
+                XLSX.writeFile(wb, `PIPI結帳系統_預購與雲端總資料庫_${new Date().toISOString().slice(0, 10)}.xlsx`);
+                showToast('已匯出預購商品與雲端總資料庫 Excel 檔案！');
+            });
+
+            // Cloud Database Sync Center Listeners
+            updateCloudStatsUI();
+            document.getElementById('header-cloud-status-btn').addEventListener('click', () => {
+                if (currentSessionUser && currentSessionUser.role === 'staff') {
+                    const wb = buildCloudWorkbook();
+                    XLSX.writeFile(wb, `PIPI結帳系統_雲端總資料庫_${new Date().toISOString().slice(0, 10)}.xlsx`);
+                    showToast('☁️ 已為您匯出最新雲端資料庫備份檔 (.xlsx)！');
+                    return;
+                }
+                switchTab('admin');
+                const card = document.getElementById('cloud-db-center-card');
+                if (card) card.scrollIntoView({ behavior: 'smooth' });
+            });
+            document.getElementById('save-cloud-webhook-btn').addEventListener('click', () => {
+                appState.config.cloudWebhookUrl = document.getElementById('cloud-webhook-url-input').value.trim();
+                appState.config.autoCloudSync = document.getElementById('cloud-auto-sync-checkbox').checked;
+                saveState();
+                showToast('☁️ 已儲存 Google Drive 雲端自動同步橋接網址！');
+            });
+            document.getElementById('cloud-push-now-btn').addEventListener('click', () => pushToGoogleDriveCloud(false));
+            document.getElementById('cloud-pull-now-btn').addEventListener('click', () => pullFromGoogleDriveCloud());
+            document.getElementById('export-cloud-8tabs-xlsx-btn').addEventListener('click', () => {
+                const wb = buildCloudWorkbook();
+                XLSX.writeFile(wb, `PIPI結帳系統_雲端總資料庫_${new Date().toISOString().slice(0, 10)}.xlsx`);
+                showToast('📊 已下載 8 分頁完整雲端總資料庫 (.xlsx)，可直接上傳或同步至 Google Drive！');
+            });
+            document.getElementById('export-cloud-json-btn').addEventListener('click', () => {
+                const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'PIPI_POS_Cloud_Database.json';
+                a.click();
+                showToast('🗄️ 已下載 PIPI_POS_Cloud_Database.json 雲端狀態檔！');
+            });
+            document.getElementById('import-cloud-json-input').addEventListener('change', (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const parsed = JSON.parse(ev.target.result);
+                        if (parsed && parsed.config) {
+                            appState = parsed;
+                            appState.config.taxId = appState.config.taxId || '統編 48676299 / 02-2550-8846';
+                            saveState();
+                            applyConfigUI();
+                            renderCategories();
+                            renderProductGrid();
+                            renderInventory();
+                            renderPreorders();
+                            renderPeerTransfers();
+                            renderOrders();
+                            renderCRM();
+                            renderStaff();
+                            renderAttendance();
+                            showToast('✅ 已成功匯入雲端 JSON 資料庫並更新全站資料！');
+                        }
+                    } catch (err) {
+                        showToast('JSON 資料庫檔案格式錯誤，無法匯入', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            });
+            document.getElementById('copy-gas-code-btn').addEventListener('click', () => {
+                const gasCode = `// PIPI結帳系統 — Google Drive 雲端硬碟與 Google Sheet 即時同步腳本
+// 已自動綁定您的資料夾 ID: ${CLOUD_DRIVE_FOLDER_ID} 與雲端總資料庫 Sheet ID: ${CLOUD_SHEET_DB_ID}
+const FOLDER_ID = '${CLOUD_DRIVE_FOLDER_ID}';
+const SHEET_ID = '${CLOUD_SHEET_DB_ID}';
+const JSON_FILE_ID = '${CLOUD_JSON_FILE_ID}';
+
+function doPost(e) {
+  const payload = JSON.parse(e.postData.contents);
+  const state = payload.state;
+  DriveApp.getFileById(JSON_FILE_ID).setContent(JSON.stringify(state, null, 2));
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  const content = DriveApp.getFileById(JSON_FILE_ID).getBlob().getDataAsString('UTF-8');
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, state: JSON.parse(content) })).setMimeType(ContentService.MimeType.JSON);
+}`;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(gasCode);
+                }
+                showToast('⚡ 已複製專屬 Google Apps Script 自動同步程式碼！');
+            });
+
+            // Voluntary password change button for logged-in staff
             document.getElementById('voluntary-change-pwd-btn').addEventListener('click', () => {
                 if (!currentSessionUser || currentSessionUser.role !== 'staff') return;
                 const staffObj = appState.staff.find(s => s.email === currentSessionUser.account);
@@ -4878,6 +5119,7 @@
                 document.getElementById('force-change-pwd-modal').classList.remove('flex');
             });
 
+            // Logout / Switch Account Button
             document.getElementById('logout-switch-user-btn').addEventListener('click', () => {
                 currentSessionUser = null;
                 document.getElementById('staff-login-keyword').value = '';
